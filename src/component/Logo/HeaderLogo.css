@@ -1,0 +1,30 @@
+.header-logo {
+    height: 28px;
+    width: 130px;
+    overflow: hidden;
+}
+
+.header-logo a img {
+    vertical-align: middle;
+    height: 100%;
+    margin-top: -7px;
+}
+
+.header-logo a{
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.header-logo a:visited{
+    color: rgb(54, 117, 243);
+}
+
+.header-logo a span{
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 20px;
+}

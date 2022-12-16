@@ -1,7 +1,9 @@
 .header-logo {
-    height: 28px;
+    height: 100%;
     width: 130px;
     overflow: hidden;
+    float: left;
+    margin-right: 15px;
 }
 
 .header-logo a img {

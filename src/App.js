@@ -1,12 +1,11 @@
-import React, { Component } from 'react'
-import HeaderLogo from './component/Logo/HeaderLogo'
+import React from 'react'
+import HeaderPage from './container/HeaderPage/HeaderPage'
+import { Layout } from 'antd'
 
-export default class App extends Component {
-  render() {
-    return (
-      <div>
-        <HeaderLogo />
-      </div>
-    )
-  }
+export default function App() {
+  return (
+    <Layout>
+      <HeaderPage/>
+    </Layout>
+  )
 }

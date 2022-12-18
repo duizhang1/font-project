@@ -1,7 +1,7 @@
-import { Menu, Layout, Input } from 'antd';
+import { Menu, Layout, Input, Avatar } from 'antd';
 import React, { useState } from 'react';
 import CreatorDropDown from '../../component/Header/CreatorDropDown/CreatorDropDown';
-import AvatarLoc from '../../component/Header/Avatar/AvatarLoc';
+import { UserOutlined } from '@ant-design/icons';
 import HeaderLogo from '../../component/Header/Logo/Logo'
 import './HeaderPage.css'
 import RingDropDown from '../../component/Header/RingDropDown/RingDropDown';
@@ -40,7 +40,9 @@ export default function HeaderPage() {
 
       <Menu onClick={onClick} selectedKeys={[choosePage]} mode="horizontal" items={items} className='menu-set' />
 
-      <AvatarLoc className='avatar-set' />
+      <div className='avatar-set'>
+        <Avatar size="large" icon={<UserOutlined />} />
+      </div>
 
       <div className='ringdd-set'>
         <RingDropDown />

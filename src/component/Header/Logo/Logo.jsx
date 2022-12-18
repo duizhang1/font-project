@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './HeaderLogo.css'
+import './Logo.css'
 
 export default class HeaderLogo extends Component {
     render() {

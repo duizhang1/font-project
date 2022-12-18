@@ -1,0 +1,57 @@
+/* 自身主题样式 */
+.header-setting{
+    width: 100%;
+    background-color: #fff !important;
+    box-shadow:0px 1px 5px #909090;
+    padding: 0px 50px !important;
+    height: 55px !important;
+    line-height: 55px !important;
+    min-width: 1200px;
+}
+
+/* 菜单样式 */
+.menu-set{
+    float: left;
+    width: 30%;
+}
+
+/* 头像样式 */
+.avatar-set{
+    float: right;
+    margin-left: 10px;
+}
+
+/* 搜索框样式 */
+.search-set{
+    width: 250px !important;
+    float: right;
+    margin-top: 11px;
+    margin-right: 15px;
+}
+.search-set input{
+    background-color: #ffffff;
+    border-radius: 5px;
+    height: 35px;
+}
+.search-set button{
+    background-color: #f6f6f6;
+    height: 35px;
+}
+
+/* 创作者中心样式 */
+.creatordd-set{
+    float: right;
+    margin: 11px 15px;
+}
+.creatordd-set button{
+    height: 35px;
+}
+
+/* 消息中心样式 */
+.ringdd-set{
+    float: right;
+    margin: 3px 10px;
+}
+.ringdd-set button{
+    height: 35px;
+}

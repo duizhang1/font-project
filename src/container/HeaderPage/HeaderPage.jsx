@@ -1,7 +1,13 @@
-import { Menu,Layout } from 'antd';
+import { Menu, Layout, Input } from 'antd';
 import React, { useState } from 'react';
-import HeaderLogo from '../../component/HeaderLogo/HeaderLogo'
+import CreatorDropDown from '../../component/Header/CreatorDropDown/CreatorDropDown';
+import AvatarLoc from '../../component/Header/Avatar/AvatarLoc';
+import HeaderLogo from '../../component/Header/Logo/Logo'
+import './HeaderPage.css'
+import RingDropDown from '../../component/Header/RingDropDown/RingDropDown';
+
 const { Header } = Layout;
+const { Search } = Input;
 
 // 头部点击项配置
 const items = [
@@ -19,15 +25,32 @@ const items = [
   },
 ];
 
+
 export default function HeaderPage() {
   const [choosePage, setChoosePage] = useState('mainPage');
   const onClick = (e) => {
     setChoosePage(e.key);
   };
+  const onSearch = (value) => {
+    console.log(value)
+  }
   return (
-    <Header className='header'>
-      <HeaderLogo/>
-      <Menu theme='dark' onClick={onClick} selectedKeys={[choosePage]} mode="horizontal" items={items} />
+    <Header className='header header-setting'>
+      <HeaderLogo />
+
+      <Menu onClick={onClick} selectedKeys={[choosePage]} mode="horizontal" items={items} className='menu-set' />
+
+      <AvatarLoc className='avatar-set' />
+
+      <div className='ringdd-set'>
+        <RingDropDown />
+      </div>
+
+      <div className='creatordd-set'>
+        <CreatorDropDown />
+      </div>
+
+      <Search placeholder="探索NotNull社区" onSearch={onSearch} className='search-set' />
 
     </Header>
   );

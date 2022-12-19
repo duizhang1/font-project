@@ -1,0 +1,10 @@
+.textover-hidden{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list-set .ant-list-item-main{
+    width: 0 !important;
+}

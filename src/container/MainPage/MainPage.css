@@ -1,2 +1,12 @@
+/* 正文部分设置 */
 .content-set{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+/* 文章部分设置 */
+.articlelist-set{
+    background-color: #fff;
+    margin-top: 15px;
+    width: 800px;
 }

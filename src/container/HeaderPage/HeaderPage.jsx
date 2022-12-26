@@ -1,10 +1,11 @@
 import { Menu, Layout, Input, Avatar } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CreatorDropDown from '../../component/Header/CreatorDropDown/CreatorDropDown';
 import { UserOutlined } from '@ant-design/icons';
 import HeaderLogo from '../../component/Header/Logo/Logo'
 import './HeaderPage.css'
 import RingDropDown from '../../component/Header/RingDropDown/RingDropDown';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -13,7 +14,7 @@ const { Search } = Input;
 const items = [
   {
     label: '首页',
-    key: 'mainPage'
+    key: 'mainpage'
   },
   {
     label: '首页1',
@@ -28,12 +29,26 @@ const items = [
 
 export default function HeaderPage() {
   const [choosePage, setChoosePage] = useState('mainPage');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 点击事件导航并设置显示
   const onClick = (e) => {
-    setChoosePage(e.key);
+    navigate(e.key);
+    setChoosePage(e.key)
   };
+  // 搜索框搜索事件
   const onSearch = (value) => {
     console.log(value)
   }
+
+
+
+  useEffect(() => {
+    // 设置menu刷新后根据路由显示,只需要在第一次初始化的时候使用
+    setChoosePage(location.pathname.split('/')[1])
+  })
+
   return (
     <Header className='header header-setting'>
       <HeaderLogo />

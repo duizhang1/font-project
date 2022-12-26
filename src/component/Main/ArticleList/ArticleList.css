@@ -8,3 +8,7 @@
 .list-set .ant-list-item-main{
     width: 0 !important;
 }
+.list-set:hover{
+    cursor: pointer;
+    background-color: rgb(251, 251, 251);
+}

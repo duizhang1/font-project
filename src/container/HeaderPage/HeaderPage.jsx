@@ -46,7 +46,11 @@ export default function HeaderPage() {
 
   useEffect(() => {
     // 设置menu刷新后根据路由显示,只需要在第一次初始化的时候使用
-    setChoosePage(location.pathname.split('/')[1])
+    if (location.pathname.split('/')[1] === undefined || location.pathname.split('/')[1] === '') {
+      setChoosePage('mainpage')
+    } else {
+      setChoosePage(location.pathname.split('/')[1])
+    }
   })
 
   return (

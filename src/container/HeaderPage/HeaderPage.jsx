@@ -6,6 +6,7 @@ import HeaderLogo from '../../component/Header/Logo/Logo'
 import './HeaderPage.css'
 import RingDropDown from '../../component/Header/RingDropDown/RingDropDown';
 import { useNavigate, useLocation } from "react-router-dom";
+import AvatarAndLogin from '../../component/Header/AvatarAndLogin/AvatarAndLogin';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -60,7 +61,7 @@ export default function HeaderPage() {
       <Menu onClick={onClick} selectedKeys={[choosePage]} mode="horizontal" items={items} className='menu-set' />
 
       <div className='avatar-set'>
-        <Avatar size="large" icon={<UserOutlined />} />
+        <AvatarAndLogin/>
       </div>
 
       <div className='ringdd-set'>

@@ -1,0 +1,33 @@
+.article-title{
+    margin: 0 0 1.2rem;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.31;
+    color: #252933;
+}
+.all-box{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+.info-box{
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-top: -5px;
+}
+.creator-name{
+    font-size: 17px;
+    font-weight: 450;
+}
+.create-time{
+    margin-right: 10px;
+    color: #8a919f;
+}
+.read-number{
+    color: #8a919f;
+}
+.article-img{
+    width: 100%;
+    margin-bottom: 20px;
+}

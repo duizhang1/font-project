@@ -1,0 +1,16 @@
+.author-header{
+    display: inline-flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+.author-info{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -5px;
+    margin-left: 5px;
+}
+.author-button-group{
+    width: 100%;
+    margin-top: 15px;
+}

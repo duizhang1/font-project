@@ -1,6 +1,5 @@
 import { Header } from 'antd/lib/layout/layout'
 import React, { useState,useEffect } from 'react'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import './LabelMenu.css'
 import { useNavigate, useLocation } from "react-router-dom";

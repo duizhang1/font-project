@@ -1,0 +1,10 @@
+.content{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+.article-com{
+    width: 830px;
+    background-color: #fff;
+    padding: 30px;
+}

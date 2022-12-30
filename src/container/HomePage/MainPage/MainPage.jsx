@@ -1,9 +1,9 @@
 import React from 'react'
 import { Layout } from 'antd'
-import LabelMenu from '../../component/Header/LabelMenu/LabelMenu'
+import LabelMenu from '../../../component/Header/LabelMenu/LabelMenu'
 import './MainPage.css'
-import ArticleList from '../../component/Main/ArticleList/ArticleList'
-import ArticleHeader from '../../component/Main/ArticleHeader/ArticleHeader'
+import ArticleList from '../../../component/Main/ArticleList/ArticleList'
+import ArticleHeader from '../../../component/Main/ArticleHeader/ArticleHeader'
 
 const {Content} = Layout
 

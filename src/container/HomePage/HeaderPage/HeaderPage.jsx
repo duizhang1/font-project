@@ -1,12 +1,11 @@
-import { Menu, Layout, Input, Avatar } from 'antd';
+import { Menu, Layout, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
-import CreatorDropDown from '../../component/Header/CreatorDropDown/CreatorDropDown';
-import { UserOutlined } from '@ant-design/icons';
-import HeaderLogo from '../../component/Header/Logo/Logo'
+import CreatorDropDown from '../../../component/Header/CreatorDropDown/CreatorDropDown';
+import HeaderLogo from '../../../component/Header/Logo/Logo'
 import './HeaderPage.css'
-import RingDropDown from '../../component/Header/RingDropDown/RingDropDown';
+import RingDropDown from '../../../component/Header/RingDropDown/RingDropDown';
 import { useNavigate, useLocation } from "react-router-dom";
-import AvatarAndLogin from '../../component/Header/AvatarAndLogin/AvatarAndLogin';
+import AvatarAndLogin from '../../../component/Header/AvatarAndLogin/AvatarAndLogin';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -35,7 +34,7 @@ export default function HeaderPage() {
 
   // 点击事件导航并设置显示
   const onClick = (e) => {
-    navigate(e.key);
+    navigate(`/home/${e.key}`);
     setChoosePage(e.key)
   };
   // 搜索框搜索事件
@@ -52,7 +51,7 @@ export default function HeaderPage() {
     } else {
       setChoosePage(location.pathname.split('/')[1])
     }
-  })
+  },[])
 
   return (
     <Header className='header header-setting'>

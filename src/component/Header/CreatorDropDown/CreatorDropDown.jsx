@@ -1,25 +1,36 @@
 import React from 'react'
-import { Dropdown, message, } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Dropdown } from 'antd';
+import { DownOutlined,EditOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 
-const handleMenuClick = (e) => {
-    message.info('Click on menu item.');
-    console.log('click', e);
-};
 const items = [
     {
-        label: '1st menu item',
+        label: '写文章',
         key: '1',
+        icon: <EditOutlined />
     }
 ];
 
-const menuProps = {
-    items,
-    onClick: handleMenuClick
-};
 
 export default function CreatorDropDown() {
+
+    const navigate = useNavigate();
+
+    const handleMenuClick = (e) => {
+        switch (e.key) {
+            case '1':
+                navigate('/mdeditor')
+                break;
+            default:
+                return;
+        }
+    };
+
+    const menuProps = {
+        items,
+        onClick: handleMenuClick
+    };
 
     return (
         <Dropdown.Button menu={menuProps} trigger={['click']} icon={<DownOutlined />} type='primary'>

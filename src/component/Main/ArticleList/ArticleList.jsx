@@ -36,7 +36,7 @@ export default function ArticleList() {
       setData([...data, ...Array.from({
         length: 5,
       }).map((_, i) => ({
-        href: `/post/${i}`,
+        href: `/home/post/${i}`,
         title: `ant design part ${i}`,
         avatar: 'https://joeschmoe.io/api/v1/random',
         description:

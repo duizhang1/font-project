@@ -1,10 +1,10 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 
 export default function AvatarAndLogin() {
     const [login, setLogin] = useState(true);
-    
+
 
     return (
         <div>

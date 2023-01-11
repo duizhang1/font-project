@@ -56,7 +56,7 @@ axios.interceptors.response.use(
             }
             // 未登陆，跳出登陆框
             else if (response.data.code === '401') {
-                store.dispatch(loginShowAction)
+                store.dispatch(loginShowAction())
                 return Promise.reject(response.data);
             }
             else {

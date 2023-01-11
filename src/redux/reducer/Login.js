@@ -1,6 +1,6 @@
 import { LOGIN_HIDDEN,LOGIN_SHOW } from "../Constant"
 
-const initState = { loginShow: true }
+const initState = { loginShow: false }
 
 export default function LoginReducer(preState = initState, action) {
     switch (action.type) {

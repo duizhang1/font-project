@@ -1,9 +1,11 @@
-import React,{useEffect, useState} from 'react'
-import { Button,Checkbox,Col,Form,Input,Row,Modal, message } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Button, Checkbox, Col, Form, Input, Row, Modal, message } from 'antd';
 import './RegisterModal.css'
 import { connect } from 'react-redux'
 import { registerShowAction, registerHiddenAction } from '../../../redux/action/Register'
 import { loginShowAction } from '../../../redux/action/Login'
+const { axiosReq } = require('../../../request/axios')
+
 
 const formItemLayout = {
     labelCol: {
@@ -42,34 +44,53 @@ function RegisterModal(props) {
     const { registerRedux, registerHiddenAction, loginShowAction } = props
     const [btnDisable, setBtnDisable] = useState(false)
     const [leftTime, setLeftTime] = useState(59)
-    
+    const [form] = Form.useForm();
+
     useEffect(() => {
         clearInterval(timer)
         return () => {
             clearInterval(timer)
         }
     }, [])
-    
+
     useEffect(() => {
         if (leftTime <= 0 || leftTime >= 60) {
             setBtnDisable(false)
             clearInterval(timer)
             setLeftTime(59)
         }
-    },[leftTime])
+    }, [leftTime])
 
     const getCaptchaTime = () => {
+        console.log(form.getFieldError('emailAddress'))
         if (form.getFieldError('emailAddress') !== null && form.getFieldError('emailAddress').length > 0) {
             message.error(form.getFieldError('emailAddress'))
             return
         }
-        timer = setInterval(() => setLeftTime(pre => pre-1), 1000)
-        setBtnDisable(true);
+        axiosReq.get('/mail/getVerifyCode', { emailAddress: form.getFieldValue('emailAddress') }).then(
+            (value) => {
+                message.info(value.message)
+                timer = setInterval(() => setLeftTime(pre => pre - 1), 1000)
+                setBtnDisable(true);
+            },
+            (reason) => {
+                message.error(reason.message)
+            }
+        )
     }
 
-    const [form] = Form.useForm();
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
+        axiosReq.post('/user/register', values).then(
+            (value) => {
+                message.info(value.message + ',正在前往登陆')
+                registerHiddenAction()
+                loginShowAction()
+            },
+            (reason) => {
+                message.error(reason.message)
+            }
+        )
     };
 
     const showLogin = () => {
@@ -114,7 +135,14 @@ function RegisterModal(props) {
                     <Form.Item
                         name="password"
                         label="密码"
+                        tooltip="输入6-16位的密码"
                         rules={[
+                            {
+                                type: 'string',
+                                max: 16,
+                                min: 6,
+                                message: '请输入6-16位的密码'
+                            },
                             {
                                 required: true,
                                 message: '请输入密码',
@@ -169,25 +197,25 @@ function RegisterModal(props) {
                         name="verifyCode"
                         label="验证码"
                         tooltip="输入邮箱中获得的验证码"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入邮箱中获得的验证码!',
+                            },
+                        ]}
                     >
                         <Row gutter={8}>
                             <Col span={14}>
                                 <Form.Item
                                     name="captcha"
                                     noStyle
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '请输入邮箱中获得的验证码!',
-                                        },
-                                    ]}
                                 >
-                                    <Input />
+                                    <Input placeholder='请输入验证码' />
                                 </Form.Item>
                             </Col>
                             <Col span={10}>
                                 <Button disabled={btnDisable} onClick={getCaptchaTime}>
-                                    { btnDisable ? `${leftTime}秒后获取` : '获得验证码' }
+                                    {btnDisable ? `${leftTime}秒后获取` : '获得验证码'}
                                 </Button>
                             </Col>
                         </Row>
@@ -251,5 +279,5 @@ export default connect(
     state => ({
         registerRedux: state.register
     }),
-    { loginShowAction,registerShowAction, registerHiddenAction }
+    { loginShowAction, registerShowAction, registerHiddenAction }
 )(RegisterModal)

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { loginHiddenAction, loginShowAction } from '../../../redux/action/Login'
 import { registerShowAction } from '../../../redux/action/Register'
 import './LoginModal.css'
-import {axiosReq} from '../../../request/axios'
+const { axiosReq } = require('../../../request/axios')
 
 
 
@@ -67,6 +67,10 @@ function LoginModal(props) {
             name="account"
             rules={[
               {
+                type: 'email',
+                message: '邮箱格式不正确',
+              },
+              {
                 required: true,
                 message: '请输入邮箱号!',
               },
@@ -127,5 +131,5 @@ export default connect(
   state => ({
     loginRedux: state.login
   }),
-  { loginShowAction, loginHiddenAction,registerShowAction }
+  { loginShowAction, loginHiddenAction, registerShowAction }
 )(LoginModal)

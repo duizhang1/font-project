@@ -1,0 +1,18 @@
+.login-form-button {
+    width: 100%;
+    border-radius: 15px !important;
+    line-height: 50px;
+}
+
+.span-forget-password {
+    float: right;
+    cursor: pointer;
+    color: rgb(75, 75, 255);
+    font-size: 13px;
+}
+.login-modal .ant-modal-content {
+    border-radius: 20px !important;
+}
+.login-modal .ant-modal-header {
+    border-radius: 20px !important;
+}

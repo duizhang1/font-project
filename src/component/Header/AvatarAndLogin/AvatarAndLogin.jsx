@@ -1,15 +1,38 @@
 import React,{useEffect, useState} from 'react'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux'
+import {} from ''
 
-export default function AvatarAndLogin() {
-    const [login, setLogin] = useState(true);
-
+function AvatarAndLogin(props) {
+    const {userRedux} = props
 
     return (
         <div>
-            <Avatar size="large" icon={<UserOutlined />} style={{ display: login ? 'block' : 'none' ,marginTop: '8px'}} />
-            <span style={{ display: login ? 'none' : 'block' }}>登陆/注册</span>
+            <Avatar
+                size="large"
+                src={userRedux.avatar}
+                style={{
+                    display: userRedux.uuid !== '' ? 'block' : 'none',
+                    marginTop: '8px'
+                }}
+            />
+            <Avatar
+                size="large"
+                style={{
+                    display: userRedux.uuid !== '' ? 'none' : 'block',
+                    marginTop: '8px',
+                    cursor: 'pointer'
+                }}
+            >
+                登陆
+            </Avatar>
         </div>
     )
 }
+export default connect(
+    store => ({
+        userRedux: store.user
+    }),
+    {}
+)(AvatarAndLogin)

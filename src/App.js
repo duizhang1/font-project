@@ -6,19 +6,23 @@ import MdEditorPage from './container/MdEditorPage/MdEditorPage'
 import LoginModal from './component/Modal/LoginModal/LoginModal'
 import RegisterModal from './component/Modal/RegisterModal/RegisterModal'
 import { message } from 'antd'
-const {axiosReq} = require('./request/axios')
+import { connect } from 'react-redux'
+import { setUserInfoAction,clearUserInfoAction } from './redux/action/User'
+const { axiosReq } = require('./request/axios')
 
-export default function App() {
+function App(props) {
+  const { userRedux,setUserInfoAction,clearUserInfoAction } = props
 
   // 校验登陆，已登陆直接获取用户信息存入redux
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
       axiosReq.get('/user/getCurrentUser').then(
         (value) => { 
-          console.log(value);
+          setUserInfoAction(value.data)
         },
         (reason) => {
-          message.error(reason.message)
+          clearUserInfoAction()
+          localStorage.removeItem('token')
         }
       )
     }
@@ -36,3 +40,10 @@ export default function App() {
     </div>
   )
 }
+
+export default connect(
+  store => ({
+    userRedux: store.user
+  }),
+  { setUserInfoAction,clearUserInfoAction }
+)(App)

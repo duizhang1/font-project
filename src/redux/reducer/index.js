@@ -5,8 +5,10 @@
 import { combineReducers } from 'redux'
 import login from './Login'
 import register from './Register'
+import user from './User'
 
 export default combineReducers({
     login,
-    register
+    register,
+    user
 })

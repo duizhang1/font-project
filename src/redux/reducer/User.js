@@ -16,7 +16,7 @@ const initState = {
 export default function UserReducer(preState = initState, action) {
     switch (action.type) {
         case SET_USERINFO:
-            return action;
+            return action.data;
         case CLEAR_USERINFO:
             return {
                 uuid: '',

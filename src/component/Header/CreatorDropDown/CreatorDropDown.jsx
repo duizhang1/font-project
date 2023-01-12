@@ -2,13 +2,13 @@ import React from 'react'
 import { Dropdown } from 'antd';
 import { DownOutlined,EditOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+import './CreatorDropDown.css'
 
 
 const items = [
     {
-        label: '写文章',
-        key: '1',
-        icon: <EditOutlined />
+        label: (<div className='dropdown-item-div'><EditOutlined style={{fontSize: '15px',margin: '4px 9px 0 0'}}/>写文章</div>),
+        key: '/mdeditor',
     }
 ];
 
@@ -18,13 +18,7 @@ export default function CreatorDropDown() {
     const navigate = useNavigate();
 
     const handleMenuClick = (e) => {
-        switch (e.key) {
-            case '1':
-                navigate('/mdeditor')
-                break;
-            default:
-                return;
-        }
+        navigate(e.key)
     };
 
     const menuProps = {
@@ -33,7 +27,13 @@ export default function CreatorDropDown() {
     };
 
     return (
-        <Dropdown.Button menu={menuProps} trigger={['click']} icon={<DownOutlined />} type='primary'>
+        <Dropdown.Button
+            menu={menuProps}
+            trigger={['click']}
+            icon={<DownOutlined />}
+            type='primary'
+            placement='bottomRight'
+        >
             创作者中心
         </Dropdown.Button>
     )

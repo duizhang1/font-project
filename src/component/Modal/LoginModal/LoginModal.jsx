@@ -1,16 +1,17 @@
 import React from 'react'
 import { Modal, Button, Form, Input, message } from 'antd'
 import { connect } from 'react-redux'
-import { loginHiddenAction, loginShowAction } from '../../../redux/action/Login'
-import { registerShowAction } from '../../../redux/action/Register'
+import { loginHiddenAction, loginShowAction } from '@src/redux/action/Login'
+import { registerShowAction } from '@src/redux/action/Register'
+import { setUserInfoAction } from '@src/redux/action/User'
 import './LoginModal.css'
-const { axiosReq } = require('../../../request/axios')
+const { axiosReq } = require('@src/request/axios')
 
 
 
 
 function LoginModal(props) {
-  const { loginRedux, loginHiddenAction, registerShowAction } = props
+  const { loginRedux, loginHiddenAction, registerShowAction,setUserInfoAction } = props
 
   const onFinish = (values) => {
     axiosReq.post('/user/login', values).then(
@@ -20,6 +21,13 @@ function LoginModal(props) {
         let token = data.tokenHead + data.token;
         localStorage.setItem('token', token)
         message.info('登陆成功')
+        axiosReq.get('/user/getCurrentUser').then(
+          (value) => { 
+            setUserInfoAction(value.data)
+          },
+          (reason) => {
+          }
+        )
         // 隐藏登陆框
         loginHiddenAction();
       },
@@ -131,5 +139,5 @@ export default connect(
   state => ({
     loginRedux: state.login
   }),
-  { loginShowAction, loginHiddenAction, registerShowAction }
+  { loginShowAction, loginHiddenAction, registerShowAction,setUserInfoAction }
 )(LoginModal)

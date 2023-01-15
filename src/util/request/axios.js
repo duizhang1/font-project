@@ -5,8 +5,8 @@
 // 导入模块
 import axios from 'axios';
 import qs from 'qs';
-import store from '../redux/Store'
-import {loginShowAction} from '../redux/action/Login'
+import store from '@src/redux/Store'
+import {loginShowAction} from '@src/redux/action/Login'
 
 // URL地址
 import { BASE_URL } from './config/config.js';
@@ -97,7 +97,6 @@ export function get(url, params) {
 export function post(url, params) {
     return new Promise((resolve, reject) => {
         axios.post(BASE_URL + url, params).then(res => {
-            console.log(res)
             resolve(res);
         })
         .catch(error => {

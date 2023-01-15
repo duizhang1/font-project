@@ -6,9 +6,13 @@ import { combineReducers } from 'redux'
 import login from './Login'
 import register from './Register'
 import user from './User'
+import sort from './Sort'
+import label from './Label'
 
 export default combineReducers({
     login,
     register,
-    user
+    user,
+    sort,
+    label
 })

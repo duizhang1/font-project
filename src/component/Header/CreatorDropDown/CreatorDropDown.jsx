@@ -8,7 +8,7 @@ import './CreatorDropDown.css'
 const items = [
     {
         label: (<div className='dropdown-item-div'><EditOutlined style={{fontSize: '15px',margin: '4px 9px 0 0'}}/>写文章</div>),
-        key: '/mdeditor',
+        key: '/mdeditor/new',
     }
 ];
 

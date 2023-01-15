@@ -30,7 +30,7 @@ export default function LabelMenu() {
 
     const onClick = (e) => {
         setCurrent(e.key);
-        navigate(`/mainpage/${e.key}`);
+        navigate(`/sort/${e.key}`);
     };
 
     useEffect(() => {

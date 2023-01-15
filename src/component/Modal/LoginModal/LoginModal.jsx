@@ -5,7 +5,7 @@ import { loginHiddenAction, loginShowAction } from '@src/redux/action/Login'
 import { registerShowAction } from '@src/redux/action/Register'
 import { setUserInfoAction } from '@src/redux/action/User'
 import './LoginModal.css'
-const { axiosReq } = require('@src/request/axios')
+const { axiosReq } = require('@src/util/request/axios')
 
 
 

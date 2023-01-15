@@ -11,7 +11,7 @@ export default function HomePage() {
     <Layout>
       <HeaderPage />
       <Routes path='/home'>
-        <Route path='/mainpage' element={<MainPage />} />
+        <Route path='/sort/:sortId' element={<MainPage />} />
         <Route path='/post/:id' element={<ArticlePage/>}/>
         <Route path='/*' element={<MainPage />}/>
       </Routes>

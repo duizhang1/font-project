@@ -1,6 +1,11 @@
 .mdeditor-header{
     background-color: #fff;
-    height: 50px;
+    height: 8vh;
+    min-height: 50px;
     display: flex;
     align-items: center;
+}
+.popover-form-title{
+    font-size: 18px;
+    line-height: 35px;
 }

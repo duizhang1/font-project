@@ -1,13 +1,15 @@
-import React,{useEffect} from 'react'
+import React,{Suspense,lazy,useEffect} from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import HomePage from './container/HomePage/HomePage'
-import MdEditorPage from './container/MdEditorPage/MdEditorPage'
 import LoginModal from './component/Modal/LoginModal/LoginModal'
 import RegisterModal from './component/Modal/RegisterModal/RegisterModal'
 import { connect } from 'react-redux'
-import { setUserInfoAction,clearUserInfoAction } from './redux/action/User'
-const { axiosReq } = require('./request/axios')
+import { setUserInfoAction, clearUserInfoAction } from './redux/action/User'
+import LazyLoading from './component/Loading/LazyLoading'
+
+const { axiosReq } = require('@src/util/request/axios')
+const MdEditorPage = lazy(() => import('./container/MdEditorPage/MdEditorPage'))
 
 function App(props) {
   const { setUserInfoAction,clearUserInfoAction } = props
@@ -31,7 +33,7 @@ function App(props) {
     <div>
       <Routes>
         <Route path='/home/*' element={<HomePage />} />
-        <Route path='/mdeditor' element={<MdEditorPage />} />
+        <Route path='/mdeditor/:id' element={<Suspense fallback={(<LazyLoading/>)}><MdEditorPage /></Suspense>} />
         <Route path='/*' element={<HomePage />} />
       </Routes>
       <LoginModal/>

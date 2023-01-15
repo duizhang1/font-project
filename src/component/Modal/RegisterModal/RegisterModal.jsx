@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Button, Checkbox, Col, Form, Input, Row, Modal, message } from 'antd';
 import './RegisterModal.css'
 import { connect } from 'react-redux'
-import { registerShowAction, registerHiddenAction } from '../../../redux/action/Register'
-import { loginShowAction } from '../../../redux/action/Login'
-const { axiosReq } = require('../../../request/axios')
+import { registerShowAction, registerHiddenAction } from '@src/redux/action/Register'
+import { loginShowAction } from '@src/redux/action/Login'
+const { axiosReq } = require('@src/util/request/axios')
 
 
 const formItemLayout = {

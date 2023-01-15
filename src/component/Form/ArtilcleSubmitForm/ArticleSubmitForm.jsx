@@ -1,4 +1,4 @@
-import { Form, Input, message, Select, Upload,Button } from 'antd'
+import { Form, Input, message, Select, Upload, Button } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react'
 import { axiosReq } from '@src/util/request/axios'
@@ -11,10 +11,12 @@ import { useNavigate } from "react-router-dom";
 const { TextArea } = Input
 
 function ArticleSubmitForm(props) {
-    const { sortRedux, setSortAction, labelRedux, setLabelAction, id, title, mdValue } = props
+    const { sortRedux, setSortAction, labelRedux, setLabelAction, id, title, mdValue,articleInfo } = props
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
+
+    // 完成文章创建
     const onFinish = (value) => {
         let { uploadImg, ...subValue } = value;
         subValue = {
@@ -23,8 +25,11 @@ function ArticleSubmitForm(props) {
             img: imageUrl,
             ...subValue
         };
-        console.log(subValue)
-        axiosReq.post('/article/insertArticle',subValue).then(
+        let url = '/article/insertArticle'
+        if (id !== 'new') {
+            url = '/article/updateArticle'
+        }
+        axiosReq.post(url, subValue).then(
             (value) => {
                 message.info(value.message)
                 navigate(-1);
@@ -34,14 +39,14 @@ function ArticleSubmitForm(props) {
             }
         )
     }
-
+    // 完成分类的获取
     let sortOptions = []
     if (sortRedux.length > 0) {
         sortOptions = sortRedux.map((item, key) => {
             return { value: item.uuid, label: item.sortName }
         })
     }
-
+    // 完成标签的获取
     let labelOptions = []
     if (labelRedux.length > 0) {
         labelOptions = labelRedux.map((item, key) => {
@@ -103,12 +108,22 @@ function ArticleSubmitForm(props) {
                 }
             )
         }
+        if (articleInfo.img) {
+            setImageUrl(articleInfo.img)
+        }
     }, [])
 
     return (
-        <>
+        <div style={{ width: '500px' }}>
             <Form
                 onFinish={onFinish}
+                labelCol={{
+                    span: 5,
+                }}
+                wrapperCol={{
+                    span: 18,
+                }}
+                width={'500'}
             >
                 <Form.Item
                     label="文章摘要"
@@ -120,7 +135,7 @@ function ArticleSubmitForm(props) {
                         }
                     ]}
                 >
-                    <TextArea rows={4} />
+                    <TextArea defaultValue={articleInfo ? articleInfo.summary : ''} rows={4} />
                 </Form.Item>
                 <Form.Item
                     label="选择分区"
@@ -140,6 +155,7 @@ function ArticleSubmitForm(props) {
                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                         }
                         options={sortOptions}
+                        defaultValue={articleInfo ? articleInfo.sortId : ''}
                     >
 
                     </Select>
@@ -162,6 +178,7 @@ function ArticleSubmitForm(props) {
                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                         }
                         options={labelOptions}
+                        defaultValue={articleInfo ? articleInfo.labelId : ''}
                     >
 
                     </Select>
@@ -198,12 +215,16 @@ function ArticleSubmitForm(props) {
                     }}
                     style={{ margin: '0 0 12px' }}
                 >
-                    <Button type="primary" className="login-form-button" htmlType="submit">
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{ float: 'right',borderRadius: '15px' }}
+                    >
                         确认{id === 'new' ? '并发布' : '并更新'}
                     </Button>
                 </Form.Item>
             </Form>
-        </>
+        </div>
     )
 }
 

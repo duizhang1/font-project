@@ -25,7 +25,6 @@ function MdEditorPage(props) {
   const editor = useRef(null)
 
   useEffect(() => {
-    console.log(editor)
     // 如果是更新判断该文章用户是否具备更新的条件
     if (id !== 'new') {
       axiosReq.get('/article/isCanUpdateArticle', {id}).then(

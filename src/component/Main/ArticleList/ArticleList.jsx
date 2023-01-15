@@ -1,7 +1,9 @@
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { axiosReq } from '@src/util/request/axios';
 import { List, Space,Divider,Skeleton } from 'antd';
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useParams } from 'react-router-dom';
 import './ArticleList.css'
 
 
@@ -22,35 +24,34 @@ const IconText = ({ icon, text }) => (
     {text}
   </Space>
 );
-export default function ArticleList() {
-
+export default function ArticleList(props) {
+  const { sortId } = useParams();
+  const { articleHeader } = props;
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const loadMoreData = () => {
     if (loading) {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setData([...data, ...Array.from({
-        length: 5,
-      }).map((_, i) => ({
-        href: `/home/post/${i}`,
-        title: `ant design part ${i}`,
-        avatar: 'https://joeschmoe.io/api/v1/random',
-        description:
-          'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content:
-          'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'
-      }))]);
-      setLoading(false);
-    }, 500)
+    let params = { sortId, ...articleHeader, current:currentPage, size: 10 }
+    console.log(params)
+    axiosReq.get('/article/getArticleList', params).then(
+      (value) => {
+        setLoading(false)
+      },
+      (reason) => {
+        setLoading(false)
+      }
+    )
   };
   useEffect(() => {
+    setData([])
     loadMoreData();
-  }, []);
+  }, [sortId]);
 
   return (
     <InfiniteScroll

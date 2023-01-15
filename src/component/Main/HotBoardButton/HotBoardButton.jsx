@@ -3,33 +3,33 @@ import { Select } from 'antd'
 
 export default function HotBoardButton(props) {
 
-    const handleChange = (e) => {
-        console.log(e)
-    }
+    const {currentKey,compkey,setArticleHeader} = props
 
-    const isActive = props.isActive
+    const handleChange = (e) => {
+        setArticleHeader({orderBy:compkey,hotDay:e})
+    }
 
     return (
         <div>
             热榜
             <Select
-                defaultValue="last3day"
+                defaultValue="3"
                 onChange={handleChange}
                 options={[
                     {
-                        value: 'last3day',
+                        value: '3',
                         label: '最近3天',
                     },
                     {
-                        value: 'last5day',
-                        label: '最近5天',
+                        value: '7',
+                        label: '最近7天',
                     },
                     {
-                        value: 'last30day',
+                        value: '30',
                         label: '最近1个月',
                     },
                 ]}
-                style={{ display: isActive ? 'inline-flex' : 'none', width: 100 ,marginLeft: '10px'}}
+                style={{ display: currentKey === compkey ? 'inline-block' : 'none', width: '110px' ,marginLeft: '10px'}}
             />
         </div>
     )

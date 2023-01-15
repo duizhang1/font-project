@@ -1,11 +1,11 @@
 import { Menu, Layout, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
-import CreatorDropDown from '../../../component/Header/CreatorDropDown/CreatorDropDown';
-import HeaderLogo from '../../../component/Header/Logo/Logo'
-import './HeaderPage.css'
-import RingDropDown from '../../../component/Header/RingDropDown/RingDropDown';
+import CreatorDropDown from '@src/component/Header/CreatorDropDown/CreatorDropDown';
+import HeaderLogo from '@src/component/Header/Logo/Logo'
+import './CommonHeader.css'
+import RingDropDown from '@src/component/Header/RingDropDown/RingDropDown';
 import { useNavigate, useLocation } from "react-router-dom";
-import AvatarAndLogin from '../../../component/Header/AvatarAndLogin/AvatarAndLogin';
+import AvatarAndLogin from '@src/component/Header/AvatarAndLogin/AvatarAndLogin';
 
 const { Header } = Layout;
 const { Search } = Input;

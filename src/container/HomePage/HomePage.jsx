@@ -1,20 +1,14 @@
 import React from 'react'
-import HeaderPage from './HeaderPage/HeaderPage'
+import CommonHeader from './CommonHeader/CommonHeader'
 import { Layout,BackTop } from 'antd'
-import MainPage from './MainPage/MainPage'
-import { Route, Routes } from 'react-router-dom'
-import ArticlePage from './ArticlePage/ArticlePage'
+import { Outlet } from 'react-router-dom'
 import './HomePage.css'
 
 export default function HomePage() {
   return (
     <Layout>
-      <HeaderPage />
-      <Routes path='/home'>
-        <Route path='/sort/:sortId' element={<MainPage />} />
-        <Route path='/post/:id' element={<ArticlePage/>}/>
-        <Route path='/*' element={<MainPage />}/>
-      </Routes>
+      <CommonHeader />
+      <Outlet/>
       <BackTop />
     </Layout>
   )

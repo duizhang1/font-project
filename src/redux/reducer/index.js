@@ -8,11 +8,13 @@ import register from './Register'
 import user from './User'
 import sort from './Sort'
 import label from './Label'
+import articleListHeader from './ArticleListHeader'
 
 export default combineReducers({
     login,
     register,
     user,
     sort,
-    label
+    label,
+    articleListHeader
 })

@@ -1,47 +1,42 @@
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { LikeOutlined, EyeOutlined, StarOutlined } from '@ant-design/icons';
+import ArticleListLoading from '@src/component/Loading/ArticleListLoading/ArticleListLoading';
 import { axiosReq } from '@src/util/request/axios';
-import { List, Space,Divider,Skeleton } from 'antd';
+import { List, Space, Divider, Skeleton, ConfigProvider } from 'antd';
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import './ArticleList.css'
 
-
-const data = Array.from({
-  length: 4,
-}).map((_, i) => ({
-  href: 'https://ant.design',
-  title: `ant design part ${i}`,
-  avatar: 'https://joeschmoe.io/api/v1/random',
-  description:
-    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-  content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}));
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
     {text}
   </Space>
 );
-export default function ArticleList(props) {
-  const { sortId } = useParams();
-  const { articleHeader } = props;
+
+function ArticleList(props) {
+  const { sortRoute } = useParams();
+  const { articleListHeaderRedux } = props;
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const size = 5
 
-  const loadMoreData = () => {
-    if (loading) {
-      return;
-    }
+  const loadMoreData = (resetData,resetPage) => {
     setLoading(true);
-    let params = { sortId, ...articleHeader, current:currentPage, size: 10 }
-    console.log(params)
+    let page = resetPage ? resetPage : currentPage;
+    let data = resetData ? resetData : datas;
+    let params = { sortRoute, ...articleListHeaderRedux, current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
-        setLoading(false)
+        if (value.data && value.data.length < size) {
+          setHasMore(false)
+        }
+        setDatas(data.concat(value.data ? value.data : []))
+        setCurrentPage(currentPage+1)
       },
       (reason) => {
         setLoading(false)
@@ -49,56 +44,80 @@ export default function ArticleList(props) {
     )
   };
   useEffect(() => {
-    setData([])
-    loadMoreData();
-  }, [sortId]);
+    loadMoreData([],1);
+  }, [sortRoute,articleListHeaderRedux]);
+
+  const listItemClick = (e) => {
+    return () => {
+      const w = window.open('about:blank');
+      w.location.href = '/home/post/' + e
+    }
+  }
 
   return (
     <InfiniteScroll
-      dataLength={data.length}
+      dataLength={datas.length}
       next={loadMoreData}
-      hasMore={true}
+      hasMore={hasMore}
       loader={
         <Skeleton
-          avatar
+          style={{ padding: '0 11px',margin: '10px 0 0 0' }}
           paragraph={{
             rows: 3,
           }}
           active
+          round
+          title
         />
       }
+      pullDownToRefreshThreshold={0}
       endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
     >
-      <List
-        itemLayout="vertical"
-        size="large"
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item
-            key={item.title}
-            actions={[
-              <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-              <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-              <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-            ]}
-            extra={
-              item.icon != null ? <img
-              width={220}
-              alt="logo"
-              src={item.icon}
-            /> : ''
-            }
-            className='list-set'
-          >
-            <List.Item.Meta
-              title={<a href={item.href}>{item.title}</a>}
-              description={item.description}
-            />
-            <div className='textover-hidden'>{item.content}</div>
-          </List.Item>
-        )
-        }
-      />
+      <ConfigProvider renderEmpty={() => (<ArticleListLoading hasMore={ hasMore } />)}>
+        <List
+          itemLayout="vertical"
+          size="large"
+          dataSource={datas}
+          renderItem={(item) => (
+            <List.Item
+              key={item.uuid}
+              onClick={listItemClick(item.uuid)}
+              actions={[
+                <IconText icon={EyeOutlined} text={item.readCount} key="list-vertical-message" />,
+                <IconText icon={LikeOutlined} text={item.likeCount} key="list-vertical-like-o" />,
+                <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />,
+              ]}
+              extra={
+                item.img != null ? <img
+                  className='article-list-item-img'
+                  alt="logo"
+                  src={item.img}
+                /> : ''
+              }
+              className='article-list-item-set'
+            >
+              <List.Item.Meta
+                title={<a href={'/home/post/' + item.uuid} target='_blank' rel="noreferrer">{item.title}</a>}
+                description={
+                  <div>
+                    <a href={'/user/' + item.creatorId} className='article-list-user-href'>{item.creatorName}</a>
+                    {'\u00A0'}| {item.sortName} • {item.labelName}
+                  </div>
+                }
+              />
+              <div className='textover-hidden'>{item.summary}</div>
+            </List.Item>
+          )
+          }
+        />
+      </ConfigProvider>
     </InfiniteScroll>
   )
 }
+
+export default connect(
+  state => ({
+    articleListHeaderRedux: state.articleListHeader
+  }),
+  {}
+)(ArticleList)

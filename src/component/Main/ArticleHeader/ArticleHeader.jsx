@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { Tabs } from 'antd'
 import HotBoardButton from '../HotBoardButton/HotBoardButton'
+import { connect } from 'react-redux';
+import {setArticleListHeaderAction} from '@src/redux/action/ArticleListHeader'
 
-export default function ArticleHeader(props) {
+function ArticleHeader(props) {
     const [currentKey, setCurrentKey] = useState('1');
-    const {setArticleHeader} = props
+    const {setArticleListHeaderAction} = props
 
     const tabChange = (key, e) => {
         setCurrentKey(key)
         if (key === '1') {
-            setArticleHeader({orderBy:key,hotDay:'0'})
+            setArticleListHeaderAction({orderBy:key,hotDay:'0'})
         } else {
-            setArticleHeader({orderBy:key,hotDay:'3'})
+            setArticleListHeaderAction({orderBy:key,hotDay:'3'})
         }
     }
 
@@ -27,7 +29,6 @@ export default function ArticleHeader(props) {
                     label: <HotBoardButton
                         currentKey={currentKey}
                         compkey={'2'}
-                        setArticleHeader={setArticleHeader}
                     />,
                     key: '2',
                 },
@@ -42,3 +43,10 @@ export default function ArticleHeader(props) {
         />
     )
 }
+
+export default connect(
+    state => ({
+        articleHeaderRedux: state.articleHeader
+    }),
+    {setArticleListHeaderAction}
+)(ArticleHeader)

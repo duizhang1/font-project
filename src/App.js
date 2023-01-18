@@ -6,7 +6,7 @@ import LoginModal from './component/Modal/LoginModal/LoginModal'
 import RegisterModal from './component/Modal/RegisterModal/RegisterModal'
 import { connect } from 'react-redux'
 import { setUserInfoAction, clearUserInfoAction } from './redux/action/User'
-import LazyLoading from './component/Loading/LazyLoading'
+import LazyLoading from '@src/component/Loading/LazyLoading/LazyLoading'
 
 const { axiosReq } = require('@src/util/request/axios')
 const MdEditorPage = lazy(() => import('./container/MdEditorPage/MdEditorPage'))
@@ -35,12 +35,12 @@ function App(props) {
     <div>
       <Routes>
         <Route path='/home' element={<HomePage />} >
-          <Route path='/home/sort/:sortId' element={<MainPage />} />
-          <Route path='/home/post/:id' element={<ArticlePage />} />
+          <Route path='/home/sort/:sortRoute' element={<Suspense fallback={(<LazyLoading />)}><MainPage /></Suspense>} />
+          <Route path='/home/post/:id' element={<Suspense fallback={(<LazyLoading />)}><ArticlePage /></Suspense>} />
           <Route path='/home/*' element={<Navigate to='/home/sort/all' />} />
         </Route>
         <Route path='/mdeditor/:id' element={<Suspense fallback={(<LazyLoading />)}><MdEditorPage /></Suspense>} />
-        <Route path='/*' element={<div>error</div>} />
+        <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>
       <LoginModal />
       <RegisterModal />

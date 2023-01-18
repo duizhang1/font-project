@@ -108,7 +108,7 @@ function ArticleSubmitForm(props) {
                 }
             )
         }
-        if (articleInfo.img) {
+        if (articleInfo && articleInfo.img) {
             setImageUrl(articleInfo.img)
         }
     }, [])

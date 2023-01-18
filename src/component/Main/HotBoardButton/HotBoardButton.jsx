@@ -1,12 +1,14 @@
 import React from 'react'
 import { Select } from 'antd'
+import { connect } from 'react-redux'
+import {setArticleListHeaderAction} from '@src/redux/action/ArticleListHeader'
 
-export default function HotBoardButton(props) {
+function HotBoardButton(props) {
 
-    const {currentKey,compkey,setArticleHeader} = props
+    const {currentKey,compkey,setArticleListHeaderAction} = props
 
     const handleChange = (e) => {
-        setArticleHeader({orderBy:compkey,hotDay:e})
+        setArticleListHeaderAction({orderBy:compkey,hotDay:e})
     }
 
     return (
@@ -34,3 +36,9 @@ export default function HotBoardButton(props) {
         </div>
     )
 }
+export default connect(
+    state => ({
+        
+    }),
+    {setArticleListHeaderAction}
+)(HotBoardButton)

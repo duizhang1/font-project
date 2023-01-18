@@ -1,19 +1,18 @@
 import { Header } from 'antd/lib/layout/layout'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Menu, message } from 'antd';
 import './LabelMenu.css'
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { connect } from 'react-redux';
 import { axiosReq } from '@src/util/request/axios';
 import { setSortAction } from '@src/redux/action/Sort'
 
 function LabelMenu(props) {
     const { sortRedux, setSortAction } = props
-    const [current, setCurrent] = useState('all');
     const navigate = useNavigate();
+    const { sortRoute } = useParams();
 
     const onClick = (e) => {
-        setCurrent(e.key);
         navigate(`/home/sort/${e.key}`);
     };
 
@@ -42,7 +41,7 @@ function LabelMenu(props) {
 
     return (
         <Header className='labelheader-set'>
-            <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={sortOptions } className='labelmenu-set' />
+            <Menu onClick={onClick} selectedKeys={[sortRoute]} mode="horizontal" items={sortOptions } className='labelmenu-set' />
         </Header>
     )
 }

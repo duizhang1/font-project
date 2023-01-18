@@ -5,11 +5,11 @@ import { LikeTwoTone,EyeTwoTone } from '@ant-design/icons';
 import './AuthorInfoCard.css'
 
 export default function AuthorInfoCard(props) {
-    const {likeNumber,allReadNumber} = props
+    const {authorInfo} = props
     return (
-        <Card title={<AuthorInfoHeader {...props} />}>
-            <span className='card-span'><LikeTwoTone style={{ marginRight: '12px' }} />获得点赞 {likeNumber }</span>
-            <span className='card-span'><EyeTwoTone style={{ marginRight: '12px' }} />文章被阅读 {allReadNumber }</span>
+        <Card title={<AuthorInfoHeader authorInfo={authorInfo} />}>
+            <span className='card-span'><LikeTwoTone style={{ marginRight: '12px' }} />获得点赞 {0 }</span>
+            <span className='card-span'><EyeTwoTone style={{ marginRight: '12px' }} />文章被阅读 {0 }</span>
         </Card>
     )
 }

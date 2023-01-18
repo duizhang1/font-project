@@ -1,28 +1,17 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import MarkDownCom from '../../../component/Main/MarkDownCom/MarkDownCom'
+import React, { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import MarkDownCom from '@src/component/Main/MarkDownCom/MarkDownCom'
 import 'markdown-navbar/dist/navbar.css';
 import { Content } from 'antd/lib/layout/layout';
 import './ArticlePage.css'
-import MarkDownHeader from '../../../component/Main/MarkDownHeader/MarkDownHeader';
-import AuthorInfoCard from '../../../component/Main/AuthorInfoCard/AuthorInfoCard';
-import MarkDownNavCard from '../../../component/Main/MarkDownNavCard/MarkDownNavCard';
+import MarkDownHeader from '@src/component/Main/MarkDownHeader/MarkDownHeader';
+import AuthorInfoCard from '@src/component/Main/AuthorInfoCard/AuthorInfoCard';
+import MarkDownNavCard from '@src/component/Main/MarkDownNavCard/MarkDownNavCard';
+import { axiosReq } from '@src/util/request/axios';
+import { message,Affix } from 'antd';
+import 'react-markdown-editor-lite/lib/index.css';
 
-const data = {
-    title: 'NB的Github项目，看到最后一个我惊呆了！',
-    avatarHref: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~100x100.awebp',
-    creatorName: '庄辉凡',
-    createtime: '2022年11月04日 18:28',
-    readNumber: '55555',
-    content:  `## hello
-    \n &nbsp;
-    \n &nbsp;
-    \n &nbsp;
-    \n &nbsp;
-    \n
-    world
-    `
-}
+
 const authorData = {
     avatarHref: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~100x100.awebp',
     creatorName: '庄辉凡',
@@ -32,20 +21,47 @@ const authorData = {
 export default function ArticlePage() {
 
     const { id } = useParams()
-    console.log(id)
+    const navigate = useNavigate();
+    const [data, setData] = useState({
+        article: {
+            content: '',
+            title: ''
+        },
+        author: {
+            uuid: '',
+            avatar: '',
+            username: '',
+            createTime: '',
+            readCount: ''
+        }
+    });
+
+    useEffect(() => {
+        axiosReq.get('/article/getArticleAndUserInfo', { articleId: id }).then(
+            (value) => {
+                setData(value.data)
+            },
+            (reason) => {
+                message.error(reason.message)
+                navigate(-1);
+            }
+        )
+    }, [id])
 
     return (
         <Content>
             <div className='content'>
                 <div className='article-com'>
                     <div>
-                        <MarkDownHeader {...data} />
-                        <MarkDownCom content={data.content}/>
+                        <MarkDownHeader data={data} />
+                        <MarkDownCom content={data.article.content } />
                     </div>
                 </div>
                 <div className='right-cards'>
-                    <AuthorInfoCard {...authorData} />
-                    <MarkDownNavCard content={data.content}/>
+                    <AuthorInfoCard authorInfo={data.author} />
+                    <Affix offsetTop={0}>
+                        <MarkDownNavCard content={data.article.content} />
+                    </Affix>
                 </div>
             </div>
         </Content>

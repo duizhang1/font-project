@@ -1,22 +1,27 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw'
+import 'github-markdown-css'
+import './MarkDownCom.css'
 
 export default function MarkDownCom(props) {
     const { content } = props
 
     return (
         <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
+            className='markdown-body'
+            remarkPlugins={[remarkGfm, { singleTilde: false }]}
+            rehypePlugins={[rehypeRaw]}
             components={{
                 code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '')
                     return !inline && match ? (
                         <SyntaxHighlighter
                             children={String(children).replace(/\n$/, '')}
-                            style={coldarkCold}
+                            style={atomDark}
                             language={match[1]}
                             PreTag="div"
                             {...props}
@@ -27,7 +32,8 @@ export default function MarkDownCom(props) {
                         </code>
                     )
                 }
-            }}>
+            }}
+        >
             {content}
         </ReactMarkdown>
     )

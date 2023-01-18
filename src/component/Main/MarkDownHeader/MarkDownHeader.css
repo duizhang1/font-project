@@ -1,33 +1,33 @@
-.article-title{
+.markdown-header-article-title{
     margin: 0 0 1.2rem;
     font-size: 32px;
     font-weight: 600;
     line-height: 1.31;
     color: #252933;
 }
-.all-box{
+.markdown-header-all-box{
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
 }
-.info-box{
+.markdown-header-info-box{
     display: inline-flex;
     flex-direction: column;
     margin-left: 10px;
     margin-top: -5px;
 }
-.creator-name{
+.markdown-header-creator-name{
     font-size: 17px;
     font-weight: 450;
 }
-.create-time{
+.markdown-header-create-time{
     margin-right: 10px;
     color: #8a919f;
 }
-.read-number{
+.markdown-header-read-number{
     color: #8a919f;
 }
-.article-img{
+.markdown-header-article-img{
     width: 100%;
     margin-bottom: 20px;
 }

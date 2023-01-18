@@ -10,12 +10,15 @@ import { connect } from 'react-redux'
 import qiniuUpload from '@src/util/qiniu/qiniuUpload';
 import ArticleSubmitForm from '@src/component/Form/ArtilcleSubmitForm/ArticleSubmitForm'
 import { axiosReq } from '@src/util/request/axios';
+import 'github-markdown-css'
 
 // Initialize a markdown parser
-const mdParser = new MarkdownIt(/* Markdown-it options */);
+const mdParser = new MarkdownIt({
+  html: true,
+  xhtmlOut: true
+});
 
 function MdEditorPage(props) {
-  const { userRedux } = props
   const navigate = useNavigate();
   const { id } = useParams();
   const title = id === 'new' ? '发布文章' : '更新文章';
@@ -25,7 +28,6 @@ function MdEditorPage(props) {
   const editor = useRef(null)
 
   useEffect(() => {
-    // 如果是更新判断该文章用户是否具备更新的条件
     if (id !== 'new') {
       axiosReq.get('/article/isCanUpdateArticle', {id}).then(
         (value) => {
@@ -94,6 +96,7 @@ function MdEditorPage(props) {
         renderHTML={text => mdParser.render(text)}
         onChange={handleEditorChange}
         onImageUpload={imageUpload}
+        htmlClass='markdown-body'
         ref={editor}
       />
     </div>

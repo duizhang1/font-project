@@ -1,0 +1,20 @@
+.emoji-list-content{
+    width: 200px;
+    display: flex;
+    justify-content: flex-start;
+    align-content: stretch;
+    flex-flow:row wrap
+}
+.emoji-list-item{
+    display: inline-block;
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+    font-size: 27px;
+    cursor: pointer;
+    line-height: 32px;
+    margin: 2px;
+}
+.emoji-list-item:hover{
+    font-size: 30px;
+}

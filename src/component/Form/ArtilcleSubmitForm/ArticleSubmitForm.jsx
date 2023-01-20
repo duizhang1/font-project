@@ -14,7 +14,7 @@ function ArticleSubmitForm(props) {
     const { sortRedux, setSortAction, labelRedux, setLabelAction, id, title, mdValue,articleInfo } = props
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
+    const [imageUrl, setImageUrl] = useState('');
 
     // 完成文章创建
     const onFinish = (value) => {

@@ -1,17 +1,24 @@
-.content{
+.article-page-content{
     display: flex;
     justify-content: center;
     margin-top: 15px;
 }
-.article-com{
-    width: 830px;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 4px 4px 0 0;
+.article-page-article-com{
+
 }
-.right-cards{
+.article-page-right-cards{
     margin-left: 15px;
 }
-.md-editor-html-article-page{
-    border: 0px;
+.article-page-article-content{
+    background-color: #fff;
+    width: 830px;
+    padding: 30px;
+    border-radius: 15px;
+}
+.article-page-article-comment{
+    margin: 20px 0 0 0;
+    padding: 30px;
+    background-color: #fff;
+    width: 830px;
+    border-radius: 15px;
 }

@@ -8,8 +8,9 @@ import MarkDownHeader from '@src/component/Main/MarkDownHeader/MarkDownHeader';
 import AuthorInfoCard from '@src/component/Main/AuthorInfoCard/AuthorInfoCard';
 import MarkDownNavCard from '@src/component/Main/MarkDownNavCard/MarkDownNavCard';
 import { axiosReq } from '@src/util/request/axios';
-import { message,Affix } from 'antd';
+import { message, Affix } from 'antd';
 import 'react-markdown-editor-lite/lib/index.css';
+import ArticleComment from '@src/component/Comment/ArticleComment/ArticleComment';
 
 
 const authorData = {
@@ -50,14 +51,17 @@ export default function ArticlePage() {
 
     return (
         <Content>
-            <div className='content'>
-                <div className='article-com'>
-                    <div>
+            <div className='article-page-content'>
+                <div className='article-page-article-com'>
+                    <div className='article-page-article-content'>
                         <MarkDownHeader data={data} />
-                        <MarkDownCom content={data.article.content } />
+                        <MarkDownCom content={data.article.content} />
+                    </div>
+                    <div className='article-page-article-comment'>
+                        <ArticleComment />
                     </div>
                 </div>
-                <div className='right-cards'>
+                <div className='article-page-right-cards'>
                     <AuthorInfoCard authorInfo={data.author} />
                     <Affix offsetTop={0}>
                         <MarkDownNavCard content={data.article.content} />

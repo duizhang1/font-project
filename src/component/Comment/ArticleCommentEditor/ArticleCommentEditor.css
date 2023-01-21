@@ -1,17 +1,26 @@
 .article-comment-editor-tool{
     margin: 5px 0 0 0;
-    height: 12px;
+    height: 8px;
 }
 .article-comment-editor-tool-btn{
     float: right;
 }
-.article-comment-editor-tool-btn .ant-btn-lg{
-    border-radius: 15px;
-    padding: 3.4px 8px;
-}
 .article-comment-editor-tool-emoji{
     float: left;
     font-size: 16px;
-    margin: 8px 0 0 0;
+    margin: 3px 0 0 0;
     cursor: pointer;
+}
+.article-comment-editor-spin{
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    transform:translate(-50%,-50%);
+    cursor: pointer;
+}
+.article-comment-editor-spin-span{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform:translate(-50%,-50%);
 }

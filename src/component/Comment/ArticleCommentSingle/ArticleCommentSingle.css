@@ -1,0 +1,25 @@
+.article-comment-single-div{
+    display: flex;
+
+}
+.article-comment-single-content{
+    margin: 0 0 0 5px;
+    width: 100%;
+}
+.article-comment-single-content-username{
+    font-size: 15px;
+    font-weight: 600;
+    float: left;
+    cursor: pointer;
+}
+.article-comment-single-content-comment{
+    margin: 5px 0 5px 0;
+}
+.article-comment-single-content-tool{
+    display: flex;
+}
+.article-comment-single-content-reply{
+    margin: 5px 0 5px 0;
+    background-color: rgba(247,248,250,.7);
+    padding: 15px 15px 0 15px;
+}

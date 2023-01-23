@@ -6,13 +6,15 @@ import './ArticleCommentEditor.css'
 import EmojiList from '../EmojiList/EmojiList';
 import { connect } from 'react-redux';
 import { loginShowAction } from '@src/redux/action/Login'
+import { useParams } from 'react-router-dom';
 
 const { TextArea } = Input
 
 function ArticleCommentEditor(props) {
-    const { userRedux, loginShowAction } = props
+    const { userRedux, loginShowAction,commentId } = props
     const [inpData, setInputData] = useState('');
     const textAreaRef = useRef(null)
+    const { id } = useParams();
 
     const spinIndicator = (
         <div className='article-comment-editor-spin' onClick={(e) => {loginShowAction()}}>
@@ -30,11 +32,15 @@ function ArticleCommentEditor(props) {
         setInputData(value);
     }
 
+    function submitComment() {
+        console.log(id,"-----------------",commentId)
+    }
+
     return (
-        <div style={{ width: '100%', margin: '0 0 0 10px' }}>   
+        <div style={{ width: '100%'}}>   
             <Spin
                 indicator={spinIndicator}
-                style={{ backgroundColor: 'rgb(232,232,232,0.2)',borderRadius: '15px' }}
+                style={{ backgroundColor: 'rgba(215, 215, 215, 0.2)',borderRadius: '15px' }}
                 spinning={userRedux.uuid === ''}
             >
                 <TextArea
@@ -59,7 +65,12 @@ function ArticleCommentEditor(props) {
                     </div>
                 </Popover>
                 <div className='article-comment-editor-tool-btn'>
-                    <Button type="primary" size={'middle'} disabled={(inpData ? inpData.trim().length > 0 ? false : true : true)}>
+                    <Button
+                        type="primary"
+                        size={'middle'}
+                        disabled={(inpData ? inpData.trim().length > 0 ? false : true : true)}
+                        onClick={submitComment}
+                    >
                         发表评论
                     </Button>
                 </div>

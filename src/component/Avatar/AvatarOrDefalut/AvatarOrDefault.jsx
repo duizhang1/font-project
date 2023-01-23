@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loginShowAction } from '@src/redux/action/Login'
 
 function AvatarOrDefault(props) {
-    const { userRedux, loginShowAction,top='0px' } = props
+    const { userRedux, loginShowAction,right='0px' } = props
     return (
         <>
             <Avatar
@@ -14,7 +14,7 @@ function AvatarOrDefault(props) {
                 style={{
                     display: userRedux.uuid === '' ? 'block' : 'none',
                     cursor: 'pointer',
-                    marginTop: top
+                    marginRight: right
                 }}
                 onClick={() => { loginShowAction() }}
             />
@@ -24,7 +24,7 @@ function AvatarOrDefault(props) {
                 style={{
                     display: userRedux.uuid !== '' ? 'block' : 'none',
                     cursor: 'pointer',
-                    marginTop: top
+                    marginRight: right
                 }}
             />
         </>

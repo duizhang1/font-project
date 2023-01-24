@@ -1,0 +1,12 @@
+.article-tool-div{
+    padding-top: 200px;
+}
+.article-tool-single-tool{
+    height: 50px;
+    width: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}

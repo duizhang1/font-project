@@ -11,6 +11,8 @@ import { axiosReq } from '@src/util/request/axios';
 import { message, Affix } from 'antd';
 import 'react-markdown-editor-lite/lib/index.css';
 import ArticleComment from '@src/component/Comment/ArticleComment/ArticleComment';
+import ArticleTag from '@src/component/Main/ArticleTag/ArticleTag';
+import ArticleTool from '@src/component/Main/ArticleTool/ArticleTool';
 
 
 const authorData = {
@@ -52,10 +54,14 @@ export default function ArticlePage() {
     return (
         <Content>
             <div className='article-page-content'>
+                <div className='article-page-article-tool'>
+                    <ArticleTool/>
+                </div>
                 <div className='article-page-article-com'>
                     <div className='article-page-article-content'>
                         <MarkDownHeader data={data} />
                         <MarkDownCom content={data.article.content} />
+                        <ArticleTag/>
                     </div>
                     <div className='article-page-article-comment'>
                         <ArticleComment />

@@ -32,7 +32,7 @@ function ArticleList(props) {
     let params = { sortRoute, ...articleListHeaderRedux, current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
-        if (value.data && value.data.length < size) {
+        if (!value.data || value.data.length < size) {
           setHasMore(false)
         }
         setDatas(data.concat(value.data ? value.data : []))

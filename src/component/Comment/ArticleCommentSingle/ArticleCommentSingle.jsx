@@ -1,6 +1,6 @@
-import { Avatar, Space } from 'antd'
+import { Avatar, Space, Button } from 'antd'
 import React, { useState } from 'react'
-import { LikeOutlined, CommentOutlined, LikeTwoTone } from '@ant-design/icons';
+import { LikeOutlined, CommentOutlined, LikeTwoTone, DownOutlined } from '@ant-design/icons';
 import './ArticleCommentSingle.css'
 import ArticleCommentEditor from '../ArticleCommentEditor/ArticleCommentEditor';
 
@@ -24,6 +24,7 @@ export default function ArticleCommentSingle(props) {
     const [likeNumber, setLikeNumber] = useState(data.likeNumber)
     const [liked, setLiked] = useState(false)
     const [editorShow, setEditorShow] = useState(false)
+    const [moreReply, setMoreReply] = useState(null)
 
     function clickLike() {
         setLikeNumber(likeNumber + 1)
@@ -67,6 +68,25 @@ export default function ArticleCommentSingle(props) {
 
     function clickComment() {
         setEditorShow(!editorShow)
+    }
+
+    function loadMoreReply() {
+        const moreReply = [
+            {
+                uuid: 'sdas3231a12321sdasas5d31asds',
+                userId: 'dddd',
+                username: '小队长',
+                href: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
+                comment: '存在即不合理',
+                likeNumber: 5,
+                createTime: '2022-06-27 19:15:20',
+                replyToId: '',
+                replyToName: '',
+                replyTotal: 2,
+                replys: null
+            }
+        ]
+        setMoreReply([...moreReply])
     }
 
     return (
@@ -127,6 +147,18 @@ export default function ArticleCommentSingle(props) {
                             <ArticleCommentSingle data={item} avatarSize='small' key={item.uuid} />
                         )
                     })}
+                    {moreReply && moreReply.map((item) => {
+                        return (
+                            <ArticleCommentSingle data={item} avatarSize='small' key={item.uuid} />
+                        )
+                    })}
+                    <Button
+                        type="link"
+                        style={{ display: data.replyTotal > 2 && moreReply === null ? 'block' : 'none' }}
+                        onClick={loadMoreReply}
+                    >
+                        <DownOutlined />点击查看更多评论
+                    </Button>
                 </div>
             </div>
         </div>

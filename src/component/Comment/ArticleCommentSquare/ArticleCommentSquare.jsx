@@ -16,6 +16,7 @@ export default function ArticleCommentSquare() {
             createTime: '2022-06-27 19:15:20',
             replyToId: '',
             replyToName: '',
+            replyTotal: 3,
             replys: [
                 {
                     uuid: 'sdas3231asdasas5d31asds',
@@ -26,7 +27,9 @@ export default function ArticleCommentSquare() {
                     likeNumber: 5,
                     createTime: '2022-06-27 19:15:20',
                     replyToId: '',
-                    replyToName: ''
+                    replyToName: '',
+                    replyTotal: 2,
+                    replys: null
                 },
                 {
                     uuid: 'sdas3231876587978978ds',
@@ -37,7 +40,9 @@ export default function ArticleCommentSquare() {
                     likeNumber: 5,
                     createTime: '2022-06-27 19:15:20',
                     replyToId: '',
-                    replyToName: ''
+                    replyToName: '',
+                    replyTotal: 2,
+                    replys: null
                 }
             ]
         },

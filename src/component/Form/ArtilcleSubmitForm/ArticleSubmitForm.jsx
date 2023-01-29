@@ -28,6 +28,7 @@ function ArticleSubmitForm(props) {
         let url = '/article/insertArticle'
         if (id !== 'new') {
             url = '/article/updateArticle'
+            subValue = {uuid: id,...subValue}
         }
         axiosReq.post(url, subValue).then(
             (value) => {
@@ -134,8 +135,9 @@ function ArticleSubmitForm(props) {
                             message: '请输入文章摘要'
                         }
                     ]}
+                    initialValue={articleInfo ? articleInfo.summary : ''}
                 >
-                    <TextArea defaultValue={articleInfo ? articleInfo.summary : ''} rows={4} />
+                    <TextArea rows={4} />
                 </Form.Item>
                 <Form.Item
                     label="选择分区"
@@ -146,6 +148,7 @@ function ArticleSubmitForm(props) {
                             message: '请选择文章分区'
                         }
                     ]}
+                    initialValue={articleInfo ? articleInfo.sortId : null}
                 >
                     <Select
                         showSearch
@@ -155,22 +158,24 @@ function ArticleSubmitForm(props) {
                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                         }
                         options={sortOptions}
-                        defaultValue={articleInfo ? articleInfo.sortId : ''}
                     >
 
                     </Select>
                 </Form.Item>
                 <Form.Item
                     label="选择标签"
-                    name="labelId"
+                    name="labelIds"
                     rules={[
                         {
                             required: true,
                             message: '请选择文章标签'
                         }
                     ]}
+                    initialValue={articleInfo ? articleInfo.labelIds : []}
                 >
                     <Select
+                        mode="multiple"
+                        allowClear
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) => (option?.label ?? '').includes(input)}
@@ -178,7 +183,6 @@ function ArticleSubmitForm(props) {
                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                         }
                         options={labelOptions}
-                        defaultValue={articleInfo ? articleInfo.labelId : ''}
                     >
 
                     </Select>

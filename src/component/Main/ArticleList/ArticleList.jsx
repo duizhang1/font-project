@@ -19,14 +19,12 @@ function ArticleList(props) {
   const { sortRoute } = useParams();
   const { articleListHeaderRedux } = props;
 
-  const [loading, setLoading] = useState(false);
   const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const size = 5
 
   const loadMoreData = (resetData,resetPage) => {
-    setLoading(true);
     let page = resetPage ? resetPage : currentPage;
     let data = resetData ? resetData : datas;
     let params = { sortRoute, ...articleListHeaderRedux, current: page, size }
@@ -34,12 +32,14 @@ function ArticleList(props) {
       (value) => {
         if (!value.data || value.data.length < size) {
           setHasMore(false)
+        } else {
+          setHasMore(true)
         }
         setDatas(data.concat(value.data ? value.data : []))
-        setCurrentPage(currentPage+1)
+        setCurrentPage(page+1)
       },
       (reason) => {
-        setLoading(false)
+        setHasMore(false)
       }
     )
   };
@@ -97,11 +97,11 @@ function ArticleList(props) {
               className='article-list-item-set'
             >
               <List.Item.Meta
-                title={<a href={'/home/post/' + item.uuid} target='_blank' rel="noreferrer">{item.title}</a>}
+                title={<a href={'/home/post/' + item.uuid} target='_blank' rel="noreferrer" onClick={(e) => { e.stopPropagation(); }}>{item.title}</a>}
                 description={
                   <div>
-                    <a href={'/user/' + item.creatorId} className='article-list-user-href'>{item.creatorName}</a>
-                    {'\u00A0'}| {item.sortName} • {item.labelName}
+                    <a href={'/user/' + item.creatorId} className='article-list-user-href' onClick={(e) => { e.stopPropagation(); }}>{item.creatorName}</a>
+                    {'\u00A0'}| {item.sortName}{item.labelName.map((item)=>{return <span key={item}> • {item}</span>})}
                   </div>
                 }
               />

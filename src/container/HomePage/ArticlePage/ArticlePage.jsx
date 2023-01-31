@@ -63,7 +63,7 @@ export default function ArticlePage() {
                         <MarkDownCom content={data.article.content} />
                         <ArticleTag/>
                     </div>
-                    <div className='article-page-article-comment'>
+                    <div id='articlePageComment' className='article-page-article-comment'>
                         <ArticleComment />
                     </div>
                 </div>

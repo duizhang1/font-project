@@ -1,0 +1,16 @@
+.store-check-box{
+    height: 50px;
+    border-bottom: 1px solid #dedfdf;
+    margin: 0 0 15px 0;
+    cursor: pointer;
+}
+.store-check-box-font-div{
+    float: left;
+}
+.store-check-box-font-div-name{
+
+}
+.store-check-box-font-number{
+    font-size: 13px;
+    color: #8a919f;
+}

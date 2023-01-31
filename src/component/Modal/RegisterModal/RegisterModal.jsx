@@ -80,7 +80,6 @@ function RegisterModal(props) {
     }
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
         axiosReq.post('/user/register', values).then(
             (value) => {
                 message.info(value.message + ',正在前往登陆')
@@ -99,7 +98,7 @@ function RegisterModal(props) {
     }
 
     return (
-        <div>
+        <>
             <Modal
                 open={registerRedux.registerShow}
                 title="注册"
@@ -271,7 +270,7 @@ function RegisterModal(props) {
                     </Form.Item>
                 </Form>
             </Modal>
-        </div>
+        </>
     )
 }
 

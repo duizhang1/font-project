@@ -1,5 +1,5 @@
 import { Avatar, Space, Button, message, Popconfirm } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { LikeOutlined, CommentOutlined, LikeTwoTone, DownOutlined } from '@ant-design/icons';
 import './ArticleCommentSingle.css'
 import ArticleCommentEditor from '../ArticleCommentEditor/ArticleCommentEditor';
@@ -39,11 +39,31 @@ function ArticleCommentSingle(props) {
     const [hasMore, setHasMore] = useState(data.hasMore)
 
     function clickLike() {
+        axiosReq.get('/articleComment/likeArticleComment', { commentId: data.uuid }).then(
+            (value) => {
+
+            },
+            (reason) => {
+                message.error(reason.message)
+                setLikeNumber(likeNumber - 1)
+                setLiked(false)
+            }
+        )
         setLikeNumber(likeNumber + 1)
         setLiked(true)
     }
 
     function clickDisLike() {
+        axiosReq.get('/articleComment/dislikeArticleComment', { commentId: data.uuid }).then(
+            (value) => {
+                
+            },
+            (reason) => {
+                message.error(reason.message)
+                setLikeNumber(likeNumber + 1)
+                setLiked(true)
+            }
+        )
         setLikeNumber(likeNumber - 1)
         setLiked(false)
     }
@@ -95,7 +115,7 @@ function ArticleCommentSingle(props) {
     }
 
     function deleteComment() {
-        axiosReq._delete('/articleComment/deleteArticleComment',{commentId: data.uuid}).then(
+        axiosReq._delete('/articleComment/deleteArticleComment', { commentId: data.uuid }).then(
             (value) => {
                 message.info(value.message)
                 setUpdateArticleComment(nanoid())
@@ -115,7 +135,7 @@ function ArticleCommentSingle(props) {
                     <Popconfirm title="删除改评论" cancelText='取消' onConfirm={deleteComment}>
                         <Button
                             type="link"
-                            style={{ margin: '-10px 0 0 -15px',color:'black' }}
+                            style={{ margin: '-10px 0 0 -15px', color: 'black' }}
                         >
                             删除
                         </Button>
@@ -125,6 +145,19 @@ function ArticleCommentSingle(props) {
         }
         return ''
     }
+
+    useEffect(() => {
+        axiosReq.get('/articleComment/getLikeArticleComment', { commentId: data.uuid }).then(
+            (value) => {
+                if (value.data) {
+                    setLiked(value.data.state === 1)
+                 }
+            },
+            (reason) => {
+                
+            }
+        )
+    },[])
 
     return (
         <div className='article-comment-single-div'>

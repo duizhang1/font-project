@@ -15,15 +15,7 @@ const items = [
   {
     label: '首页',
     key: 'mainpage'
-  },
-  {
-    label: '首页1',
-    key: 'mainPage1'
-  },
-  {
-    label: '首页2',
-    key: 'mainPage2'
-  },
+  }
 ];
 
 

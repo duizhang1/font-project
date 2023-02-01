@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LikeFilled, CommentOutlined, StarFilled, LikeTwoTone, StarTwoTone } from '@ant-design/icons';
 import { Affix, message } from 'antd'
 import './ArticleTool.css'
@@ -6,8 +6,10 @@ import { axiosReq } from '@src/util/request/axios';
 import { useParams } from 'react-router-dom'
 import StoreArticleModal from '@src/component/Modal/StoreArtilceModal/StoreArticleModal';
 import CreateStoreModal from '@src/component/Modal/CreateStoreModal/CreateStoreModal';
+import { connect } from 'react-redux';
 
-export default function ArticleTool() {
+function ArticleTool(props) {
+    const { userRedux } = props
     const { id } = useParams()
     const [liked, setLiked] = useState(false);
     const [storeOpen, setStoreOpen] = useState(false);
@@ -41,6 +43,19 @@ export default function ArticleTool() {
     function clickStore(e) {
         setStoreOpen(!storeOpen)
     }
+
+    useEffect(() => {
+        axiosReq.get('/article/getArticleLike', { articleId: id }).then(
+            (value) => {
+                if (value.data && value.data.state === 1) {
+                    setLiked(true)
+                }
+            },
+            (reason) => {
+                
+            }
+        )
+    }, [])
 
     return (
         <Affix offsetTop={0}>
@@ -77,3 +92,10 @@ export default function ArticleTool() {
         </Affix>
     )
 }
+
+export default connect(
+    (state) => ({
+        userRedux: state.user
+    }),
+    {}
+)(ArticleTool)

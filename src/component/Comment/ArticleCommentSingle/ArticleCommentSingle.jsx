@@ -1,8 +1,11 @@
-import { Avatar, Space, Button } from 'antd'
+import { Avatar, Space, Button, message, Popconfirm } from 'antd'
 import React, { useState } from 'react'
 import { LikeOutlined, CommentOutlined, LikeTwoTone, DownOutlined } from '@ant-design/icons';
 import './ArticleCommentSingle.css'
 import ArticleCommentEditor from '../ArticleCommentEditor/ArticleCommentEditor';
+import { axiosReq } from '@src/util/request/axios';
+import { connect } from 'react-redux';
+import { nanoid } from 'nanoid';
 
 const IconText = ({ icon, text }) => (
     <Space size={5}>
@@ -18,13 +21,22 @@ const clickItem = (e) => {
     }
 }
 
-export default function ArticleCommentSingle(props) {
+function ArticleCommentSingle(props) {
 
-    const { data, avatarSize = 'large' } = props
+    const {
+        data,
+        avatarSize = 'large',
+        childSize,
+        setUpdateArticleComment,
+        parentCommentId = null,
+        isChild = false,
+        userRedux
+    } = props
     const [likeNumber, setLikeNumber] = useState(data.likeNumber)
     const [liked, setLiked] = useState(false)
     const [editorShow, setEditorShow] = useState(false)
     const [moreReply, setMoreReply] = useState(null)
+    const [hasMore, setHasMore] = useState(data.hasMore)
 
     function clickLike() {
         setLikeNumber(likeNumber + 1)
@@ -71,28 +83,53 @@ export default function ArticleCommentSingle(props) {
     }
 
     function loadMoreReply() {
-        const moreReply = [
-            {
-                uuid: 'sdas3231a12321sdasas5d31asds',
-                userId: 'dddd',
-                username: '小队长',
-                href: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
-                comment: '存在即不合理',
-                likeNumber: 5,
-                createTime: '2022-06-27 19:15:20',
-                replyToId: '',
-                replyToName: '',
-                replyTotal: 2,
-                replys: null
+        axiosReq.get('/articleComment/loadMoreReply', { articleCommentId: data.uuid, childSize }).then(
+            (value) => {
+                setMoreReply(value.data);
+                setHasMore(false);
+            },
+            (reason) => {
+                message.error(reason.message)
             }
-        ]
-        setMoreReply([...moreReply])
+        )
+    }
+
+    function deleteComment() {
+        axiosReq._delete('/articleComment/deleteArticleComment',{commentId: data.uuid}).then(
+            (value) => {
+                message.info(value.message)
+                setUpdateArticleComment(nanoid())
+            },
+            (reason) => {
+                message.error(reason.message)
+            }
+        )
+    }
+
+    function isCanDelete() {
+        if (data && userRedux && data.userId === userRedux.uuid) {
+            return (
+                <div
+                    style={{ cursor: 'pointer', marginRight: '25px' }}
+                >
+                    <Popconfirm title="删除改评论" cancelText='取消' onConfirm={deleteComment}>
+                        <Button
+                            type="link"
+                            style={{ margin: '-10px 0 0 -15px',color:'black' }}
+                        >
+                            删除
+                        </Button>
+                    </Popconfirm>
+                </div>
+            )
+        }
+        return ''
     }
 
     return (
         <div className='article-comment-single-div'>
             <Avatar
-                src={data.href}
+                src={data.avatarHref}
                 size={avatarSize}
                 style={{ cursor: 'pointer' }}
                 onClick={clickItem(data.userId)}
@@ -104,7 +141,8 @@ export default function ArticleCommentSingle(props) {
                         onClick={clickItem(data.userId)}
                         className='article-comment-single-content-username'
                     >
-                        {data.username} {data.replyToId !== null && data.replyToId !== '' ? ` 回复 ${data.replyToName}` : ''}
+                        {data.userName}
+                        {data.replyCommentId !== null && data.replyCommentId !== '' ? ` 回复 ${data.replyUserName}` : ''}
                     </div>
                     <div style={{ marginLeft: 'auto' }}>
                         {data.createTime}
@@ -118,7 +156,7 @@ export default function ArticleCommentSingle(props) {
                     {data.comment}
                 </div>
 
-                {/* 点赞回复工具栏 */}
+                {/* 点赞回复删除工具栏 */}
                 <div className='article-comment-single-content-tool'>
                     {isLikeOrNot()}
                     <div
@@ -131,30 +169,54 @@ export default function ArticleCommentSingle(props) {
                             key="list-vertical-reply-o"
                         />
                     </div>
+                    {isCanDelete()}
                 </div>
 
                 {/* 回复栏，默认隐藏 */}
                 <div
                     style={{ display: editorShow ? 'block' : 'none', margin: '5px 0 20px 0' }}
                 >
-                    <ArticleCommentEditor commentId={data.uuid} />
+                    <ArticleCommentEditor
+                        parentCommentId={parentCommentId}
+                        replyCommentId={isChild ? data.uuid : null}
+                        setUpdateArticleComment={setUpdateArticleComment}
+                        setEditorShow={setEditorShow}
+                    />
                 </div>
 
                 {/* 子回复栏 */}
-                <div className='article-comment-single-content-reply'>
-                    {data.replys && data.replys.map((item) => {
+                <div className='article-comment-single-content-reply'
+                    style={{ display: data.childCommentList && data.childCommentList.length <= 0 ? 'none' : 'block' }}
+                >
+                    {data.childCommentList && data.childCommentList.map((item) => {
                         return (
-                            <ArticleCommentSingle data={item} avatarSize='small' key={item.uuid} />
+                            <ArticleCommentSingle
+                                parentCommentId={data.uuid}
+                                data={item}
+                                avatarSize='small'
+                                key={item.uuid}
+                                setUpdateArticleComment={setUpdateArticleComment}
+                                isChild
+                                userRedux={userRedux}
+                            />
                         )
                     })}
                     {moreReply && moreReply.map((item) => {
                         return (
-                            <ArticleCommentSingle data={item} avatarSize='small' key={item.uuid} />
+                            <ArticleCommentSingle
+                                parentCommentId={data.uuid}
+                                data={item}
+                                avatarSize='small'
+                                key={item.uuid}
+                                setUpdateArticleComment={setUpdateArticleComment}
+                                isChild
+                                userRedux={userRedux}
+                            />
                         )
                     })}
                     <Button
                         type="link"
-                        style={{ display: data.replyTotal > 2 && moreReply === null ? 'block' : 'none' }}
+                        style={{ display: hasMore ? 'block' : 'none' }}
                         onClick={loadMoreReply}
                     >
                         <DownOutlined />点击查看更多评论
@@ -164,3 +226,9 @@ export default function ArticleCommentSingle(props) {
         </div>
     )
 }
+export default connect(
+    (state) => ({
+        userRedux: state.user
+    }),
+    {}
+)(ArticleCommentSingle)

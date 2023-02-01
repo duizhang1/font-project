@@ -14,13 +14,6 @@ import ArticleComment from '@src/component/Comment/ArticleComment/ArticleComment
 import ArticleTag from '@src/component/Main/ArticleTag/ArticleTag';
 import ArticleTool from '@src/component/Main/ArticleTool/ArticleTool';
 
-
-const authorData = {
-    avatarHref: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~100x100.awebp',
-    creatorName: '庄辉凡',
-    jobAndCompany: 'Soft Enginee @ software'
-}
-
 export default function ArticlePage() {
 
     const { id } = useParams()

@@ -33,7 +33,7 @@ function ArticleCommentSingle(props) {
         userRedux
     } = props
     const [likeNumber, setLikeNumber] = useState(data.likeNumber)
-    const [liked, setLiked] = useState(false)
+    const [liked, setLiked] = useState(data.likeState === 1)
     const [editorShow, setEditorShow] = useState(false)
     const [moreReply, setMoreReply] = useState(null)
     const [hasMore, setHasMore] = useState(data.hasMore)
@@ -145,19 +145,6 @@ function ArticleCommentSingle(props) {
         }
         return ''
     }
-
-    useEffect(() => {
-        axiosReq.get('/articleComment/getLikeArticleComment', { commentId: data.uuid }).then(
-            (value) => {
-                if (value.data) {
-                    setLiked(value.data.state === 1)
-                 }
-            },
-            (reason) => {
-                
-            }
-        )
-    },[])
 
     return (
         <div className='article-comment-single-div'>

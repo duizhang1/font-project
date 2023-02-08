@@ -1,0 +1,32 @@
+.creator-page-header{
+    position: fixed;
+    width: 100vw;
+    z-index: 5;
+}
+/* 
+调整宽度需要调整整个的宽度 240 + 545 
+ creator-page-slider +  creator-page-main
+*/
+.creator-page-content{
+    position: relative;
+    margin: 0 auto;
+    height: calc(100vh - 55px);
+    width: 1055px;   
+}
+.creator-page-slider{
+    position: fixed;
+    height: calc(100% - 115px);
+    width: 240px;
+    top: 80px;
+    bottom: 0;
+    z-index: 2;
+    margin-bottom: 10px;
+}
+.creator-page-main{
+    position: absolute;
+    left: 255px;
+    top: 80px;
+    width: 800px;
+    bottom: 50px;
+    border-radius: 5px;
+}

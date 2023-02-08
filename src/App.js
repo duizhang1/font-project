@@ -12,6 +12,8 @@ const { axiosReq } = require('@src/util/request/axios')
 const MdEditorPage = lazy(() => import('./container/MdEditorPage/MdEditorPage'))
 const MainPage = lazy(() => import('./container/HomePage/MainPage/MainPage'))
 const ArticlePage = lazy(() => import('./container/HomePage/ArticlePage/ArticlePage'))
+const CreatorPage = lazy(() => import('./container/CreatorPage/CreatorPage'))
+const CreatorHome = lazy(() => import('./container/CreatorPage/CreatorHome/CreatorHome'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -25,7 +27,7 @@ function App(props) {
         },
         (reason) => {
           clearUserInfoAction()
-          localStorage.removeItem('token')
+          // localStorage.removeItem('token')
         }
       )
     }
@@ -40,6 +42,10 @@ function App(props) {
           <Route path='/home/*' element={<Navigate to='/home/sort/all' />} />
         </Route>
         <Route path='/mdeditor/:id' element={<Suspense fallback={(<LazyLoading />)}><MdEditorPage /></Suspense>} />
+        <Route path='/creator' element={<Suspense fallback={(<LazyLoading />)}><CreatorPage /></Suspense>} >
+          <Route path='/creator/home' element={<Suspense fallback={(<LazyLoading />)}><CreatorHome /></Suspense>} />
+          <Route path='/creator/*' element={<Navigate to='/creator/home' />}/>
+        </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>
       <LoginModal />

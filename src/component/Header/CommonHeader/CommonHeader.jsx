@@ -5,7 +5,7 @@ import HeaderLogo from '@src/component/Header/Logo/Logo'
 import './CommonHeader.css'
 import RingDropDown from '@src/component/Header/RingDropDown/RingDropDown';
 import { useNavigate, useLocation } from "react-router-dom";
-import AvatarAndLogin from '@src/component/Header/AvatarAndLogin/AvatarAndLogin';
+import AvatarAndLogin from '@src/component/Avatar/AvatarAndLogin/AvatarAndLogin';
 
 const { Header } = Layout;
 const { Search } = Input;

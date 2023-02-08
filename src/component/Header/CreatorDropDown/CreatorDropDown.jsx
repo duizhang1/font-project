@@ -21,6 +21,10 @@ export default function CreatorDropDown() {
         navigate(e.key)
     };
 
+    const clickCreator = (e) => {
+        navigate('/creator')
+    }
+
     const menuProps = {
         items,
         onClick: handleMenuClick
@@ -33,6 +37,7 @@ export default function CreatorDropDown() {
             icon={<DownOutlined />}
             type='primary'
             placement='bottomRight'
+            onClick={clickCreator}
         >
             创作者中心
         </Dropdown.Button>

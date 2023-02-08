@@ -1,0 +1,32 @@
+/* 自身主题样式 */
+.creator-header-div-setting{
+    width: 100%;
+    background-color: #fff !important;
+    padding: 0px 50px !important;
+    height: 55px !important;
+    line-height: 55px !important;
+    overflow: hidden;
+}
+
+/* 创作者中心文字样式 */
+.creator-header-span-name{
+    font-size: 18px;
+    float: left;
+    color: cornflowerblue;
+    font-weight: bold;
+}
+
+/* 头像样式 */
+.creator-header-avatar-set{
+    float: right;
+    margin-left: 10px;
+}
+
+/* 消息中心样式 */
+.creator-header-ringdd-set{
+    float: right;
+    margin: 3px 20px 0 20px;
+}
+.creator-header-ringdd-set button{
+    height: 35px;
+}

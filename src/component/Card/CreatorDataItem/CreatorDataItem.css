@@ -1,0 +1,18 @@
+.creator-data-item-div{
+    background-color: #f7f8fa;
+    width: 230px;
+    padding: 15px;
+    margin: 0 20px 20px 0;
+}
+.creator-data-item-label{
+    font-size: 15px;
+    color: #4e5969;
+}
+.creator-data-item-count{
+    font-size: 25px;
+    font-weight: bold;
+}
+.creator-data-item-before-change{
+    font-size: 15px;
+    color: #4e5969;
+}

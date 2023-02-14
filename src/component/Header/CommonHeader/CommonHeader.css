@@ -5,13 +5,14 @@
     padding: 0px 50px !important;
     height: 55px !important;
     line-height: 55px !important;
-    min-width: 1200px;
+    /* min-width: 1200px; */
+    overflow: hidden;
 }
 
 /* 菜单样式 */
 .menu-set{
     float: left;
-    width: 30%;
+    /* width: 30%; */
 }
 
 /* 头像样式 */

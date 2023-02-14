@@ -1,0 +1,24 @@
+.creator-article-item-div{
+    padding: 15px 15px;
+    border-bottom: 1px solid #f1eded;
+    cursor: pointer;
+}
+.creator-article-item-div:hover{
+    background-color: #fbfbfb;
+}
+.creator-article-item-head{
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    justify-content: flex-end;
+    margin : 0 0 8px 0;
+}
+.creator-article-item-info{
+    color: #86909c;
+}
+.creator-article-item-info-slice{
+    margin: 0 10px 0 10px;
+}
+.creator-article-item-info-point{
+    margin: 0 5px 0 5px;
+}

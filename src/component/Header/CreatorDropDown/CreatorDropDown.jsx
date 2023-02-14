@@ -22,7 +22,7 @@ export default function CreatorDropDown() {
     };
 
     const clickCreator = (e) => {
-        navigate('/creator')
+        navigate('/creator/home')
     }
 
     const menuProps = {

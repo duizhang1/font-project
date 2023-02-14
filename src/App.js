@@ -14,6 +14,9 @@ const MainPage = lazy(() => import('./container/HomePage/MainPage/MainPage'))
 const ArticlePage = lazy(() => import('./container/HomePage/ArticlePage/ArticlePage'))
 const CreatorPage = lazy(() => import('./container/CreatorPage/CreatorPage'))
 const CreatorHome = lazy(() => import('./container/CreatorPage/CreatorHome/CreatorHome'))
+const CreatorArtData = lazy(() => import('./container/CreatorPage/CreatorArtData/CreatorArtData'))
+const CreatorArtSummary = lazy(() => import('./container/CreatorPage/CreatorArtSummary/CreatorArtSummary'))
+const CreatorFocusSummary = lazy(() => import('./container/CreatorPage/CreatorFocusSummary/CreatorFocusSummary'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -44,7 +47,10 @@ function App(props) {
         <Route path='/mdeditor/:id' element={<Suspense fallback={(<LazyLoading />)}><MdEditorPage /></Suspense>} />
         <Route path='/creator' element={<Suspense fallback={(<LazyLoading />)}><CreatorPage /></Suspense>} >
           <Route path='/creator/home' element={<Suspense fallback={(<LazyLoading />)}><CreatorHome /></Suspense>} />
-          <Route path='/creator/*' element={<Navigate to='/creator/home' />}/>
+          <Route path='/creator/article' element={<Suspense fallback={(<LazyLoading />)}><CreatorArtData /></Suspense>} />
+          <Route path='/creator/artdata' element={<Suspense fallback={(<LazyLoading />)}><CreatorArtSummary /></Suspense>} />
+          <Route path='/creator/focusdata' element={<Suspense fallback={(<LazyLoading />)}><CreatorFocusSummary /></Suspense>} />
+          <Route path='/creator/*' element={<Navigate to='/creator/home' />} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

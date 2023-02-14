@@ -1,12 +1,13 @@
+import CreatorFocusCharts from '@src/component/Charts/CreatorFocusCharts/CreatorFocusCharts'
 import React from 'react'
-import { Card } from 'antd';
+import { Card, Tabs } from 'antd';
 import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem';
 
-export default function CreatorHome() {
+export default function CreatorFocusSummary() {
     return (
         <div>
             <Card
-                title={<span style={{}}>数据概览</span>}
+                title={<span style={{}}>关注数据</span>}
                 bordered={false}
                 style={{
                     width: '100%',
@@ -22,6 +23,16 @@ export default function CreatorHome() {
                     <CreatorDataItem />
                     <CreatorDataItem />
                     <CreatorDataItem />
+                </div>
+                <div style={{
+                    fontSize: '17px',
+                    margin: '10px 0 15px 0'
+                }}
+                >
+                    数据趋势分析
+                </div>
+                <div>
+                    <CreatorFocusCharts />
                 </div>
             </Card>
         </div>

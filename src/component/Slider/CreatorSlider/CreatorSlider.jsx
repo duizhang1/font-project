@@ -35,6 +35,7 @@ export default function CreatorSlider() {
     }
 
     function clickMenuItem(item) {
+        console.log(item.key)
         navigate(`/creator/${item.key}`)
     }
 

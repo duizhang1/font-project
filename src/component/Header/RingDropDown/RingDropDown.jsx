@@ -8,7 +8,7 @@ export default function RingDropDown() {
     const navigate = useNavigate()
     const items = [
         {
-            key: '/notification',
+            key: '/notification/like',
             label: (
                 <div style={{ width: '100px' }}>
                     <Badge count={9} offset={[58, 12]}>
@@ -58,6 +58,11 @@ export default function RingDropDown() {
             ),
         },
     ];
+
+    function clickRingIcon(e) {
+        navigate('/notification/like')
+    }
+
     function clickDropDown(params) {
         navigate(params.key)
     }
@@ -73,7 +78,7 @@ export default function RingDropDown() {
             arrow
         >
             <Badge count={999} offset={[6,-6]}>
-                <BellOutlined style={{ fontSize: '20px', cursor: 'pointer' }} />
+                <BellOutlined style={{ fontSize: '20px', cursor: 'pointer' }} onClick={clickRingIcon} />
             </Badge>
         </Dropdown>
     )

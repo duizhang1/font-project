@@ -1,0 +1,29 @@
+.notification-comment-item-div{
+    background-color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    margin: 10px 0 0 50px;
+    width: 700px;
+}
+.notification-comment-item-content{
+    margin: 0 0 0 15px;
+}
+.notification-comment-item-content-title{
+    font-size: 16px;
+}
+.notification-comment-item-content-comment{
+    background-color: #fafbfc;
+    border: 1px solid #f1f1f2;
+    margin: 5px 0 0 0;
+    padding: 8px;
+    width: 585px;
+    word-break:break-all;
+    word-wrap: break-word;
+}
+.notification-comment-item-content-comment-bottom{
+    width: 585px;
+}
+.notification-comment-item-content-comment-tool{
+    display: flex;
+    float: right;
+}

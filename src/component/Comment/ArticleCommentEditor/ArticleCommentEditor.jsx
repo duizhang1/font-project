@@ -17,6 +17,7 @@ function ArticleCommentEditor(props) {
         loginShowAction,
         parentCommentId,
         replyCommentId = null,
+        // 触发更新评论的函数，不需要可以置为空
         setUpdateArticleComment,
         setEditorShow
     } = props

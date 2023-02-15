@@ -17,6 +17,11 @@ const CreatorHome = lazy(() => import('./container/CreatorPage/CreatorHome/Creat
 const CreatorArtData = lazy(() => import('./container/CreatorPage/CreatorArtData/CreatorArtData'))
 const CreatorArtSummary = lazy(() => import('./container/CreatorPage/CreatorArtSummary/CreatorArtSummary'))
 const CreatorFocusSummary = lazy(() => import('./container/CreatorPage/CreatorFocusSummary/CreatorFocusSummary'))
+const NotificationPage = lazy(() => import('./container/NotificationPage/NotificationPage'))
+const NotificationLike = lazy(() => import('./container/NotificationPage/NotificationLike/NotificationLike'))
+const NotificationComment = lazy(() => import('./container/NotificationPage/NotificationComment/NotificationComment'))
+const NotificationFocus = lazy(() => import('./container/NotificationPage/NotificationFocus/NotificationFocus'))
+const NotificationIm = lazy(() => import('./container/NotificationPage/NotificationIm/NotificationIm'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -51,6 +56,13 @@ function App(props) {
           <Route path='/creator/artdata' element={<Suspense fallback={(<LazyLoading />)}><CreatorArtSummary /></Suspense>} />
           <Route path='/creator/focusdata' element={<Suspense fallback={(<LazyLoading />)}><CreatorFocusSummary /></Suspense>} />
           <Route path='/creator/*' element={<Navigate to='/creator/home' />} />
+        </Route>
+        <Route path='/notification' element={<Suspense fallback={(<LazyLoading />)}><NotificationPage /></Suspense>}>
+          <Route path='/notification/like' element={<Suspense fallback={(<LazyLoading />)}><NotificationLike /></Suspense>} />
+          <Route path='/notification/comment' element={<Suspense fallback={(<LazyLoading />)}><NotificationComment /></Suspense>} />
+          <Route path='/notification/focus' element={<Suspense fallback={(<LazyLoading />)}><NotificationFocus /></Suspense>} />
+          <Route path='/notification/im' element={<Suspense fallback={(<LazyLoading />)}><NotificationIm /></Suspense>} />
+          <Route path='/notification/*' element={<Navigate to='/notification/like' />} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

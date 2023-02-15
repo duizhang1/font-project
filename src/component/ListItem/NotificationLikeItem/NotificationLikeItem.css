@@ -1,0 +1,13 @@
+.notification-like-item-div{
+     background-color: #fff;
+     padding: 15px 20px;
+     display: flex;
+     margin: 10px 0 0 50px;
+     width: 700px;
+}
+.notification-like-item-content{
+    margin: -4px 0 0 10px;
+}
+.notification-like-item-content-title{
+    font-size: 16px;
+}

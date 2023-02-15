@@ -134,7 +134,13 @@ export default function NotificationCommentItem() {
                     {data.comment}
                 </div>
                 <div className='notification-comment-item-content-comment-bottom'>
-                    <span>{data.createTime}</span>
+                    <span
+                        style={{
+                        color: '#8a9aa9'
+                        }}
+                    >
+                        {data.createTime}
+                    </span>
                     <div className='notification-comment-item-content-comment-tool'>
                         {isLikeOrNot()}
                         <div
@@ -156,7 +162,7 @@ export default function NotificationCommentItem() {
                     <ArticleCommentEditor
                         parentCommentId={data.parentCommentId ? data.parentCommentId : data.uuid}
                         replyCommentId={data.parentCommentId ? data.uuid : null}
-                        setUpdateArticleComment={(e) => {}}
+                        setUpdateArticleComment={(e) => { }}
                         setEditorShow={setEditorShow}
                     />
                 </div>

@@ -21,7 +21,7 @@ export default function EmojiList(props) {
     return (
         <div className='emoji-list-content'>
             {emojiList.map((item) => {
-                return <span className='emoji-list-item' onClick={clickEmoji(item)}>{item}</span>
+                return <span key={item} className='emoji-list-item' onClick={clickEmoji(item)}>{item}</span>
             })}
         </div>
     )

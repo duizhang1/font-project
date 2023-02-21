@@ -9,16 +9,10 @@ const clickItem = (e) => {
     }
 }
 
-export default function NotificationImRecordItem() {
-
+export default function NotificationImRecordItem(props) {
+    const {data} = props
     const avatarSize = 'large'
-    const data = {
-        own: true,
-        userId: 's',
-        avatarHref: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
-        content: '你好啊sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
-        createTime: '2023-02-06 19:27',
-    }
+
 
     return (
         <div>
@@ -37,7 +31,7 @@ export default function NotificationImRecordItem() {
                             // marginLeft: 'auto',
                             marginTop: '15px'
                         }}>
-                            {data.createTime}
+                            {data.imRecord.createTime}
                         </div>
                         <div style={{
                             backgroundColor: 'rgba(30, 128, 255, 0.24)',
@@ -49,16 +43,16 @@ export default function NotificationImRecordItem() {
                             maxWidth: '300px',
                             wordBreak: 'break-all',
                         }}>
-                            {data.content}
+                            {data.imRecord.content}
                         </div>
                         <Avatar
-                            src={data.avatarHref}
+                            src={data.avatar}
                             size={avatarSize}
                             style={{
                                 cursor: 'pointer',
                                 minWidth: '40px',
                             }}
-                            onClick={clickItem(data.userId)}
+                            onClick={clickItem(data.imRecord.userId)}
                         />
                     </div>
                 ) :
@@ -68,13 +62,13 @@ export default function NotificationImRecordItem() {
                         margin: '10px 10px'
                     }}>
                         <Avatar
-                            src={data.avatarHref}
+                            src={data.avatar}
                             size={avatarSize}
                             style={{
                                 cursor: 'pointer',
                                 minWidth: '40px',
                             }}
-                            onClick={clickItem(data.userId)}
+                            onClick={clickItem(data.imRecord.userId)}
                         />
                         <div style={{
                             backgroundColor: '#e4e6eb',
@@ -86,7 +80,7 @@ export default function NotificationImRecordItem() {
                             maxWidth: '300px',
                             wordBreak: 'break-all'
                         }}>
-                            {data.content}
+                            {data.imRecord.content}
                         </div>
                         <div style={{
                             color: '#8a919f',
@@ -97,7 +91,7 @@ export default function NotificationImRecordItem() {
                             marginLeft: 'auto',
                             marginTop: '15px'
                         }}>
-                            {data.createTime}
+                            {data.imRecord.createTime}
                         </div>
                     </div>
                 )

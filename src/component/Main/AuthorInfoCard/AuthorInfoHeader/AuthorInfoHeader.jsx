@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Avatar, Button, message } from 'antd'
 import './AuthorInfoHeader.css'
 import { axiosReq } from '@src/util/request/axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function AuthorInfoHeader(props) {
 
@@ -9,6 +10,7 @@ export default function AuthorInfoHeader(props) {
     const [isSubscribed, setIsSubscribed] = useState(false)
 
     const { authorInfo } = props
+    const navigate = useNavigate()
 
     function unsubcribe() {
         setSubscribeLoading(true)
@@ -59,6 +61,10 @@ export default function AuthorInfoHeader(props) {
         }
     }
 
+    function clickChat() {
+        navigate(`/notification/im?addChat=${authorInfo.uuid}`)
+    }
+
     useEffect(() => {
         axiosReq.get('/user/getNowUserSubscribe', { userId: authorInfo.uuid }).then(
             (value) => {
@@ -75,7 +81,7 @@ export default function AuthorInfoHeader(props) {
     return (
         <div style={{ minWidth: '200px' }}>
             <div className='author-header'>
-                <Avatar style={{}} alt='头像' size='large' src={authorInfo.avatar} />
+                <Avatar alt='头像' size='large' src={authorInfo.avatar} />
                 <span className='author-info'>
                     <a href={`/user/${authorInfo.uuid}`}>{authorInfo.username}</a>
                     <span style={{ display: authorInfo.companyName === '' ? 'none' : 'inline' }}>{authorInfo.companyName}</span>
@@ -83,7 +89,13 @@ export default function AuthorInfoHeader(props) {
             </div>
             <div className='author-button-group'>
                 {isSubscribe()}
-                <Button size='middle' style={{ width: '45%', marginLeft: '15px' }}>私信</Button>
+                <Button
+                    size='middle'
+                    style={{ width: '45%', marginLeft: '15px' }}
+                    onClick={clickChat}
+                >
+                    私信
+                </Button>
             </div>
         </div>
     )

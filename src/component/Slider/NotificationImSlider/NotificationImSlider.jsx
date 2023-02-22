@@ -14,29 +14,19 @@ export default function NotificationImSlider(props) {
         axiosReq.get('/imRecord/getChatList').then(
             (value) => {
                 let newData;
-                let chooseData;
                 if (query.addChat) {
-                    let data1 = value.data.map((item) => {
-                        if (item.toUserId === query.addChat) {
-                            chooseData = item
-                        } else {
-                            return item
-                        }
+                    let data1 = value.data.filter((item) => {
+                        return item.toUserId !== query.addChat
                     });
-                    if (chooseData) {
-                        newData = [chooseData, ...data1];
-                        setSliderData(newData)
-                    } else {
-                        axiosReq.get('/imRecord/getOneChat', { toUserId: query.addChat }).then(
-                            (value) => {
-                                newData = [value.data, ...data1]
-                                setSliderData(newData)
-                            },
-                            (reason) => {
-                                setSliderData(data1)
-                            }
-                        )
-                    }
+                    axiosReq.get('/imRecord/getOneChat', { toUserId: query.addChat }).then(
+                        (value) => {
+                            newData = [value.data, ...data1]
+                            setSliderData(newData)
+                        },
+                        (reason) => {
+                            setSliderData(data1)
+                        }
+                    )
                 } else {
                     newData = value.data
                     setSliderData(newData)
@@ -46,7 +36,7 @@ export default function NotificationImSlider(props) {
                 message.error(reason.message)
             }
         )
-    },[])
+    }, [])
 
     return (
         <div className='notification-im-slider-div own-scroll-div-css'>

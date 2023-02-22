@@ -53,7 +53,9 @@ function NotificationIm(props) {
                 // 更改左边栏的数据
                 setSliderData((prev) => {
                     let newlist = prev.map((item) => {
-                        if (item.imRecord.userId === selectItemRef.current.userId || item.imRecord.toUserId === selectItemRef.current.userId) {
+                        if (item.toUserId === selectItemRef.current.userId ||
+                            item.imRecord.userId === selectItemRef.current.userId ||
+                            item.imRecord.toUserId === selectItemRef.current.userId) {
                             item.imRecord.createTime = data.imRecord.createTime;
                             item.imRecord.content = data.imRecord.content
                         }
@@ -64,6 +66,26 @@ function NotificationIm(props) {
                 // 更改聊天室内容
                 setRecordData((prev) => {
                     return [...prev, data]
+                })
+            } else {
+                // 更改左边栏的数据
+                setSliderData((prev) => {
+                    let flag = false;
+                    let newlist = prev.map((item) => {
+                        if (data.imRecord.toUserId === item.toUserId ||
+                            (data.imRecord.userId === item.imRecord.userId &&
+                                data.imRecord.toUserId === item.imRecord.toUserId)) {
+                            item.imRecord.createTime = data.imRecord.createTime;
+                            item.imRecord.content = data.imRecord.content
+                            item.count += 1
+                            flag = true;
+                        }
+                        return item;
+                    })
+                    if (!flag) {
+                        newlist = [data,...prev]
+                    }
+                    return newlist
                 })
             }
         }

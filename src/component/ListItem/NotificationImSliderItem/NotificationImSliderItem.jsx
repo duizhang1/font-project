@@ -1,13 +1,14 @@
-import { Avatar } from 'antd'
+import { Avatar, Badge } from 'antd'
 import React from 'react'
 import './NotificationImSliderItem.css'
 
 export default function NotificationImSliderItem(props) {
-    let { setSelectItem, selectItem,data } = props
+    let { setSelectItem, selectItem, data } = props
     const avatarSize = 'large'
 
     function clickDiv() {
-        setSelectItem({userName: data.username,userId: data.toUserId})
+        setSelectItem({ userName: data.username, userId: data.toUserId })
+        data.count = 0
     }
 
     return (
@@ -25,13 +26,17 @@ export default function NotificationImSliderItem(props) {
             />
             <div className='notification-im-slider-item-content'>
                 <div style={{
-                    margin: '-5px 0 0 0'
+                    margin: '-5px 0 0 0',
+                    display: 'flex'
                 }}>
                     <div className='notification-im-slider-item-name'>{data.username}</div>
                     <div className='notification-im-silder-item-time'>{data.imRecord ? data.imRecord.createTime : ' '}</div>
                 </div>
-                <div className='notification-im-silder-item-cnt'>
-                    {data.imRecord ? data.imRecord.content : ''}
+                <div style={{display: 'flex'}}>
+                    <div className='notification-im-silder-item-cnt'>
+                        {data.imRecord ? data.imRecord.content : ''}
+                    </div>
+                    <Badge count={data.count} style={{ margin: '0 0 0 auto' }} />
                 </div>
             </div>
         </div>

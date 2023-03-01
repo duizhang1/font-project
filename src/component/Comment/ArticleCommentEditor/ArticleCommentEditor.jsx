@@ -19,11 +19,15 @@ function ArticleCommentEditor(props) {
         replyCommentId = null,
         // 触发更新评论的函数，不需要可以置为空
         setUpdateArticleComment,
-        setEditorShow
+        setEditorShow,
+        articleId
     } = props
     const [inpData, setInputData] = useState('');
     const textAreaRef = useRef(null)
-    const { id } = useParams();
+    let { id } = useParams();
+    if (articleId && articleId !== '') {
+        id = articleId;
+    }
 
     const spinIndicator = (
         <div className='article-comment-editor-spin' onClick={(e) => { loginShowAction() }}>

@@ -16,31 +16,31 @@ export default function NotificationLikeItem(props) {
     return (
         <div className='notification-like-item-div'>
             <Avatar
-                src={data.user.avatar}
+                src={data.avatar}
                 size={avatarSize}
                 style={{ cursor: 'pointer', minWidth: '40px' }}
-                onClick={clickItem(data.user.uuid)}
+                onClick={clickItem(data.userId)}
             />
             <div className='notification-like-item-content'>
                 <div className='notification-like-item-content-title'>
                     <a
-                        href={`/user/${data.user.uuid}`}
+                        href={`/user/${data.userId}`}
                         style={{
                             textDecoration: 'none',
                             color: 'black',
                             margin: '0 5px 0 0'
                         }}
                     >
-                        {data.user.username}
+                        {data.username}
                     </a>
                     点赞了你的文章
                     <a
-                        href={`/home/post/${data.article.uuid}`}
+                        href={`/home/post/${data.articleId}`}
                         style={{
                             margin: '0 5px 0 5px'
                         }}
                     >
-                        {data.article.title}
+                        {data.title}
                     </a>
                 </div>
                 <div style={{

@@ -48,6 +48,7 @@ export default function NotificationLike() {
                     backgroundColor: '#fff',
                     width: '700px',
                     margin: '10px 0 0 50px',
+                  display: total === 0 ?  'none' : 'block'
                 }}
             >
                 <Pagination current={current} total={total} pageSize={pageSize} onChange={pageChange} />

@@ -9,6 +9,7 @@ import user from './User'
 import sort from './Sort'
 import label from './Label'
 import articleListHeader from './ArticleListHeader'
+import notificationUnread from './NotificationUnreadCount'
 
 export default combineReducers({
     login,
@@ -16,5 +17,6 @@ export default combineReducers({
     user,
     sort,
     label,
-    articleListHeader
+    articleListHeader,
+    notificationUnread
 })

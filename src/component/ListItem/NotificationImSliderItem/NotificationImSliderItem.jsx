@@ -1,13 +1,16 @@
 import { Avatar, Badge } from 'antd'
 import React from 'react'
 import './NotificationImSliderItem.css'
+import {connect} from "react-redux";
+import {decrNotificationUnreadImAction} from "@src/redux/action/NotificationUnreadCount";
 
-export default function NotificationImSliderItem(props) {
-    let { setSelectItem, selectItem, data } = props
+function NotificationImSliderItem(props) {
+    let { setSelectItem, selectItem, data, decrNotificationUnreadImAction } = props
     const avatarSize = 'large'
 
     function clickDiv() {
         setSelectItem({ userName: data.username, userId: data.toUserId })
+        decrNotificationUnreadImAction(data.count)
         data.count = 0
     }
 
@@ -42,3 +45,9 @@ export default function NotificationImSliderItem(props) {
         </div>
     )
 }
+export default connect(
+  state =>({
+
+  }),
+  {decrNotificationUnreadImAction}
+)(NotificationImSliderItem)

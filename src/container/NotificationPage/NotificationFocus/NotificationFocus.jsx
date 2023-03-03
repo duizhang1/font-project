@@ -2,9 +2,11 @@ import NotificationFocusItem from '@src/component/ListItem/NotificationFocusItem
 import React, {useEffect,useState} from 'react'
 import {Empty, message, Pagination} from 'antd'
 import {axiosReq} from "@src/util/request/axios";
+import {connect} from "react-redux";
+import {clearNotificationUnreadFocusAction} from "@src/redux/action/NotificationUnreadCount";
 
-export default function NotificationFocus() {
-
+function NotificationFocus(props) {
+  const {clearNotificationUnreadFocusAction} = props
   const [current, setCurrent] = useState(1)
   const [total, setTotal] = useState(0)
   const pageSize = 20
@@ -13,6 +15,10 @@ export default function NotificationFocus() {
   const pageChange = (page, pageSize) => {
     setCurrent(page)
   }
+
+  useEffect(()=>{
+    clearNotificationUnreadFocusAction()
+  },[])
 
   useEffect(() => {
     axiosReq.get("/userSubscribe/getUserSubscribeNotification",{ size: pageSize, current: current }).then(
@@ -53,3 +59,9 @@ export default function NotificationFocus() {
     </div>
   )
 }
+export default connect(
+  state => ({
+
+  }),
+  {clearNotificationUnreadFocusAction}
+)(NotificationFocus)

@@ -4,9 +4,11 @@ import { message, Pagination, Empty } from 'antd'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { axiosReq } from '@src/util/request/axios'
+import {connect} from "react-redux";
+import {clearNotificationUnreadLikeAction} from "@src/redux/action/NotificationUnreadCount";
 
-export default function NotificationLike() {
-
+function NotificationLike(props) {
+    const {clearNotificationUnreadLikeAction} = props
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
     const pageSize = 20
@@ -15,6 +17,10 @@ export default function NotificationLike() {
     const pageChange = (page, pageSize) => {
         setCurrent(page)
     }
+
+    useEffect(()=>{
+      clearNotificationUnreadLikeAction()
+    },[])
 
     useEffect(() => {
         axiosReq.get('/articleLike/getArticleLikeNotifications',
@@ -56,3 +62,9 @@ export default function NotificationLike() {
         </div>
     )
 }
+export default connect(
+  state =>({
+
+  }),
+  {clearNotificationUnreadLikeAction}
+)(NotificationLike)

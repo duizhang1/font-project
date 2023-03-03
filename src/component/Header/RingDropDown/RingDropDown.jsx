@@ -1,17 +1,24 @@
-import React from 'react'
-import { Dropdown, Badge } from 'antd';
+import React,{useEffect} from 'react'
+import {Dropdown, Badge, message} from 'antd';
 import { BellOutlined } from '@ant-design/icons'
 import './RingDropDown.css'
 import { useNavigate } from "react-router-dom";
+import {axiosReq} from "@src/util/request/axios";
+import {connect} from "react-redux";
+import {setNotificationUnreadAction} from "@src/redux/action/NotificationUnreadCount";
 
-export default function RingDropDown() {
+function RingDropDown(props) {
+    const {notificationUnreadRedux,setNotificationUnreadAction} = props
+    let allCount = notificationUnreadRedux.likeCount+notificationUnreadRedux.commentCount
+      +notificationUnreadRedux.focusCount+notificationUnreadRedux.imCount;
+
     const navigate = useNavigate()
     const items = [
         {
             key: '/notification/like',
             label: (
                 <div style={{ width: '100px' }}>
-                    <Badge count={9} offset={[58, 12]}>
+                    <Badge count={notificationUnreadRedux.likeCount} offset={[58, 12]}>
                         <span className='ring-dropdown-span'>点赞</span>
                     </Badge>
                 </div>
@@ -21,7 +28,7 @@ export default function RingDropDown() {
             key: '/notification/comment',
             label: (
                 <div style={{ width: '100px' }}>
-                    <Badge count={9} offset={[58, 12]}>
+                    <Badge count={notificationUnreadRedux.commentCount} offset={[58, 12]}>
                         <span className='ring-dropdown-span'>评论</span>
                     </Badge>
                 </div>
@@ -31,7 +38,7 @@ export default function RingDropDown() {
             key: '/notification/follow',
             label: (
                 <div style={{ width: '100px' }}>
-                    <Badge count={9} offset={[58, 12]}>
+                    <Badge count={notificationUnreadRedux.focusCount} offset={[58, 12]}>
                         <span className='ring-dropdown-span'>关注</span>
                     </Badge>
                 </div>
@@ -41,7 +48,7 @@ export default function RingDropDown() {
             key: '/notification/im',
             label: (
                 <div style={{ width: '100px' }}>
-                    <Badge count={9} offset={[58, 12]}>
+                    <Badge count={notificationUnreadRedux.imCount} offset={[58, 12]}>
                         <span className='ring-dropdown-span'>私信</span>
                     </Badge>
                 </div>
@@ -58,6 +65,19 @@ export default function RingDropDown() {
             ),
         },
     ];
+
+
+    // 获得未读消息
+    useEffect(()=>{
+        axiosReq.get("/notificationUnread/getNotificationUnreadCount",{}).then(
+          (value) =>{
+              setNotificationUnreadAction(value.data)
+          },
+          (reason) =>{
+              message.error(reason.message)
+          }
+        )
+    },[]);
 
     function clickRingIcon(e) {
         navigate('/notification/like')
@@ -77,9 +97,15 @@ export default function RingDropDown() {
             placement="bottom"
             arrow
         >
-            <Badge count={999} offset={[6,-6]}>
+            <Badge count={allCount} offset={[6,-6]}>
                 <BellOutlined style={{ fontSize: '20px', cursor: 'pointer' }} onClick={clickRingIcon} />
             </Badge>
         </Dropdown>
     )
 }
+export default connect(
+  state =>({
+    notificationUnreadRedux: state.notificationUnread
+  }),
+  {setNotificationUnreadAction}
+)(RingDropDown)

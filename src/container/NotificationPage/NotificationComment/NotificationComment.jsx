@@ -2,9 +2,11 @@ import NotificationCommentItem from '@src/component/ListItem/NotificationComment
 import React, { useState, useEffect } from 'react'
 import { message, Pagination, Empty } from 'antd'
 import { axiosReq } from '@src/util/request/axios'
+import {clearNotificationUnreadCommentAction} from "@src/redux/action/NotificationUnreadCount";
+import {connect} from "react-redux";
 
-export default function NotificationComment() {
-
+function NotificationComment(props) {
+    const {clearNotificationUnreadCommentAction} = props
     const [current, setCurrent] = useState(1)
     const [total, setTotal] = useState(0)
     const pageSize = 20
@@ -13,6 +15,10 @@ export default function NotificationComment() {
     const pageChange = (page, pageSize) => {
         setCurrent(page)
     }
+
+    useEffect(()=>{
+      clearNotificationUnreadCommentAction();
+    },[])
 
     useEffect(() => {
         axiosReq.get('/articleComment/getCommentNotification',
@@ -54,3 +60,9 @@ export default function NotificationComment() {
         </div>
     )
 }
+export default connect(
+  state => ({
+
+  }),
+  {clearNotificationUnreadCommentAction}
+)(NotificationComment)

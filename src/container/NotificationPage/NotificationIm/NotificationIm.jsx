@@ -10,11 +10,12 @@ import { axiosReq } from '@src/util/request/axios';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { timestampToTime } from '@src/util/TimeUtil';
+import {incrNotificationUnreadImAction} from "@src/redux/action/NotificationUnreadCount";
 
 const { TextArea } = Input
 
 function NotificationIm(props) {
-    const { userRedux } = props
+    const { userRedux,incrNotificationUnreadImAction } = props
     const ws = useRef();
     const [readyState, setReadyState] = useState('正在链接中');
     const [selectItem, setSelectItem] = useState({ userName: '', userId: '' })
@@ -78,6 +79,7 @@ function NotificationIm(props) {
                             item.imRecord.createTime = data.imRecord.createTime;
                             item.imRecord.content = data.imRecord.content
                             item.count += 1
+                            incrNotificationUnreadImAction(1)
                             flag = true;
                         }
                         return item;
@@ -216,5 +218,5 @@ export default connect(
     state => ({
         userRedux: state.user
     }),
-    {}
+    {incrNotificationUnreadImAction}
 )(NotificationIm)

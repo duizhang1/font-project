@@ -22,6 +22,7 @@ const NotificationLike = lazy(() => import('./container/NotificationPage/Notific
 const NotificationComment = lazy(() => import('./container/NotificationPage/NotificationComment/NotificationComment'))
 const NotificationFocus = lazy(() => import('./container/NotificationPage/NotificationFocus/NotificationFocus'))
 const NotificationIm = lazy(() => import('./container/NotificationPage/NotificationIm/NotificationIm'))
+const UserPage = lazy(() => import('./container/UserPage/UserPage'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -63,6 +64,9 @@ function App(props) {
           <Route path='/notification/focus' element={<Suspense fallback={(<LazyLoading />)}><NotificationFocus /></Suspense>} />
           <Route path='/notification/im' element={<Suspense fallback={(<LazyLoading />)}><NotificationIm /></Suspense>} />
           <Route path='/notification/*' element={<Navigate to='/notification/like' />} />
+        </Route>
+        <Route path='/user/:userId' element={<Suspense fallback={(<LazyLoading />)}><UserPage /></Suspense>}>
+
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

@@ -3,80 +3,15 @@ import { Avatar, Button, message } from 'antd'
 import './AuthorInfoHeader.css'
 import { axiosReq } from '@src/util/request/axios'
 import { useNavigate } from 'react-router-dom'
+import SubscribeButton from "@src/component/Button/SubscribeButton/SubscribeButton";
 
 export default function AuthorInfoHeader(props) {
-
-    const [subscribeLoading, setSubscribeLoading] = useState(false)
-    const [isSubscribed, setIsSubscribed] = useState(false)
-
     const { authorInfo } = props
     const navigate = useNavigate()
-
-    function unsubcribe() {
-        setSubscribeLoading(true)
-        axiosReq.get('/user/unSubscribeUser', { userId: authorInfo.uuid }).then(
-            (value) => {
-                setSubscribeLoading(false)
-                setIsSubscribed(false)
-            },
-            (reason) => {
-                setSubscribeLoading(false)
-            }
-        )
-    }
-
-    function subcribe() {
-        setSubscribeLoading(true)
-        axiosReq.get('/user/subscribeUser', { userId: authorInfo.uuid }).then(
-            (value) => {
-                setSubscribeLoading(false)
-                setIsSubscribed(true)
-            },
-            (reason) => {
-                setSubscribeLoading(false)
-            }
-        )
-    }
-
-    function isSubscribe() {
-        if (subscribeLoading) {
-            return (
-                <Button loading type="primary" size='middle' style={{ width: '45%' }}>
-                    loading
-                </Button>
-            )
-        }
-        if (isSubscribed) {
-            return (
-                <Button type="default" size='middle' style={{ width: '45%' }} onClick={unsubcribe}>
-                    已关注
-                </Button>
-            )
-        } else {
-            return (
-                <Button type="primary" size='middle' style={{ width: '45%' }} onClick={subcribe}>
-                    关注
-                </Button>
-            )
-        }
-    }
 
     function clickChat() {
         navigate(`/notification/im?addChat=${authorInfo.uuid}`)
     }
-
-    useEffect(() => {
-        axiosReq.get('/user/getNowUserSubscribe', { userId: authorInfo.uuid }).then(
-            (value) => {
-                if (value.data) {
-                    setIsSubscribed(value.data.isDel === 1)
-                }
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
-    })
 
     return (
         <div style={{ minWidth: '200px' }}>
@@ -88,7 +23,7 @@ export default function AuthorInfoHeader(props) {
                 </span>
             </div>
             <div className='author-button-group'>
-                {isSubscribe()}
+                <SubscribeButton userId={authorInfo.uuid} />
                 <Button
                     size='middle'
                     style={{ width: '45%', marginLeft: '15px' }}

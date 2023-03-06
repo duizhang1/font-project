@@ -1,14 +1,28 @@
-import React, { useState } from 'react'
-import { Button } from 'antd'
+import React, {useEffect, useState} from 'react'
+import {Button, message} from 'antd'
 import { axiosReq } from '@src/util/request/axios'
 
-export default function SubscribeButton() {
+export default function SubscribeButton(props) {
+    const {userId} = props
     const [subscribeLoading, setSubscribeLoading] = useState(false)
     const [isSubscribed, setIsSubscribed] = useState(false)
 
-    function unsubcribe() {
+    useEffect(()=>{
+        axiosReq.get('/user/getNowUserSubscribe', { userId: userId }).then(
+          (value) => {
+              if (value.data) {
+                  setIsSubscribed(value.data.isDel === 1)
+              }
+          },
+          (reason) => {
+              message.error(reason.message)
+          }
+        )
+    })
+
+    function unsubscribe() {
         setSubscribeLoading(true)
-        axiosReq.get('/user/unSubscribeUser', { userId: authorInfo.uuid }).then(
+        axiosReq.get('/user/unSubscribeUser', { userId: userId }).then(
             (value) => {
                 setSubscribeLoading(false)
                 setIsSubscribed(false)
@@ -19,9 +33,9 @@ export default function SubscribeButton() {
         )
     }
 
-    function subcribe() {
+    function subscribe() {
         setSubscribeLoading(true)
-        axiosReq.get('/user/subscribeUser', { userId: authorInfo.uuid }).then(
+        axiosReq.get('/user/subscribeUser', { userId: userId }).then(
             (value) => {
                 setSubscribeLoading(false)
                 setIsSubscribed(true)
@@ -35,20 +49,20 @@ export default function SubscribeButton() {
     function isSubscribe() {
         if (subscribeLoading) {
             return (
-                <Button loading type="primary" size='middle' style={{ width: '45%' }}>
+                <Button loading type="primary" size='middle' style={{ width: '90px' }}>
                     loading
                 </Button>
             )
         }
         if (isSubscribed) {
             return (
-                <Button type="default" size='middle' style={{ width: '45%' }} onClick={unsubcribe}>
+                <Button type="default" size='middle' style={{ width: '90px' }} onClick={unsubscribe}>
                     已关注
                 </Button>
             )
         } else {
             return (
-                <Button type="primary" size='middle' style={{ width: '45%' }} onClick={subcribe}>
+                <Button type="primary" size='middle' style={{ width: '90px  ' }} onClick={subscribe}>
                     关注
                 </Button>
             )
@@ -56,6 +70,6 @@ export default function SubscribeButton() {
     }
 
     return (
-        <div>SubscribeButton</div>
+      isSubscribe()
     )
 }

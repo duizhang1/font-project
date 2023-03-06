@@ -7,6 +7,7 @@ import {
 import './UserLeftBox.css'
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import SubscribeButton from "@src/component/Button/SubscribeButton/SubscribeButton";
 
 function UserLeftBox(props) {
     const { userRedux } = props
@@ -59,14 +60,12 @@ function UserLeftBox(props) {
                                 </div> : ''}
                         </div>
                         <div>
-                            {userRedux.uuid == userId ? 
+                            {userRedux.uuid === userId ?
                                 <Button type="primary" ghost>
                                 Primary
-                                </Button> : 
+                                </Button> :
                                 <div>
-                                    <Button type="primary" ghost>
-                                Primary
-                                    </Button>
+                                    <SubscribeButton userId={userId}/>
                                     <Button type="primary" ghost>
                                 Primary
                                 </Button>

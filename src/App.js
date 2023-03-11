@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { setUserInfoAction, clearUserInfoAction } from './redux/action/User'
 import LazyLoading from '@src/component/Loading/LazyLoading/LazyLoading'
 
+
 const { axiosReq } = require('@src/util/request/axios')
 const MdEditorPage = lazy(() => import('./container/MdEditorPage/MdEditorPage'))
 const MainPage = lazy(() => import('./container/HomePage/MainPage/MainPage'))
@@ -23,6 +24,8 @@ const NotificationComment = lazy(() => import('./container/NotificationPage/Noti
 const NotificationFocus = lazy(() => import('./container/NotificationPage/NotificationFocus/NotificationFocus'))
 const NotificationIm = lazy(() => import('./container/NotificationPage/NotificationIm/NotificationIm'))
 const UserPage = lazy(() => import('./container/UserPage/UserPage'))
+const UserTabsMsgCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsMsgCard/UserTabsMsgCard'))
+const UserTabsRedirect = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsRedirect/UserTabsRedirect'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -66,7 +69,8 @@ function App(props) {
           <Route path='/notification/*' element={<Navigate to='/notification/like' />} />
         </Route>
         <Route path='/user/:userId' element={<Suspense fallback={(<LazyLoading />)}><UserPage /></Suspense>}>
-
+          <Route path='/user/:userId/msg' element={<Suspense fallback={(<LazyLoading />)}><UserTabsMsgCard /></Suspense>} />
+          <Route path='/user/:userId/*' element={<Suspense fallback={(<LazyLoading />)}><UserTabsRedirect /></Suspense>} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

@@ -1,0 +1,27 @@
+.user-info-card-div{
+  width: 700px;
+}
+.user-info-card-div-info-div{
+  background-color: #fff;
+  width: 100%;
+  padding: 30px;
+  display: flex;
+}
+.user-info-card-div-info-div-name{
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #000;
+}
+.user-info-card-div-info-div-content{
+  color: #555;
+}
+.user-info-card-div-info-div-content-icon{
+  font-size: 16px;
+}
+.user-info-card-div-info-div-content-word{
+  margin-left: 15px;
+  line-height: 1.5;
+  color: #72777b;
+  font-size: 17px;
+}

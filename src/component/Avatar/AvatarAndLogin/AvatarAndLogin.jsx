@@ -12,7 +12,7 @@ function AvatarAndLogin(props) {
     const { userRedux, loginShowAction } = props
     const items = [
         {
-            key: `/user/${userRedux.uuid}`,
+            key: `/user/${userRedux.uuid}/msg`,
             label: (<span className='dropdown-item-span'>个人主页</span>),
             icon: <UserOutlined style={{ fontSize: '15px' }} />
         },

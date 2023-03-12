@@ -17,7 +17,7 @@ const tabItem = [
   },
   {
     label: `关注`,
-    key: 'store',
+    key: 'focus',
   },
 ]
 

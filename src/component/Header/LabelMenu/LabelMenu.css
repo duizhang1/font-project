@@ -1,11 +1,11 @@
 .labelheader-set{
     width: 100%;
     background-color: #fff !important;
-    border-top: 1px solid #e6e5e5;
-    border-bottom: 1px solid #e6e5e5;
+    border-top: 2px solid #e6e5e5;
+    /* border-bottom: 1px solid #e6e5e5; */
     /* box-shadow:0px 1px 2px #909090; */
     padding: 0px 50px !important;
-    height: 45px !important;
+    height: 46px !important;
     line-height: 46px !important;
     min-width: 1200px;
     overflow: hidden;
@@ -16,7 +16,7 @@
     align-items:center;
 }
 
-.labelmenu-set li{
+.labelmenu-set>li{
     padding-top: 0px !important;
     padding-left: 15px !important;
     padding-right: 15px !important;

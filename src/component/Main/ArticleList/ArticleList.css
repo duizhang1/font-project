@@ -5,22 +5,26 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.article-list-item-set .ant-list-item-main{
+/* 强制修改ant-list-item-main元素 */
+.article-list-item-set>.ant-list-item-main{
     width: 0 !important;
 }
 .article-list-item-set:hover{
     cursor: pointer;
     background-color: rgb(251, 251, 251);
 }
-.article-list-item-set .ant-list-item-meta{
+/* 强制修改ant-list-item-meta元素 */
+.article-list-item-set>.ant-list-item-main>.ant-list-item-meta{
     margin-bottom: 8px !important;
 }
-.article-list-item-set .ant-list-item-meta-title{
+/* 强制修改ant-list-item-meta-title元素 */
+.article-list-item-set>.ant-list-item-main>.ant-list-item-meta>.ant-list-item-meta-content>.ant-list-item-meta-title{
     margin-bottom: 6px !important;
     font-weight: bold;
     font-size: 18px;
 }
-.article-list-item-set .ant-list-item-extra{
+/* 强制修改ant-list-item-extra元素 */
+.article-list-item-set>.ant-list-item-extra{
     margin-left: 20px;
 }
 .article-list-user-href{

@@ -65,7 +65,10 @@ function UserInfoCard(props) {
                   <span className='user-info-card-div-info-div-content-word'>{data.personProfile}</span>
                 </div> : ''}
             </div>
-            <div style={{ padding: '0 15px' }}>
+            <div style={{
+              margin: 'auto',
+              padding: '0 15px'
+            }}>
               {userRedux.uuid === userId ?
                 <EditUserProfileButton /> :
                 <div>

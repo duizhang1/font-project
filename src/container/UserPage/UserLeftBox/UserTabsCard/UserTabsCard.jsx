@@ -33,7 +33,8 @@ export default function UserTabsCard() {
   return (
     <div style={{
       backgroundColor: '#fff',
-      padding: '0 15px'
+      padding: '0 15px',
+      width: '700px'
     }}>
       <Tabs
         defaultActiveKey="1"

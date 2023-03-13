@@ -28,18 +28,34 @@ export default function UserTabsMsgCard() {
         avatar: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
         name: '大队长',
         userId: '9999999484',
-        recordId: '8888880',
         companyName: '京东',
         position: 'software enginee',
         createTime: '2022-06-06 23:58',
-        title: 'list怎么使用啊啊'
+        title: 'list怎么使用啊啊sadsadddddddddddddddddasdwqrtgsvcfgsdfgfdggrte我红红火火恍恍惚惚水水水水水',
+        summary: '前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高，也越来越疯狂。对于我们前端来说，我们需要具备什么技术呢？ 首先先介绍一下 web3.0 是如何衍生的 互联网 我们先聊一下啥...',
+        img: 'http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4',
+      }
+    },
+    {
+      type: 'createArticle',
+      itemData: {
+        recordId: '484111812662',
+        avatar: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
+        name: '大队长',
+        userId: '9999999484',
+        companyName: '京东',
+        position: 'software enginee',
+        createTime: '2022-06-06 23:58',
+        title: 'list怎么使用啊啊sadsadddddddddddddddddasdwqrtgsvcfgsdfgfdggrte我红红火火恍恍惚惚水水水水水',
+        summary: '前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高，也越来越疯狂。对于我们前端来说，我们需要具备什么技术呢？ 首先先介绍一下 web3.0 是如何衍生的 互联网 我们先聊一下啥...',
+        img: 'http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4',
       }
     }
   ]
 
   const itemCss = {
-    padding: '0 0 10px 0',
-    borderBottom: '1px solid #e5e6eb'
+    padding: '10px 0 10px 0',
+    borderBottom: '1px solid #e5e6eb',
   }
 
   const [datas, setDatas] = useState([]);
@@ -86,13 +102,13 @@ export default function UserTabsMsgCard() {
     )
   }
 
-  function likeArticleItem(item) {
+  function likeArticleItem(item, type) {
     return (
-      <div  style={itemCss} key={item.recordId}>
+      <div style={itemCss} key={item.recordId}>
         <div style={{
           display: 'flex'
         }}>
-          <Avatar size={'large'} src={item.avatar} style={{alignSelf: 'center'}} />
+          <Avatar size={'large'} src={item.avatar} style={{ alignSelf: 'center' }} />
           <div style={{
             padding: `0 0 0 ${avatarAndNameSpace}`
           }}>
@@ -105,21 +121,64 @@ export default function UserTabsMsgCard() {
           </div>
           <div style={{
             margin: '0 0 0 auto',
-            alignSelf: 'center'
+            alignSelf: 'center',
+            color: '#1890ff'
           }}>
-            点赞该文章
+            {
+              type === 'likeArticle' ? '点赞了文章' : ''
+            }
+            {
+              type === 'createArticle' ? '创建了文章' : ''
+            }
           </div>
         </div>
-        <div>
-          {item.title}
-        </div>
-        <div>
-          <span>
-            {item.summary}
-          </span>
-          <img alt="img" src="http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4" />
-        </div>
-      </div>
+        <a
+          href={`/home/post/${item.recordId}`}
+          style={{
+            margin: '5px 0 5px 50px',
+            display: 'block'
+          }}
+
+        >
+          <h3 style={{
+            fontSize: '17px',
+            color: '#17181a',
+            lineHeight: '1.5',
+            verticalAlign: 'middle',
+            fontWeight: 'bold',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}>
+            {item.title}
+          </h3>
+          <div style={{
+            display: 'flex',
+            margin: '5px 0 5px 0'
+          }}>
+            <div
+              className='text-over-hidden-three'
+              style={{
+                fontSize: '15px',
+                color: '#5c6066',
+                wordBreak: 'break-all',
+              }}
+            >
+              {item.summary}
+            </div>
+            <img
+              style={{
+                height: '65px',
+                width: '65px',
+                objectFit: 'cover',
+                display: item.img ? 'block' : 'none'
+              }}
+              alt="img"
+              src="http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4"
+            />
+          </div>
+        </a>
+      </div >
     )
   }
 
@@ -145,8 +204,8 @@ export default function UserTabsMsgCard() {
       {data.map((item) => {
         if (item.type === 'focus') {
           return focusItem(item.itemData)
-        } else if (item.type === 'likeArticle') {
-          return likeArticleItem(item.itemData)
+        } else if (item.type === 'likeArticle' || item.type === 'createArticle') {
+          return likeArticleItem(item.itemData, item.type)
         }
       })}
     </InfiniteScroll>

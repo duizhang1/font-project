@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import './ArticleList.css'
+import './UserTabArticleCard.css'
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -15,9 +15,7 @@ const IconText = ({ icon, text }) => (
   </Space>
 );
 
-function ArticleList(props) {
-  const { sortRoute } = useParams();
-  const { articleListHeaderRedux } = props;
+export default function UserTabArticleCard() {
 
   const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +25,7 @@ function ArticleList(props) {
   const loadMoreData = (resetData, resetPage) => {
     let page = resetPage ? resetPage : currentPage;
     let data = resetData ? resetData : datas;
-    let params = { sortRoute, ...articleListHeaderRedux, current: page, size }
+    let params = { current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
@@ -43,9 +41,10 @@ function ArticleList(props) {
       }
     )
   };
+
   useEffect(() => {
     loadMoreData([], 1);
-  }, [sortRoute, articleListHeaderRedux]);
+  }, []);
 
   const listItemClick = (e) => {
     return () => {
@@ -99,7 +98,7 @@ function ArticleList(props) {
                   src={item.img}
                 /> : <span></span>
               }
-              className='article-list-item-set'
+              className='user-tab-article-card-item'
             >
               <List.Item.Meta
                 title={
@@ -141,10 +140,3 @@ function ArticleList(props) {
     </InfiniteScroll>
   )
 }
-
-export default connect(
-  state => ({
-    articleListHeaderRedux: state.articleListHeader
-  }),
-  {}
-)(ArticleList)

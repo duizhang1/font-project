@@ -1,0 +1,21 @@
+
+/* 强制修改ant-list-item-main元素 */
+.user-tab-article-card-item>.ant-list-item-main{
+  width: 0 !important;
+}
+.user-tab-article-card-item:hover{
+  cursor: pointer;
+  background-color: rgb(251, 251, 251);
+}
+/* 强制修改ant-list-item-meta元素 */
+.user-tab-article-card-item>.ant-list-item-main>.ant-list-item-meta{
+  margin-bottom: 8px !important;
+}
+/* 强制修改ant-list-item-meta-title元素 */
+.user-tab-article-card-item>.ant-list-item-main>.ant-list-item-meta>.ant-list-item-meta-content>.ant-list-item-meta-title{
+  margin-bottom: 6px !important;
+}
+/* 强制修改ant-list-item-extra元素 */
+.user-tab-article-card-item>.ant-list-item-extra{
+  margin-left: 20px;
+}

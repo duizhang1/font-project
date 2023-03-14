@@ -26,6 +26,7 @@ const NotificationIm = lazy(() => import('./container/NotificationPage/Notificat
 const UserPage = lazy(() => import('./container/UserPage/UserPage'))
 const UserTabsMsgCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsMsgCard/UserTabsMsgCard'))
 const UserTabsRedirect = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsRedirect/UserTabsRedirect'))
+const UserTabArticleCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabArticleCard/UserTabArticleCard'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -70,6 +71,7 @@ function App(props) {
         </Route>
         <Route path='/user/:userId' element={<Suspense fallback={(<LazyLoading />)}><UserPage /></Suspense>}>
           <Route path='/user/:userId/msg' element={<Suspense fallback={(<LazyLoading />)}><UserTabsMsgCard /></Suspense>} />
+          <Route path='/user/:userId/posts' element={<Suspense fallback={(<LazyLoading />)}><UserTabArticleCard /></Suspense>} />
           <Route path='/user/:userId/*' element={<Suspense fallback={(<LazyLoading />)}><UserTabsRedirect /></Suspense>} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />

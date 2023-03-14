@@ -63,3 +63,12 @@
     -webkit-box-orient: vertical;
 
 }
+.text-over-hidden-one{
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* 这儿的数字代表的就是你所需要实现效果的第N/ */
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}

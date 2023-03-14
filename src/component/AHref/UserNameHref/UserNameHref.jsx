@@ -7,6 +7,8 @@ export default function UserNameHref(props) {
   return (
     <a
       href={`/user/${uuid}/msg`}
+      // 防止事件冒泡
+      onClick={(e) => { e.stopPropagation(); }}
       style={{
         textDecoration: 'none', 
         fontSize: '16px',

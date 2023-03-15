@@ -1,0 +1,6 @@
+.user-tab-store-card-div:hover>div>.user-tab-store-card-tools{
+  display: flex;
+}
+.user-tab-store-card-tools{
+  display: none;
+}

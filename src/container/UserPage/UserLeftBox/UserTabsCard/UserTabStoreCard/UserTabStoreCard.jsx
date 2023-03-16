@@ -6,6 +6,8 @@ import { LockTwoTone, UnlockTwoTone, EditOutlined, CloseOutlined } from '@ant-de
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import './UserTabStoreCard.css'
+import UserTabStoreEditModal from '@src/component/Modal/UserTabStoreEditModal/UserTabStoreEditModal';
+import DeleteConfirmModal from '@src/component/Modal/DeleteConfirmModal/DeleteConfirmModal';
 
 function UserTabStoreCard(props) {
   const { userRedux } = props
@@ -20,6 +22,15 @@ function UserTabStoreCard(props) {
       state: '1',
       updateTime: '2022-06-27',
       articleNum: 99,
+    },
+    {
+      uuid: '9919999',
+      name: '后端',
+      summary: '这里有丰富的内容',
+      isDefault: '0',
+      state: '2',
+      updateTime: '2022-06-27',
+      articleNum: 99,
     }
   ]
 
@@ -27,6 +38,11 @@ function UserTabStoreCard(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const size = 20
+
+  const [editOpen, setEditOpen] = useState(false)
+  const [editStoreid, setEditStoreid] = useState('');
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [deleteId,setDeleteId] = useState('')
 
   const loadMoreData = (resetData, resetPage) => {
     let page = resetPage ? resetPage : currentPage;
@@ -48,21 +64,35 @@ function UserTabStoreCard(props) {
     )
   };
 
-  function editStoreItem(uuid) {
+  function editStoreItem(storeId) {
     return () => {
-
+      setEditOpen(true)
+      setEditStoreid(storeId)
     }
   }
 
-  function deleteStoreItem(uuid) {
+  function deleteStoreItem(storeId) {
     return () => {
-      
+      setIsConfirmOpen(true)
+      setDeleteId(storeId)
     }
+  }
+
+  function onDelete() {
+    console.log(deleteId)
+    setIsConfirmOpen(false)
   }
 
   function singleItem(item) {
     return (
-      <div className='user-tab-store-card-div'>
+      <div
+        className='user-tab-store-card-div'
+        key={item.uuid}
+        style={{
+          padding: '5px 0 15px 0',
+          borderBottom: '1px solid #f0f0f0'
+        }}
+      >
         <div>
           <span style={{
             color: '#252933',
@@ -115,7 +145,7 @@ function UserTabStoreCard(props) {
               style={{
                 marginLeft: '5px',
                 cursor: 'pointer',
-                display: item.isDefault ? 'none' : 'block',
+                display: item.isDefault === '1' ? 'none' : 'block',
               }}
               onClick={deleteStoreItem(item.uuid)}
             >
@@ -128,28 +158,40 @@ function UserTabStoreCard(props) {
   }
 
   return (
-    <InfiniteScroll
-      dataLength={data.length}
-      next={loadMoreData}
-      hasMore={hasMore}
-      loader={
-        <Skeleton
-          style={{ padding: '0 11px', margin: '10px 0 0 0' }}
-          paragraph={{
-            rows: 3,
-          }}
-          active
-          round
-          title
-        />
-      }
-      pullDownToRefreshThreshold={0}
-      endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-    >
-      {data.map((item) => {
-        return singleItem(item)
-      })}
-    </InfiniteScroll>
+    <div>
+      <InfiniteScroll
+        dataLength={data.length}
+        next={loadMoreData}
+        hasMore={hasMore}
+        loader={
+          <Skeleton
+            style={{ padding: '0 11px', margin: '10px 0 0 0' }}
+            paragraph={{
+              rows: 3,
+            }}
+            active
+            round
+            title
+          />
+        }
+        pullDownToRefreshThreshold={0}
+        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+      >
+        {data.map((item) => {
+          return singleItem(item)
+        })}
+      </InfiniteScroll>
+      <UserTabStoreEditModal
+        editOpen={editOpen}
+        setEditOpen={setEditOpen}
+        editStoreid={editStoreid}
+      />
+      <DeleteConfirmModal
+        onDelete={onDelete}
+        isConfirmOpen={isConfirmOpen}
+        setIsConfirmOpen={setIsConfirmOpen}
+      />
+    </div>
   )
 }
 export default connect(

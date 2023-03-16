@@ -28,7 +28,7 @@ const UserTabsMsgCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserT
 const UserTabsRedirect = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsRedirect/UserTabsRedirect'))
 const UserTabArticleCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabArticleCard/UserTabArticleCard'))
 const UserTabStoreCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabStoreCard/UserTabStoreCard'))
-
+const UserTabFocusCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabFocusCard/UserTabFocusCard'))
 
 function App(props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -75,6 +75,7 @@ function App(props) {
           <Route path='/user/:userId/msg' element={<Suspense fallback={(<LazyLoading />)}><UserTabsMsgCard /></Suspense>} />
           <Route path='/user/:userId/posts' element={<Suspense fallback={(<LazyLoading />)}><UserTabArticleCard /></Suspense>} />
           <Route path='/user/:userId/store' element={<Suspense fallback={(<LazyLoading />)}><UserTabStoreCard /></Suspense>} />
+          <Route path='/user/:userId/focus' element={<Suspense fallback={(<LazyLoading />)}><UserTabFocusCard /></Suspense>} />
           <Route path='/user/:userId/*' element={<Suspense fallback={(<LazyLoading />)}><UserTabsRedirect /></Suspense>} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />

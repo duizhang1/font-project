@@ -1,71 +1,72 @@
 import React, { useRef, useState } from 'react'
 import { Input, Button, Popover, Spin, message } from 'antd'
-import { axiosReq } from '@src/util/request/axios';
-import { SmileOutlined } from '@ant-design/icons';
+import { axiosReq } from '@src/util/request/axios'
+import { SmileOutlined } from '@ant-design/icons'
 import './ArticleCommentEditor.css'
-import EmojiList from '../EmojiList/EmojiList';
-import { connect } from 'react-redux';
+import EmojiList from '../EmojiList/EmojiList'
+import { connect } from 'react-redux'
 import { loginShowAction } from '@src/redux/action/Login'
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 import { nanoid } from 'nanoid'
+import PropTypes from 'prop-types'
 
 const { TextArea } = Input
 
-function ArticleCommentEditor(props) {
-    const {
-        userRedux,
-        loginShowAction,
-        parentCommentId,
-        replyCommentId = null,
-        // 触发更新评论的函数，不需要可以置为空
-        setUpdateArticleComment,
-        setEditorShow,
-        articleId
-    } = props
-    const [inpData, setInputData] = useState('');
-    const textAreaRef = useRef(null)
-    let { id } = useParams();
-    if (articleId && articleId !== '') {
-        id = articleId;
-    }
+function ArticleCommentEditor (props) {
+  const {
+    userRedux,
+    loginShowAction,
+    parentCommentId,
+    replyCommentId = null,
+    // 触发更新评论的函数，不需要可以置为空
+    setUpdateArticleComment,
+    setEditorShow,
+    articleId
+  } = props
+  const [inpData, setInputData] = useState('')
+  const textAreaRef = useRef(null)
+  let { id } = useParams()
+  if (articleId && articleId !== '') {
+    id = articleId
+  }
 
-    const spinIndicator = (
+  const spinIndicator = (
         <div className='article-comment-editor-spin' onClick={(e) => { loginShowAction() }}>
             <span className='article-comment-editor-spin-span'>请先登录</span>
         </div>
+  )
+
+  const textareaChange = (e) => {
+    setInputData(e.target.value)
+  }
+
+  const insertEmoji = (insText) => {
+    const index = textAreaRef.current.resizableTextArea.textArea.selectionStart
+    const value = inpData ? inpData.slice(0, index) + insText + inpData.slice(index) : insText
+    setInputData(value)
+  }
+
+  function submitComment () {
+    const param = {
+      comment: inpData,
+      userId: userRedux.uuid,
+      articleId: id,
+      parentCommentId,
+      replyCommentId
+    }
+    axiosReq.post('/articleComment/createArticleComment', param).then(
+      (value) => {
+        message.info(value.message)
+        setUpdateArticleComment(nanoid())
+        setEditorShow(false)
+      },
+      (reason) => {
+        message.error(reason.message)
+      }
     )
+  }
 
-    const textareaChange = (e) => {
-        setInputData(e.target.value)
-    }
-
-    const insertEmoji = (insText) => {
-        let index = textAreaRef.current.resizableTextArea.textArea.selectionStart;
-        const value = inpData ? inpData.slice(0, index) + insText + inpData.slice(index) : insText
-        setInputData(value);
-    }
-
-    function submitComment() {
-        const param = {
-            comment: inpData,
-            userId: userRedux.uuid,
-            articleId: id,
-            parentCommentId,
-            replyCommentId
-        }
-        axiosReq.post('/articleComment/createArticleComment', param).then(
-            (value) => {
-                message.info(value.message)
-                setUpdateArticleComment(nanoid())
-                setEditorShow(false)
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
-    }
-
-    return (
+  return (
         <div style={{ width: '100%' }}>
             <Spin
                 indicator={spinIndicator}
@@ -97,7 +98,7 @@ function ArticleCommentEditor(props) {
                     <Button
                         type="primary"
                         size={'middle'}
-                        disabled={(inpData ? inpData.trim().length > 0 ? false : true : true)}
+                        disabled={(inpData ? !(inpData.trim().length > 0) : true)}
                         onClick={submitComment}
                     >
                         发表评论
@@ -105,11 +106,21 @@ function ArticleCommentEditor(props) {
                 </div>
             </div>
         </div>
-    )
+  )
 }
 export default connect(
-    state => ({
-        userRedux: state.user
-    }),
-    { loginShowAction }
+  state => ({
+    userRedux: state.user
+  }),
+  { loginShowAction }
 )(ArticleCommentEditor)
+
+ArticleCommentEditor.propTypes = {
+  articleId: PropTypes.any,
+  loginShowAction: PropTypes.any,
+  parentCommentId: PropTypes.any,
+  replyCommentId: PropTypes.any,
+  setEditorShow: PropTypes.any,
+  setUpdateArticleComment: PropTypes.any,
+  userRedux: PropTypes.any
+}

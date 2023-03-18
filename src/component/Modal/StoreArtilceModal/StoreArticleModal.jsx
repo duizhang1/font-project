@@ -1,69 +1,70 @@
 import StoreCheckBox from '@src/component/CheckBox/StoreCheckBox/StoreCheckBox'
 import { axiosReq } from '@src/util/request/axios'
 import { Modal, Button, message } from 'antd'
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import { useParams } from 'react-router-dom'
 import './StoreArticleModal.css'
+import PropTypes from 'prop-types'
 
-export default function StoreArticleModal(props) {
-    const { storeOpen, setStoreOpen, setCreateStoreOpen } = props
-    const [clickList, setClickList] = useState([])
-    const [data, setData] = useState([])
-    const { id } = useParams()
+export default function StoreArticleModal (props) {
+  const { storeOpen, setStoreOpen, setCreateStoreOpen } = props
+  const [clickList, setClickList] = useState([])
+  const [data, setData] = useState([])
+  const { id } = useParams()
 
-    function closeStoreModal() {
-        setStoreOpen(false)
+  function closeStoreModal () {
+    setStoreOpen(false)
+  }
+
+  function updateClickList (data) {
+    let clickData
+    if (!data.flag) {
+      clickData = clickList.filter((item) => {
+        return item !== data.uuid
+      })
+    } else {
+      clickData = [data.uuid, ...clickList]
     }
+    setClickList(clickData)
+  }
 
-    function updateClickList(data) {
-        let clickData;
-        if (!data.flag) {
-            clickData = clickList.filter((item) => {
-                return item !== data.uuid
-            })
-        } else {
-            clickData = [data.uuid, ...clickList]
-        }
-        setClickList(clickData);
-    }
+  function clickCreateStore () {
+    setCreateStoreOpen(true)
+    setStoreOpen(false)
+  }
 
-    function clickCreateStore() {
-        setCreateStoreOpen(true)
-        setStoreOpen(false)
-    }
+  useEffect(() => {
+    axiosReq.get('/storeList/getStoreListWithIsStore', { articleId: id }).then(
+      (value) => {
+        const data = value.data
+        setData(data)
+        const clickData = data.filter((item) => {
+          return item.isStore
+        })
+        const click = clickData.map((item) => {
+          return item.uuid
+        })
+        setClickList(click)
+      },
+      (reason) => {
+        message.error(reason.message)
+      }
+    )
+  }, [storeOpen])
 
-    useEffect(() => {
-        axiosReq.get('/storeList/getStoreListWithIsStore', { articleId: id }).then(
-            (value) => {
-                let data = value.data
-                setData(data);
-                let clickData = data.filter((item) => {
-                    return item.isStore
-                })
-                let click = clickData.map((item) => {
-                    return item.uuid
-                })
-                setClickList(click)
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
-    }, [storeOpen])
+  function clickStoreArticle () {
+    axiosReq.post('/storeList/updateArticleStore', { articleId: id, updateList: clickList }).then(
+      (value) => {
+        setStoreOpen(!storeOpen)
+      },
+      (reason) => {
+        message.error(reason.message)
+      }
+    )
+  }
 
-    function clickStoreArticle() {
-        axiosReq.post('/storeList/updateArticleStore', { articleId: id, updateList: clickList }).then(
-            (value) => {
-                setStoreOpen(!storeOpen)
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
-    }
-
-    return (
+  return (
         <div>
             <Modal
                 open={storeOpen}
@@ -82,16 +83,22 @@ export default function StoreArticleModal(props) {
             >
                 <div className='own-scroll-div-css store-article-modal-content'>
                     {data.map((item) => {
-                        return (
+                      return (
                             <StoreCheckBox
                                 data={item}
                                 updateClickList={updateClickList}
                                 key={item.uuid}
                             />
-                        )
+                      )
                     })}
                 </div>
             </Modal>
         </div>
-    )
+  )
+}
+
+StoreArticleModal.propTypes = {
+  setCreateStoreOpen: PropTypes.any,
+  setStoreOpen: PropTypes.any,
+  storeOpen: PropTypes.bool
 }

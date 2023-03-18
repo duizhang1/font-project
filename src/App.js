@@ -1,13 +1,13 @@
 import React, { Suspense, lazy, useEffect } from 'react'
 import './App.css'
-import { Route, Routes,Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import HomePage from './container/HomePage/HomePage'
 import LoginModal from './component/Modal/LoginModal/LoginModal'
 import RegisterModal from './component/Modal/RegisterModal/RegisterModal'
 import { connect } from 'react-redux'
 import { setUserInfoAction, clearUserInfoAction } from './redux/action/User'
 import LazyLoading from '@src/component/Loading/LazyLoading/LazyLoading'
-
+import PropTypes from 'prop-types'
 
 const { axiosReq } = require('@src/util/request/axios')
 const MdEditorPage = lazy(() => import('./container/MdEditorPage/MdEditorPage'))
@@ -24,13 +24,13 @@ const NotificationComment = lazy(() => import('./container/NotificationPage/Noti
 const NotificationFocus = lazy(() => import('./container/NotificationPage/NotificationFocus/NotificationFocus'))
 const NotificationIm = lazy(() => import('./container/NotificationPage/NotificationIm/NotificationIm'))
 const UserPage = lazy(() => import('./container/UserPage/UserPage'))
-const UserTabsMsgCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsMsgCard/UserTabsMsgCard'))
+const UserTabsMsgCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsMsgCard/UserTabsMsgCard'))
 const UserTabsRedirect = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabsRedirect/UserTabsRedirect'))
-const UserTabArticleCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabArticleCard/UserTabArticleCard'))
-const UserTabStoreCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabStoreCard/UserTabStoreCard'))
-const UserTabFocusCard = lazy(()=> import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabFocusCard/UserTabFocusCard'))
+const UserTabArticleCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabArticleCard/UserTabArticleCard'))
+const UserTabStoreCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabStoreCard/UserTabStoreCard'))
+const UserTabFocusCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabFocusCard/UserTabFocusCard'))
 
-function App(props) {
+function App (props) {
   const { setUserInfoAction, clearUserInfoAction } = props
 
   // 校验登陆，已登陆直接获取用户信息存入redux
@@ -92,3 +92,8 @@ export default connect(
   }),
   { setUserInfoAction, clearUserInfoAction }
 )(App)
+
+App.propTypes = {
+  clearUserInfoAction: PropTypes.any,
+  setUserInfoAction: PropTypes.any
+}

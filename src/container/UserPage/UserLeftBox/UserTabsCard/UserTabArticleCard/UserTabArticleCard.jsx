@@ -1,31 +1,29 @@
-import { LikeOutlined, EyeOutlined, StarOutlined } from '@ant-design/icons';
-import ArticleListLoading from '@src/component/Loading/ArticleListLoading/ArticleListLoading';
-import { axiosReq } from '@src/util/request/axios';
-import { List, Space, Divider, Skeleton, ConfigProvider } from 'antd';
-import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { LikeOutlined, EyeOutlined, StarOutlined } from '@ant-design/icons'
+import ArticleListLoading from '@src/component/Loading/ArticleListLoading/ArticleListLoading'
+import { axiosReq } from '@src/util/request/axios'
+import { List, Space, Divider, Skeleton, ConfigProvider } from 'antd'
+import React, { useState, useEffect } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import './UserTabArticleCard.css'
+import PropTypes from 'prop-types'
 
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
     {text}
   </Space>
-);
+)
 
-export default function UserTabArticleCard() {
-
-  const [datas, setDatas] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+export default function UserTabArticleCard () {
+  const [datas, setDatas] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const size = 5
 
   const loadMoreData = (resetData, resetPage) => {
-    let page = resetPage ? resetPage : currentPage;
-    let data = resetData ? resetData : datas;
-    let params = { current: page, size }
+    const page = resetPage || currentPage
+    const data = resetData || datas
+    const params = { current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
@@ -40,15 +38,15 @@ export default function UserTabArticleCard() {
         setHasMore(false)
       }
     )
-  };
+  }
 
   useEffect(() => {
-    loadMoreData([], 1);
-  }, []);
+    loadMoreData([], 1)
+  }, [])
 
   const listItemClick = (e) => {
     return () => {
-      const w = window.open('about:blank');
+      const w = window.open('about:blank')
       w.location.href = '/home/post/' + e
     }
   }
@@ -62,7 +60,7 @@ export default function UserTabArticleCard() {
         <Skeleton
           style={{ padding: '0 11px', margin: '10px 0 0 0' }}
           paragraph={{
-            rows: 3,
+            rows: 3
           }}
           active
           round
@@ -84,10 +82,11 @@ export default function UserTabArticleCard() {
               actions={[
                 <IconText icon={EyeOutlined} text={item.readCount} key="list-vertical-message" />,
                 <IconText icon={LikeOutlined} text={item.likeCount} key="list-vertical-like-o" />,
-                <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />,
+                <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />
               ]}
               extra={
-                item.img != null ? <img
+                item.img != null
+                  ? <img
                   style={{
                     maxWidth: '250px',
                     maxHeight: '120px',
@@ -96,7 +95,8 @@ export default function UserTabArticleCard() {
                   }}
                   alt="加载图片失败"
                   src={item.img}
-                /> : <span></span>
+                />
+                  : <span></span>
               }
               className='user-tab-article-card-item'
             >
@@ -106,10 +106,10 @@ export default function UserTabArticleCard() {
                     href={'/home/post/' + item.uuid}
                     target='_blank'
                     rel="noreferrer"
-                    onClick={(e) => { e.stopPropagation(); }}
+                    onClick={(e) => { e.stopPropagation() }}
                     style={{
                       fontWeight: 'bold',
-                      fontSize: '18px',
+                      fontSize: '18px'
                     }}
                   >
                     {item.title}
@@ -121,9 +121,9 @@ export default function UserTabArticleCard() {
                       href={'/user/' + item.creatorId}
                       style={{
                         textDecoration: 'none',
-                        color: 'rgba(0,0,0,.45)',
+                        color: 'rgba(0,0,0,.45)'
                       }}
-                      onClick={(e) => { e.stopPropagation(); }}
+                      onClick={(e) => { e.stopPropagation() }}
                     >
                       {item.creatorName}
                     </a>
@@ -139,4 +139,9 @@ export default function UserTabArticleCard() {
       </ConfigProvider>
     </InfiniteScroll>
   )
+}
+
+IconText.propTypes = {
+  icon: PropTypes.any,
+  text: PropTypes.any
 }

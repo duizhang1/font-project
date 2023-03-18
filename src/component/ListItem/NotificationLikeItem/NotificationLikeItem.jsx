@@ -1,19 +1,20 @@
 import React from 'react'
 import { Avatar } from 'antd'
 import './NotificationLikeItem.css'
+import PropTypes from 'prop-types'
 
 const clickItem = (e) => {
-    return () => {
-        const w = window.open('about:blank');
-        w.location.href = '/home/user/' + e
-    }
+  return () => {
+    const w = window.open('about:blank')
+    w.location.href = '/home/user/' + e
+  }
 }
 
-export default function NotificationLikeItem(props) {  
-    const {data} = props 
-    const avatarSize = 'large'
+export default function NotificationLikeItem (props) {
+  const { data } = props
+  const avatarSize = 'large'
 
-    return (
+  return (
         <div className='notification-like-item-div'>
             <Avatar
                 src={data.avatar}
@@ -26,9 +27,9 @@ export default function NotificationLikeItem(props) {
                     <a
                         href={`/user/${data.userId}`}
                         style={{
-                            textDecoration: 'none',
-                            color: 'black',
-                            margin: '0 5px 0 0'
+                          textDecoration: 'none',
+                          color: 'black',
+                          margin: '0 5px 0 0'
                         }}
                     >
                         {data.username}
@@ -37,18 +38,22 @@ export default function NotificationLikeItem(props) {
                     <a
                         href={`/home/post/${data.articleId}`}
                         style={{
-                            margin: '0 5px 0 5px'
+                          margin: '0 5px 0 5px'
                         }}
                     >
                         {data.title}
                     </a>
                 </div>
                 <div style={{
-                    color: '#8a9aa9'
+                  color: '#8a9aa9'
                 }}>
                     {data.relation.createTime}
                 </div>
             </div>
         </div>
-    )
+  )
+}
+
+NotificationLikeItem.propTypes = {
+  data: PropTypes.object.isRequired
 }

@@ -4,12 +4,12 @@ import { Layout, Menu } from 'antd'
 import CommonHeader from '@src/component/Header/CommonHeader/CommonHeader'
 import './NotificationPage.css'
 
-export default function NotificationPage() {
+export default function NotificationPage () {
   // 获得当前路由并获得后缀
   const location = useLocation().pathname.split('/')
   const menuSelect = location[location.length - 1]
-  
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
 
   const notificationItem = [
     {
@@ -27,10 +27,10 @@ export default function NotificationPage() {
     {
       label: '私信',
       key: 'im'
-    },
+    }
   ]
 
-  function clickMenu(e) {
+  function clickMenu (e) {
     navigate(`/notification/${e.key}`)
   }
 

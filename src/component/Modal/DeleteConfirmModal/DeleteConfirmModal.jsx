@@ -1,10 +1,10 @@
 import React from 'react'
-import {  Modal } from 'antd';
+import { Modal } from 'antd'
+import PropTypes from 'prop-types'
 
-export default function DeleteConfirmModal(props) {
-
+export default function DeleteConfirmModal (props) {
   const { onDelete, isConfirmOpen, setIsConfirmOpen } = props
-  
+
   const handleCancel = () => {
     setIsConfirmOpen(false)
   }
@@ -26,4 +26,10 @@ export default function DeleteConfirmModal(props) {
       <p>你确定要删除吗？</p>
     </Modal>
   )
+}
+
+DeleteConfirmModal.propTypes = {
+  isConfirmOpen: PropTypes.bool,
+  onDelete: PropTypes.any,
+  setIsConfirmOpen: PropTypes.any
 }

@@ -1,30 +1,31 @@
 import React from 'react'
-import { Form, Modal, Input, Radio, Button, message } from 'antd';
-import {axiosReq} from '@src/util/request/axios'
+import { Form, Modal, Input, Radio, Button, message } from 'antd'
+import { axiosReq } from '@src/util/request/axios'
+import PropTypes from 'prop-types'
 
 const { TextArea } = Input
 
-export default function CreateStoreModal(props) {
-    const { setCreateStoreOpen, createStoreOpen, setStoreOpen } = props
+export default function CreateStoreModal (props) {
+  const { setCreateStoreOpen, createStoreOpen, setStoreOpen } = props
 
-    function closeThisAndOpenStore() {
-        setCreateStoreOpen(false)
-        setStoreOpen(true)
-    }
+  function closeThisAndOpenStore () {
+    setCreateStoreOpen(false)
+    setStoreOpen(true)
+  }
 
-    const onFinish = (values) => {
-        axiosReq.post('/storeList/createStoreList', values).then(
-            (value) => {
-                message.info(value.message)
-                closeThisAndOpenStore()
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
-    };
+  const onFinish = (values) => {
+    axiosReq.post('/storeList/createStoreList', values).then(
+      (value) => {
+        message.info(value.message)
+        closeThisAndOpenStore()
+      },
+      (reason) => {
+        message.error(reason.message)
+      }
+    )
+  }
 
-    return (
+  return (
         <>
             <Modal
                 open={createStoreOpen}
@@ -38,10 +39,10 @@ export default function CreateStoreModal(props) {
                 <Form
                     name="basic"
                     labelCol={{
-                        span: 4,
+                      span: 4
                     }}
                     wrapperCol={{
-                        span: 20,
+                      span: 20
                     }}
                     autoComplete="off"
                     onFinish={onFinish}
@@ -50,10 +51,10 @@ export default function CreateStoreModal(props) {
                         label="名称"
                         name="name"
                         rules={[
-                            {
-                                required: true,
-                                message: '请输入收藏夹名!',
-                            },
+                          {
+                            required: true,
+                            message: '请输入收藏夹名!'
+                          }
                         ]}
                     >
                         <Input placeholder='请输入收藏夹名' />
@@ -62,10 +63,10 @@ export default function CreateStoreModal(props) {
                         label="描述"
                         name="summary"
                         rules={[
-                            {
-                                max: 100,
-                                message: '请输入不大于100个字'
-                            }
+                          {
+                            max: 100,
+                            message: '请输入不大于100个字'
+                          }
                         ]}
                     >
                         <TextArea allowClear showCount placeholder='输入收藏夹简介(选填)' />
@@ -79,7 +80,7 @@ export default function CreateStoreModal(props) {
                     <Form.Item
                         wrapperCol={{ offset: 14, span: 10 }}
                     >
-                        <Button type="primary" htmlType="submit" style={{marginRight: '15px'}}>
+                        <Button type="primary" htmlType="submit" style={{ marginRight: '15px' }}>
                             创建
                         </Button>
                         <Button htmlType="button" onClick={closeThisAndOpenStore}>
@@ -89,5 +90,11 @@ export default function CreateStoreModal(props) {
                 </Form>
             </Modal>
         </>
-    )
+  )
+}
+
+CreateStoreModal.propTypes = {
+  createStoreOpen: PropTypes.bool,
+  setCreateStoreOpen: PropTypes.any,
+  setStoreOpen: PropTypes.any
 }

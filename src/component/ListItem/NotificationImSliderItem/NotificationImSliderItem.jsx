@@ -1,25 +1,26 @@
 import { Avatar, Badge } from 'antd'
 import React from 'react'
 import './NotificationImSliderItem.css'
-import {connect} from "react-redux";
-import {decrNotificationUnreadImAction} from "@src/redux/action/NotificationUnreadCount";
+import { connect } from 'react-redux'
+import { decrNotificationUnreadImAction } from '@src/redux/action/NotificationUnreadCount'
+import PropTypes from 'prop-types'
 
-function NotificationImSliderItem(props) {
-    let { setSelectItem, selectItem, data, decrNotificationUnreadImAction } = props
-    const avatarSize = 'large'
+function NotificationImSliderItem (props) {
+  const { setSelectItem, selectItem, data, decrNotificationUnreadImAction } = props
+  const avatarSize = 'large'
 
-    function clickDiv() {
-        setSelectItem({ userName: data.username, userId: data.toUserId })
-        decrNotificationUnreadImAction(data.count)
-        data.count = 0
-    }
+  function clickDiv () {
+    setSelectItem({ userName: data.username, userId: data.toUserId })
+    decrNotificationUnreadImAction(data.count)
+    data.count = 0
+  }
 
-    return (
+  return (
         <div
             className='notification-im-slider-item-div'
             onClick={clickDiv}
             style={{
-                backgroundColor: selectItem.userId === data.toUserId ? '#eaf2ff' : 'white',
+              backgroundColor: selectItem.userId === data.toUserId ? '#eaf2ff' : 'white'
             }}
         >
             <Avatar
@@ -29,13 +30,13 @@ function NotificationImSliderItem(props) {
             />
             <div className='notification-im-slider-item-content'>
                 <div style={{
-                    margin: '-5px 0 0 0',
-                    display: 'flex'
+                  margin: '-5px 0 0 0',
+                  display: 'flex'
                 }}>
                     <div className='notification-im-slider-item-name'>{data.username}</div>
                     <div className='notification-im-silder-item-time'>{data.imRecord ? data.imRecord.createTime : ' '}</div>
                 </div>
-                <div style={{display: 'flex'}}>
+                <div style={{ display: 'flex' }}>
                     <div className='notification-im-silder-item-cnt'>
                         {data.imRecord ? data.imRecord.content : ''}
                     </div>
@@ -43,11 +44,18 @@ function NotificationImSliderItem(props) {
                 </div>
             </div>
         </div>
-    )
+  )
 }
 export default connect(
-  state =>({
+  state => ({
 
   }),
-  {decrNotificationUnreadImAction}
+  { decrNotificationUnreadImAction }
 )(NotificationImSliderItem)
+
+NotificationImSliderItem.propTypes = {
+  data: PropTypes.any,
+  decrNotificationUnreadImAction: PropTypes.any,
+  selectItem: PropTypes.any,
+  setSelectItem: PropTypes.any
+}

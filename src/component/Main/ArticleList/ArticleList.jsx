@@ -1,33 +1,34 @@
-import { LikeOutlined, EyeOutlined, StarOutlined } from '@ant-design/icons';
-import ArticleListLoading from '@src/component/Loading/ArticleListLoading/ArticleListLoading';
-import { axiosReq } from '@src/util/request/axios';
-import { List, Space, Divider, Skeleton, ConfigProvider } from 'antd';
-import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { LikeOutlined, EyeOutlined, StarOutlined } from '@ant-design/icons'
+import ArticleListLoading from '@src/component/Loading/ArticleListLoading/ArticleListLoading'
+import { axiosReq } from '@src/util/request/axios'
+import { List, Space, Divider, Skeleton, ConfigProvider } from 'antd'
+import React, { useState, useEffect } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { connect } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import './ArticleList.css'
+import PropTypes from 'prop-types'
 
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
     {text}
   </Space>
-);
+)
 
-function ArticleList(props) {
-  const { sortRoute } = useParams();
-  const { articleListHeaderRedux } = props;
+function ArticleList (props) {
+  const { sortRoute } = useParams()
+  const { articleListHeaderRedux } = props
 
-  const [datas, setDatas] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [datas, setDatas] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const size = 5
 
   const loadMoreData = (resetData, resetPage) => {
-    let page = resetPage ? resetPage : currentPage;
-    let data = resetData ? resetData : datas;
-    let params = { sortRoute, ...articleListHeaderRedux, current: page, size }
+    const page = resetPage || currentPage
+    const data = resetData || datas
+    const params = { sortRoute, ...articleListHeaderRedux, current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
@@ -42,14 +43,14 @@ function ArticleList(props) {
         setHasMore(false)
       }
     )
-  };
+  }
   useEffect(() => {
-    loadMoreData([], 1);
-  }, [sortRoute, articleListHeaderRedux]);
+    loadMoreData([], 1)
+  }, [sortRoute, articleListHeaderRedux])
 
   const listItemClick = (e) => {
     return () => {
-      const w = window.open('about:blank');
+      const w = window.open('about:blank')
       w.location.href = '/home/post/' + e
     }
   }
@@ -63,7 +64,7 @@ function ArticleList(props) {
         <Skeleton
           style={{ padding: '0 11px', margin: '10px 0 0 0' }}
           paragraph={{
-            rows: 3,
+            rows: 3
           }}
           active
           round
@@ -85,10 +86,11 @@ function ArticleList(props) {
               actions={[
                 <IconText icon={EyeOutlined} text={item.readCount} key="list-vertical-message" />,
                 <IconText icon={LikeOutlined} text={item.likeCount} key="list-vertical-like-o" />,
-                <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />,
+                <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />
               ]}
               extra={
-                item.img != null ? <img
+                item.img != null
+                  ? <img
                   style={{
                     maxWidth: '250px',
                     maxHeight: '120px',
@@ -97,7 +99,8 @@ function ArticleList(props) {
                   }}
                   alt="加载图片失败"
                   src={item.img}
-                /> : <span></span>
+                />
+                  : <span></span>
               }
               className='article-list-item-set'
             >
@@ -107,10 +110,10 @@ function ArticleList(props) {
                     href={'/home/post/' + item.uuid}
                     target='_blank'
                     rel="noreferrer"
-                    onClick={(e) => { e.stopPropagation(); }}
+                    onClick={(e) => { e.stopPropagation() }}
                     style={{
                       fontWeight: 'bold',
-                      fontSize: '18px',
+                      fontSize: '18px'
                     }}
                   >
                     {item.title}
@@ -122,9 +125,9 @@ function ArticleList(props) {
                       href={'/user/' + item.creatorId}
                       style={{
                         textDecoration: 'none',
-                        color: 'rgba(0,0,0,.45)',
+                        color: 'rgba(0,0,0,.45)'
                       }}
-                      onClick={(e) => { e.stopPropagation(); }}
+                      onClick={(e) => { e.stopPropagation() }}
                     >
                       {item.creatorName}
                     </a>
@@ -148,3 +151,12 @@ export default connect(
   }),
   {}
 )(ArticleList)
+
+IconText.propTypes = {
+  icon: PropTypes.any,
+  text: PropTypes.any
+}
+
+ArticleList.propTypes = {
+  articleListHeaderRedux: PropTypes.any
+}

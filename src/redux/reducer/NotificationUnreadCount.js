@@ -5,7 +5,7 @@ import {
   CLEAR_NOTIFICATION_UNREAD_COMMENT,
   DECR_NOTIFICATION_UNREAD_IM,
   INCR_NOTIFICATION_UNREAD_IM
-} from "../Constant"
+} from '../Constant'
 
 const initState = {
   uuid: '',
@@ -18,35 +18,35 @@ const initState = {
   updateTime: '1970-01-01 00:00:01'
 }
 
-export default function NotificationUnreadCountReducer(preState = initState, action) {
+export default function NotificationUnreadCountReducer (preState = initState, action) {
   let newObj
   switch (action.type) {
     case SET_NOTIFICATION_UNREAD_COUNT:
-      return action.data;
+      return action.data
     case CLEAR_NOTIFICATION_UNREAD_LIKE:
-      newObj = Object.assign({},preState)
+      newObj = Object.assign({}, preState)
       newObj.likeCount = 0
-      return newObj;
+      return newObj
     case CLEAR_NOTIFICATION_UNREAD_FOCUS:
-      newObj = Object.assign({},preState)
+      newObj = Object.assign({}, preState)
       newObj.focusCount = 0
-      return newObj;
+      return newObj
     case CLEAR_NOTIFICATION_UNREAD_COMMENT:
-      newObj = Object.assign({},preState)
+      newObj = Object.assign({}, preState)
       newObj.commentCount = 0
-      return newObj;
+      return newObj
     case DECR_NOTIFICATION_UNREAD_IM:
-      newObj = Object.assign({},preState)
+      newObj = Object.assign({}, preState)
       newObj.imCount = newObj.imCount - action.data
-      if(newObj.imCount < 0){
+      if (newObj.imCount < 0) {
         newObj.imCount = 0
       }
-      return newObj;
+      return newObj
     case INCR_NOTIFICATION_UNREAD_IM:
-      newObj = Object.assign({},preState)
+      newObj = Object.assign({}, preState)
       newObj.imCount = newObj.imCount + action.data
-      return newObj;
+      return newObj
     default:
-      return preState;
+      return preState
   }
 }

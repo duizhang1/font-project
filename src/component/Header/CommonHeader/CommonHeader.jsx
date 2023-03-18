@@ -1,14 +1,14 @@
-import { Menu, Layout, Input } from 'antd';
-import React, { useState, useEffect } from 'react';
-import CreatorDropDown from '@src/component/Header/CreatorDropDown/CreatorDropDown';
+import { Menu, Layout, Input } from 'antd'
+import React, { useState, useEffect } from 'react'
+import CreatorDropDown from '@src/component/Header/CreatorDropDown/CreatorDropDown'
 import HeaderLogo from '@src/component/Header/Logo/Logo'
 import './CommonHeader.css'
-import RingDropDown from '@src/component/Header/RingDropDown/RingDropDown';
-import { useNavigate, useLocation } from "react-router-dom";
-import AvatarAndLogin from '@src/component/Avatar/AvatarAndLogin/AvatarAndLogin';
+import RingDropDown from '@src/component/Header/RingDropDown/RingDropDown'
+import { useNavigate, useLocation } from 'react-router-dom'
+import AvatarAndLogin from '@src/component/Avatar/AvatarAndLogin/AvatarAndLogin'
 
-const { Header } = Layout;
-const { Search } = Input;
+const { Header } = Layout
+const { Search } = Input
 
 // 头部点击项配置
 const items = [
@@ -16,25 +16,22 @@ const items = [
     label: '首页',
     key: 'mainpage'
   }
-];
+]
 
-
-export default function HeaderPage() {
-  const [choosePage, setChoosePage] = useState('mainPage');
-  const navigate = useNavigate();
-  const location = useLocation();
+export default function HeaderPage () {
+  const [choosePage, setChoosePage] = useState('mainPage')
+  const navigate = useNavigate()
+  const location = useLocation()
 
   // 点击事件导航并设置显示
   const onClick = (e) => {
-    navigate(`/home/${e.key}`);
+    navigate(`/home/${e.key}`)
     setChoosePage(e.key)
-  };
+  }
   // 搜索框搜索事件
   const onSearch = (value) => {
     console.log(value)
   }
-
-
 
   useEffect(() => {
     // 设置menu刷新后根据路由显示,只需要在第一次初始化的时候使用
@@ -43,7 +40,7 @@ export default function HeaderPage() {
     } else {
       setChoosePage(location.pathname.split('/')[1])
     }
-  },[])
+  }, [])
 
   return (
     <Header className='header header-setting'>
@@ -66,5 +63,5 @@ export default function HeaderPage() {
       <Search placeholder="探索NotNull社区" onSearch={onSearch} className='search-set' />
 
     </Header>
-  );
+  )
 }

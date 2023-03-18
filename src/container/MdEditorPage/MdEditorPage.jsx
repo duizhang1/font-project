@@ -1,35 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react'
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
+import MarkdownIt from 'markdown-it'
+import MdEditor from 'react-markdown-editor-lite'
 // import style manually
-import 'react-markdown-editor-lite/lib/index.css';
-import { Input, Button, message, Popover } from 'antd';
+import 'react-markdown-editor-lite/lib/index.css'
+import { Input, Button, message, Popover } from 'antd'
 import './MdEditorPage.css'
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
-import qiniuUpload from '@src/util/qiniu/qiniuUpload';
+import qiniuUpload from '@src/util/qiniu/qiniuUpload'
 import ArticleSubmitForm from '@src/component/Form/ArtilcleSubmitForm/ArticleSubmitForm'
-import { axiosReq } from '@src/util/request/axios';
+import { axiosReq } from '@src/util/request/axios'
 import 'github-markdown-css'
 
 // Initialize a markdown parser
 const mdParser = new MarkdownIt({
   html: true,
   xhtmlOut: true
-});
+})
 
-function MdEditorPage(props) {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const title = id === 'new' ? '发布文章' : '更新文章';
-  const [inpValue, setInpValue] = useState();
-  const [mdValue, setMdValue] = useState('');
-  const [articleInfo, setArticleInfo] = useState(null);
+function MdEditorPage (props) {
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const title = id === 'new' ? '发布文章' : '更新文章'
+  const [inpValue, setInpValue] = useState()
+  const [mdValue, setMdValue] = useState('')
+  const [articleInfo, setArticleInfo] = useState(null)
   const editor = useRef(null)
 
   useEffect(() => {
     if (id !== 'new') {
-      axiosReq.get('/article/isCanUpdateArticle', {id}).then(
+      axiosReq.get('/article/isCanUpdateArticle', { id }).then(
         (value) => {
           const { data } = value
           editor.current.setText(data.content)
@@ -47,15 +47,15 @@ function MdEditorPage(props) {
     navigate(-1)
   }
 
-  function imageUpload(file) {
+  function imageUpload (file) {
     return qiniuUpload(file)
   }
 
-  function inPutChange(e) {
+  function inPutChange (e) {
     setInpValue(e.target.value)
   }
 
-  function handleEditorChange({ html, text }) {
+  function handleEditorChange ({ html, text }) {
     setMdValue(text)
   }
 
@@ -86,10 +86,10 @@ function MdEditorPage(props) {
           />}
           trigger="click"
         >
-          <Button type="primary" style={{borderRadius: '15px'}}>{title}</Button>
+          <Button type="primary" style={{ borderRadius: '15px' }}>{title}</Button>
         </Popover>
 
-        <Button style={{ marginLeft: '15px',borderRadius: '15px' }} onClick={returnPage}>返回</Button>
+        <Button style={{ marginLeft: '15px', borderRadius: '15px' }} onClick={returnPage}>返回</Button>
       </div>
       <MdEditor
         style={{ height: '92vh', minHeight: '300px' }}

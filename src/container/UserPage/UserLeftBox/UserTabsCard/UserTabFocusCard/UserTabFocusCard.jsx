@@ -1,36 +1,43 @@
 import React, { useState } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { List, Space, Divider, Skeleton, ConfigProvider, Tag } from 'antd';
-import { axiosReq } from '@src/util/request/axios';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { Divider, Skeleton } from 'antd'
+import { axiosReq } from '@src/util/request/axios'
+import AvatarAndHref from '@src/component/Avatar/AvatarAndHref/AvatarAndHref'
 
 const focusType = [
   {
     name: '关注的用户',
-    id: '1',
+    id: '1'
   },
   {
     name: '关注者',
-    id: '2',
-  },
+    id: '2'
+  }
 ]
 
-export default function UserTabFocusCard() {
-
+export default function UserTabFocusCard () {
   const data = [
-
+    {
+      uuid: '9813216486',
+      companyName: 'fingard',
+      position: 'softengineer',
+      username: '大队长',
+      avatar: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
+      isFocus: true
+    }
   ]
 
-  const [chooseType,setChooseType] = useState('1')
+  const [chooseType, setChooseType] = useState('1')
 
-  const [datas, setDatas] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [datas, setDatas] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const size = 20
 
   const loadMoreData = (resetData, resetPage) => {
-    let page = resetPage ? resetPage : currentPage;
-    let data = resetData ? resetData : datas;
-    let params = { current: page, size }
+    const page = resetPage || currentPage
+    const data = resetData || datas
+    const params = { current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
@@ -45,12 +52,22 @@ export default function UserTabFocusCard() {
         setHasMore(false)
       }
     )
-  };
+  }
 
   const clickType = (id) => {
     return () => {
-      setChooseType(id);
+      setChooseType(id)
+      // todo 设置数据请求并发送数据请求
     }
+  }
+
+  function userFocusItem (item) {
+    return (
+      <div key={item.uuid}>
+        <AvatarAndHref srcHref={item.avatar} uuid={item.uuid}/>
+
+      </div>
+    )
   }
 
   return (
@@ -63,7 +80,7 @@ export default function UserTabFocusCard() {
         <div
           style={{
             fontWeight: '600',
-            fontSize: '14px',
+            fontSize: '14px'
           }}
         >
           关注
@@ -76,7 +93,7 @@ export default function UserTabFocusCard() {
             return (
               <div
                 style={{
-                  display: 'flex',
+                  display: 'flex'
                 }}
                 key={item.id}
               >
@@ -84,17 +101,18 @@ export default function UserTabFocusCard() {
                   style={{
                     cursor: 'pointer',
                     fontSize: '15px',
-                    color: chooseType === item.id ? '#000' : '#72777b',
+                    color: chooseType === item.id ? '#000' : '#72777b'
                   }}
                   onClick={clickType(item.id)}
                 >
                   {item.name}
                 </div>
-                {index !== focusType.length - 1 ?
-                  <span style={{
+                {index !== focusType.length - 1
+                  ? <span style={{
                     padding: '0 15px',
                     color: '#72777b'
-                  }}>|</span> : ''
+                  }}>|</span>
+                  : ''
                 }
               </div>
             )
@@ -109,7 +127,7 @@ export default function UserTabFocusCard() {
           <Skeleton
             style={{ padding: '0 11px', margin: '10px 0 0 0' }}
             paragraph={{
-              rows: 3,
+              rows: 3
             }}
             active
             round
@@ -119,7 +137,12 @@ export default function UserTabFocusCard() {
         pullDownToRefreshThreshold={0}
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
       >
-
+        {data.map((item) => {
+          if (chooseType === 1 || chooseType === 2) {
+            return userFocusItem(item)
+          }
+          return ''
+        })}
       </InfiniteScroll>
     </div>
   )

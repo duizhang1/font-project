@@ -1,103 +1,103 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Col, Form, Input, Row, Modal, message } from 'antd';
+import { Button, Checkbox, Col, Form, Input, Row, Modal, message } from 'antd'
 import './RegisterModal.css'
 import { connect } from 'react-redux'
 import { registerShowAction, registerHiddenAction } from '@src/redux/action/Register'
 import { loginShowAction } from '@src/redux/action/Login'
+import PropTypes from 'prop-types'
 const { axiosReq } = require('@src/util/request/axios')
 
-
 const formItemLayout = {
-    labelCol: {
-        xs: {
-            span: 6,
-        },
-        sm: {
-            span: 6,
-        },
+  labelCol: {
+    xs: {
+      span: 6
     },
-    wrapperCol: {
-        xs: {
-            span: 24,
-        },
-        sm: {
-            span: 24,
-        },
+    sm: {
+      span: 6
+    }
+  },
+  wrapperCol: {
+    xs: {
+      span: 24
     },
-};
+    sm: {
+      span: 24
+    }
+  }
+}
 const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 21,
-            offset: 3,
-        },
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0
     },
-};
-
-let timer;
-
-function RegisterModal(props) {
-    const { registerRedux, registerHiddenAction, loginShowAction } = props
-    const [btnDisable, setBtnDisable] = useState(false)
-    const [leftTime, setLeftTime] = useState(59)
-    const [form] = Form.useForm();
-
-    useEffect(() => {
-        clearInterval(timer)
-        return () => {
-            clearInterval(timer)
-        }
-    }, [])
-
-    useEffect(() => {
-        if (leftTime <= 0 || leftTime >= 60) {
-            setBtnDisable(false)
-            clearInterval(timer)
-            setLeftTime(59)
-        }
-    }, [leftTime])
-
-    const getCaptchaTime = () => {
-        console.log(form.getFieldError('emailAddress'))
-        if (form.getFieldError('emailAddress') !== null && form.getFieldError('emailAddress').length > 0) {
-            message.error(form.getFieldError('emailAddress'))
-            return
-        }
-        axiosReq.get('/mail/getVerifyCode', { emailAddress: form.getFieldValue('emailAddress') }).then(
-            (value) => {
-                message.info(value.message)
-                timer = setInterval(() => setLeftTime(pre => pre - 1), 1000)
-                setBtnDisable(true);
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
+    sm: {
+      span: 21,
+      offset: 3
     }
+  }
+}
 
-    const onFinish = (values) => {
-        axiosReq.post('/user/register', values).then(
-            (value) => {
-                message.info(value.message + ',正在前往登陆')
-                registerHiddenAction()
-                loginShowAction()
-            },
-            (reason) => {
-                message.error(reason.message)
-            }
-        )
-    };
+let timer
 
-    const showLogin = () => {
-        registerHiddenAction();
-        loginShowAction();
+function RegisterModal (props) {
+  const { registerRedux, registerHiddenAction, loginShowAction } = props
+  const [btnDisable, setBtnDisable] = useState(false)
+  const [leftTime, setLeftTime] = useState(59)
+  const [form] = Form.useForm()
+
+  useEffect(() => {
+    clearInterval(timer)
+    return () => {
+      clearInterval(timer)
     }
+  }, [])
 
-    return (
+  useEffect(() => {
+    if (leftTime <= 0 || leftTime >= 60) {
+      setBtnDisable(false)
+      clearInterval(timer)
+      setLeftTime(59)
+    }
+  }, [leftTime])
+
+  const getCaptchaTime = () => {
+    console.log(form.getFieldError('emailAddress'))
+    if (form.getFieldError('emailAddress') !== null && form.getFieldError('emailAddress').length > 0) {
+      message.error(form.getFieldError('emailAddress'))
+      return
+    }
+    axiosReq.get('/mail/getVerifyCode', { emailAddress: form.getFieldValue('emailAddress') }).then(
+      (value) => {
+        message.info(value.message)
+        timer = setInterval(() => setLeftTime(pre => pre - 1), 1000)
+        setBtnDisable(true)
+      },
+      (reason) => {
+        message.error(reason.message)
+      }
+    )
+  }
+
+  const onFinish = (values) => {
+    axiosReq.post('/user/register', values).then(
+      (value) => {
+        message.info(value.message + ',正在前往登陆')
+        registerHiddenAction()
+        loginShowAction()
+      },
+      (reason) => {
+        message.error(reason.message)
+      }
+    )
+  }
+
+  const showLogin = () => {
+    registerHiddenAction()
+    loginShowAction()
+  }
+
+  return (
         <>
             <Modal
                 open={registerRedux.registerShow}
@@ -121,11 +121,11 @@ function RegisterModal(props) {
                         label="用户名"
                         tooltip="输入你常用的用户名"
                         rules={[
-                            {
-                                required: true,
-                                message: '请输入你的用户名!',
-                                whitespace: true,
-                            },
+                          {
+                            required: true,
+                            message: '请输入你的用户名!',
+                            whitespace: true
+                          }
                         ]}
                     >
                         <Input />
@@ -136,16 +136,16 @@ function RegisterModal(props) {
                         label="密码"
                         tooltip="输入6-16位的密码"
                         rules={[
-                            {
-                                type: 'string',
-                                max: 16,
-                                min: 6,
-                                message: '请输入6-16位的密码'
-                            },
-                            {
-                                required: true,
-                                message: '请输入密码',
-                            },
+                          {
+                            type: 'string',
+                            max: 16,
+                            min: 6,
+                            message: '请输入6-16位的密码'
+                          },
+                          {
+                            required: true,
+                            message: '请输入密码'
+                          }
                         ]}
                         hasFeedback
                     >
@@ -158,18 +158,18 @@ function RegisterModal(props) {
                         dependencies={['password']}
                         hasFeedback
                         rules={[
-                            {
-                                required: true,
-                                message: '请再一次输入密码',
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('两次密码不相等!'));
-                                },
-                            }),
+                          {
+                            required: true,
+                            message: '请再一次输入密码'
+                          },
+                          ({ getFieldValue }) => ({
+                            validator (_, value) {
+                              if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve()
+                              }
+                              return Promise.reject(new Error('两次密码不相等!'))
+                            }
+                          })
                         ]}
                     >
                         <Input.Password />
@@ -179,14 +179,14 @@ function RegisterModal(props) {
                         name="emailAddress"
                         label="邮箱"
                         rules={[
-                            {
-                                type: 'email',
-                                message: '邮箱格式不正确',
-                            },
-                            {
-                                required: true,
-                                message: '邮箱不为空',
-                            },
+                          {
+                            type: 'email',
+                            message: '邮箱格式不正确'
+                          },
+                          {
+                            required: true,
+                            message: '邮箱不为空'
+                          }
                         ]}
                     >
                         <Input />
@@ -197,10 +197,10 @@ function RegisterModal(props) {
                         label="验证码"
                         tooltip="输入邮箱中获得的验证码"
                         rules={[
-                            {
-                                required: true,
-                                message: '请输入邮箱中获得的验证码!',
-                            },
+                          {
+                            required: true,
+                            message: '请输入邮箱中获得的验证码!'
+                          }
                         ]}
                     >
                         <Row gutter={8}>
@@ -222,22 +222,22 @@ function RegisterModal(props) {
 
                     <Form.Item
                         wrapperCol={{
-                            xs: {
-                                span: 24,
-                                offset: 0,
-                            },
-                            sm: {
-                                span: 21,
-                                offset: 3,
-                            }
+                          xs: {
+                            span: 24,
+                            offset: 0
+                          },
+                          sm: {
+                            span: 21,
+                            offset: 3
+                          }
                         }}
                         name="agreement"
                         valuePropName="checked"
                         rules={[
-                            {
-                                validator: (_, value) =>
-                                    value ? Promise.resolve() : Promise.reject(new Error('请阅读并同意用户协议')),
-                            },
+                          {
+                            validator: (_, value) =>
+                              value ? Promise.resolve() : Promise.reject(new Error('请阅读并同意用户协议'))
+                          }
                         ]}
                         {...tailFormItemLayout}
                     >
@@ -247,8 +247,8 @@ function RegisterModal(props) {
                     </Form.Item>
                     <Form.Item
                         wrapperCol={{
-                            span: 24,
-                            offset: 0,
+                          span: 24,
+                          offset: 0
                         }}
                     >
                         <Button type="primary" htmlType="submit" className="register-form-button">
@@ -257,11 +257,11 @@ function RegisterModal(props) {
                     </Form.Item>
                     <Form.Item
                         wrapperCol={{
-                            span: 24,
-                            offset: 0,
+                          span: 24,
+                          offset: 0
                         }}
                         style={{
-                            margin: '-12px 0 24px'
+                          margin: '-12px 0 24px'
                         }}
                     >
                         <Button className="register-form-button" onClick={showLogin}>
@@ -271,12 +271,18 @@ function RegisterModal(props) {
                 </Form>
             </Modal>
         </>
-    )
+  )
 }
 
 export default connect(
-    state => ({
-        registerRedux: state.register
-    }),
-    { loginShowAction, registerShowAction, registerHiddenAction }
+  state => ({
+    registerRedux: state.register
+  }),
+  { loginShowAction, registerShowAction, registerHiddenAction }
 )(RegisterModal)
+
+RegisterModal.propTypes = {
+  loginShowAction: PropTypes.any,
+  registerHiddenAction: PropTypes.any,
+  registerRedux: PropTypes.any
+}

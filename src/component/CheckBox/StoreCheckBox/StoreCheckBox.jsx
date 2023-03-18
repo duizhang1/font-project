@@ -1,21 +1,20 @@
-import React from 'react'
-import { Checkbox } from 'antd';
+import React, { useState } from 'react'
+import { Checkbox } from 'antd'
 import './StoreCheckBox.css'
-import { LockOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { LockOutlined } from '@ant-design/icons'
+import PropTypes from 'prop-types'
 
-export default function StoreCheckBox(props) {
-    const {data,updateClickList} = props
+export default function StoreCheckBox (props) {
+  const { data, updateClickList } = props
 
-    const [isStore, setIsStore] = useState(data ? data.isStore : false);
-    
-    function clickItem() {
-        updateClickList({uuid:data.uuid,flag:!isStore})
-        setIsStore(!isStore)
-    }
+  const [isStore, setIsStore] = useState(data ? data.isStore : false)
 
-    return (
+  function clickItem () {
+    updateClickList({ uuid: data.uuid, flag: !isStore })
+    setIsStore(!isStore)
+  }
+
+  return (
         <div className='store-check-box' onClick={clickItem}>
             <div className='store-check-box-font-div'>
                 <div className='store-check-box-font-div-name'>{data.name} { data.state === '1' ? '' : <LockOutlined /> }</div>
@@ -23,9 +22,14 @@ export default function StoreCheckBox(props) {
             </div>
             <Checkbox
                 checked={isStore}
-                onChange={()=>{setIsStore(!isStore)}}
+                onChange={() => { setIsStore(!isStore) }}
                 style={{ float: 'right', marginTop: '12px' }}
             />
         </div>
-    )
+  )
+}
+
+StoreCheckBox.propTypes = {
+  data: PropTypes.any,
+  updateClickList: PropTypes.any
 }

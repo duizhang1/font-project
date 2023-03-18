@@ -1,31 +1,30 @@
-import React, { useState } from 'react'
-import { Modal, Button, Form, Input, Radio } from 'antd';
-import { useEffect } from 'react';
-import { axiosReq } from '@src/util/request/axios';
+import React, { useState, useEffect } from 'react'
+import { Modal, Button, Form, Input, Radio } from 'antd'
 
+import { axiosReq } from '@src/util/request/axios'
 
-const TextArea = Input.TextArea;
+const TextArea = Input.TextArea
 
 const layout = {
   labelCol: {
-    span: 4,
+    span: 4
   },
   wrapperCol: {
-    span: 16,
-  },
-};
+    span: 16
+  }
+}
 const tailLayout = {
   wrapperCol: {
     offset: 16,
-    span: 8,
-  },
-};
+    span: 8
+  }
+}
 
-export default function UserTabStoreEditModal(props) {
+export default function UserTabStoreEditModal (props) {
   const { editOpen, setEditOpen, editStoreid } = props
 
-  const [data, setData] = useState({});
-  const [form] = Form.useForm();
+  const [data, setData] = useState({})
+  const [form] = Form.useForm()
 
   const onClose = () => {
     setEditOpen(false)
@@ -36,7 +35,7 @@ export default function UserTabStoreEditModal(props) {
   }
 
   useEffect(() => {
-    
+
   })
 
   return (
@@ -62,7 +61,7 @@ export default function UserTabStoreEditModal(props) {
             {
               required: true,
               message: '请输入收藏夹名称'
-            },
+            }
           ]}
         >
           <Input />
@@ -85,7 +84,7 @@ export default function UserTabStoreEditModal(props) {
             showCount
             maxLength={100}
             style={{
-              height: 80,
+              height: 80
             }}
           />
         </Form.Item>
@@ -95,8 +94,8 @@ export default function UserTabStoreEditModal(props) {
           rules={[
             {
               required: true,
-              message: '请选择收藏夹是否开放',
-            },
+              message: '请选择收藏夹是否开放'
+            }
           ]}
         >
           <Radio.Group>

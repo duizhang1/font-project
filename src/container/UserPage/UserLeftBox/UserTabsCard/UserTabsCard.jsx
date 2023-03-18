@@ -1,32 +1,31 @@
 import React from 'react'
-import { Tabs } from 'antd';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Tabs } from 'antd'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 const tabItem = [
   {
-    label: `动态`,
-    key: 'msg',
+    label: '动态',
+    key: 'msg'
   },
   {
-    label: `文章`,
-    key: 'posts',
+    label: '文章',
+    key: 'posts'
   },
   {
-    label: `收藏夹`,
-    key: 'store',
+    label: '收藏夹',
+    key: 'store'
   },
   {
-    label: `关注`,
-    key: 'focus',
-  },
+    label: '关注',
+    key: 'focus'
+  }
 ]
 
-export default function UserTabsCard() {
-
+export default function UserTabsCard () {
   const navigate = useNavigate()
-  const { userId } = useParams();
+  const { userId } = useParams()
 
-  function onTabUrl(key) {
+  function onTabUrl (key) {
     navigate(`/user/${userId}/${key}`)
   }
 

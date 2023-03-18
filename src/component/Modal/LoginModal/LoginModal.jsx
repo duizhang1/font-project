@@ -5,45 +5,43 @@ import { loginHiddenAction, loginShowAction } from '@src/redux/action/Login'
 import { registerShowAction } from '@src/redux/action/Register'
 import { setUserInfoAction } from '@src/redux/action/User'
 import './LoginModal.css'
+import PropTypes from 'prop-types'
 const { axiosReq } = require('@src/util/request/axios')
 
-
-
-
-function LoginModal(props) {
-  const { loginRedux, loginHiddenAction, registerShowAction,setUserInfoAction } = props
+function LoginModal (props) {
+  const { loginRedux, loginHiddenAction, registerShowAction, setUserInfoAction } = props
 
   const onFinish = (values) => {
     axiosReq.post('/user/login', values).then(
       (value) => {
-        const { data } = value;
+        const { data } = value
         // 获取token并拼接起来
-        let token = data.tokenHead + data.token;
+        const token = data.tokenHead + data.token
         localStorage.setItem('token', token)
         message.info('登陆成功')
         axiosReq.get('/user/getCurrentUser').then(
-          (value) => { 
+          (value) => {
             setUserInfoAction(value.data)
           },
           (reason) => {
           }
         )
         // 隐藏登陆框
-        loginHiddenAction();
+        loginHiddenAction()
       },
       (reason) => {
         message.error(reason.message)
       }
     )
-  };
+  }
   const onFinishFailed = (errorInfo) => {
     message.error(errorInfo.errorFields[0].errors[0])
-  };
+  }
 
   // 展示注册Modal
   const showRegister = () => {
-    loginHiddenAction();
-    registerShowAction();
+    loginHiddenAction()
+    registerShowAction()
   }
 
   return (
@@ -61,10 +59,10 @@ function LoginModal(props) {
         <Form
           name="basic"
           labelCol={{
-            span: 5,
+            span: 5
           }}
           wrapperCol={{
-            span: 18,
+            span: 18
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -76,12 +74,12 @@ function LoginModal(props) {
             rules={[
               {
                 type: 'email',
-                message: '邮箱格式不正确',
+                message: '邮箱格式不正确'
               },
               {
                 required: true,
-                message: '请输入邮箱号!',
-              },
+                message: '请输入邮箱号!'
+              }
             ]}
             style={{ margin: '15px 0 24px ' }}
           >
@@ -94,8 +92,8 @@ function LoginModal(props) {
             rules={[
               {
                 required: true,
-                message: '请输入密码!',
-              },
+                message: '请输入密码!'
+              }
             ]}
           >
             <Input.Password placeholder="请输入密码" />
@@ -103,7 +101,7 @@ function LoginModal(props) {
 
           <Form.Item
             wrapperCol={{
-              span: 20,
+              span: 20
             }}
             style={{ margin: '-24px 0 20px' }}
           >
@@ -112,7 +110,7 @@ function LoginModal(props) {
 
           <Form.Item
             wrapperCol={{
-              span: 24,
+              span: 24
             }}
             style={{ margin: '0 0 12px' }}
           >
@@ -122,7 +120,7 @@ function LoginModal(props) {
           </Form.Item>
           <Form.Item
             wrapperCol={{
-              span: 24,
+              span: 24
             }}
           >
             <Button className="login-form-button" onClick={showRegister}>
@@ -139,5 +137,12 @@ export default connect(
   state => ({
     loginRedux: state.login
   }),
-  { loginShowAction, loginHiddenAction, registerShowAction,setUserInfoAction }
+  { loginShowAction, loginHiddenAction, registerShowAction, setUserInfoAction }
 )(LoginModal)
+
+LoginModal.propTypes = {
+  loginHiddenAction: PropTypes.any,
+  loginRedux: PropTypes.any,
+  registerShowAction: PropTypes.any,
+  setUserInfoAction: PropTypes.any
+}

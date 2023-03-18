@@ -1,20 +1,20 @@
 import React from 'react'
-import { Card } from 'antd';
-import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem';
+import { Card } from 'antd'
+import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem'
 
-export default function CreatorHome() {
-    return (
+export default function CreatorHome () {
+  return (
         <div>
             <Card
                 title={<span style={{}}>数据概览</span>}
                 bordered={false}
                 style={{
-                    width: '100%',
+                  width: '100%'
                 }}
             >
                 <div style={{
-                    display: 'flex',
-                    flexFlow: 'row wrap'
+                  display: 'flex',
+                  flexFlow: 'row wrap'
                 }}>
                     <CreatorDataItem />
                     <CreatorDataItem />
@@ -25,5 +25,5 @@ export default function CreatorHome() {
                 </div>
             </Card>
         </div>
-    )
+  )
 }

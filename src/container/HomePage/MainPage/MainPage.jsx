@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout } from 'antd'
 import LabelMenu from '@src/component/Header/LabelMenu/LabelMenu'
 import './MainPage.css'
@@ -8,33 +8,32 @@ import { useParams } from 'react-router-dom'
 
 const { Content } = Layout
 
-export default function MainPage() {
+export default function MainPage () {
+  const { sortRoute } = useParams()
 
-    const { sortRoute } = useParams();
+  const artcleHeaderDivStyle = {
+    display: sortRoute === 'focus' ? 'none' : 'inline-block',
+    width: '100%'
+  }
 
-    const artcleHeaderDivStyle = {
-        display: sortRoute === 'focus' ? 'none' : 'inline-block',
-        width: '100%'
-    }
-
-    return (
+  return (
+    <Content>
+      <Layout>
+        <LabelMenu />
         <Content>
-            <Layout>
-                <LabelMenu />
-                <Content>
-                    <div className='content-set'>
-                        <div className='articlelist-set'>
-                            <div style={artcleHeaderDivStyle}>
-                                <ArticleHeader/>
-                            </div>
-                            <ArticleList/>
-                        </div>
-                        <div className='rightlist-set'>
+          <div className='content-set'>
+            <div className='articlelist-set'>
+              <div style={artcleHeaderDivStyle}>
+                <ArticleHeader/>
+              </div>
+              <ArticleList/>
+            </div>
+            <div className='rightlist-set'>
 
-                        </div>
-                    </div>
-                </Content>
-            </Layout>
+            </div>
+          </div>
         </Content>
-    )
+      </Layout>
+    </Content>
+  )
 }

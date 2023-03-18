@@ -4,24 +4,25 @@ import { connect } from 'react-redux'
 import { loginShowAction } from '@src/redux/action/Login'
 import { useNavigate } from 'react-router-dom'
 import './AvatarAndName.css'
+import PropTypes from 'prop-types'
 
-function AvatarAndName(props) {
-    const { userRedux } = props
-    const navigate = useNavigate()
+function AvatarAndName (props) {
+  const { userRedux } = props
+  const navigate = useNavigate()
 
-    function clickToUser() {
-        navigate(`/user/${userRedux.uuid}`);
-    }
+  function clickToUser () {
+    navigate(`/user/${userRedux.uuid}`)
+  }
 
-    return (
-        <div style={{height: '40px'}}>
+  return (
+        <div style={{ height: '40px' }}>
             <Avatar
                 size="large"
                 src={userRedux.avatar}
                 style={{
-                    display: userRedux.uuid !== '' ? 'block' : 'none',
-                    cursor: 'pointer',
-                    float: 'left'
+                  display: userRedux.uuid !== '' ? 'block' : 'none',
+                  cursor: 'pointer',
+                  float: 'left'
                 }}
                 onClick={clickToUser}
             />
@@ -29,11 +30,15 @@ function AvatarAndName(props) {
                 {userRedux.username}
             </div>
         </div>
-    )
+  )
 }
 export default connect(
-    state => ({
-        userRedux: state.user
-    }),
-    { loginShowAction }
+  state => ({
+    userRedux: state.user
+  }),
+  { loginShowAction }
 )(AvatarAndName)
+
+AvatarAndName.propTypes = {
+  userRedux: PropTypes.any
+}

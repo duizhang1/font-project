@@ -1,17 +1,17 @@
 import React from 'react'
-import { Skeleton, Divider,Empty } from 'antd'
+import { Skeleton, Divider, Empty } from 'antd'
+import PropTypes from 'prop-types'
 
-export default function ArticleListLoading(props) {
+export default function ArticleListLoading (props) {
+  const { hasMore } = props
 
-    const { hasMore } = props
-
-    return (
+  return (
         <>
             <div style={{ display: hasMore ? 'block' : 'none' }}>
                 <Skeleton
                     style={{ padding: '0 11px' }}
                     paragraph={{
-                        rows: 3,
+                      rows: 3
                     }}
                     active
                     round
@@ -21,7 +21,7 @@ export default function ArticleListLoading(props) {
                 <Skeleton
                     style={{ padding: '0 11px' }}
                     paragraph={{
-                        rows: 3,
+                      rows: 3
                     }}
                     active
                     round
@@ -31,7 +31,7 @@ export default function ArticleListLoading(props) {
                 <Skeleton
                     style={{ padding: '0 11px' }}
                     paragraph={{
-                        rows: 3,
+                      rows: 3
                     }}
                     active
                     round
@@ -41,7 +41,7 @@ export default function ArticleListLoading(props) {
                 <Skeleton
                     style={{ padding: '0 11px' }}
                     paragraph={{
-                        rows: 3,
+                      rows: 3
                     }}
                     active
                     round
@@ -51,7 +51,7 @@ export default function ArticleListLoading(props) {
                 <Skeleton
                     style={{ padding: '0 11px' }}
                     paragraph={{
-                        rows: 3,
+                      rows: 3
                     }}
                     active
                     round
@@ -63,5 +63,9 @@ export default function ArticleListLoading(props) {
                 <Empty description='暂无文章' />
             </div>
         </>
-    )
+  )
+}
+
+ArticleListLoading.propTypes = {
+  hasMore: PropTypes.bool
 }

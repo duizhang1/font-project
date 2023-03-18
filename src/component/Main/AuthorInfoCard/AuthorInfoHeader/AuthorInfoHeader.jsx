@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Avatar, Button, message } from 'antd'
+import React from 'react'
+import { Avatar, Button } from 'antd'
 import './AuthorInfoHeader.css'
-import { axiosReq } from '@src/util/request/axios'
 import { useNavigate } from 'react-router-dom'
-import SubscribeButton from "@src/component/Button/SubscribeButton/SubscribeButton";
+import SubscribeButton from '@src/component/Button/SubscribeButton/SubscribeButton'
+import PropTypes from 'prop-types'
 
-export default function AuthorInfoHeader(props) {
-    const { authorInfo } = props
-    const navigate = useNavigate()
+export default function AuthorInfoHeader (props) {
+  const { authorInfo } = props
+  const navigate = useNavigate()
 
-    function clickChat() {
-        navigate(`/notification/im?addChat=${authorInfo.uuid}`)
-    }
+  function clickChat () {
+    navigate(`/notification/im?addChat=${authorInfo.uuid}`)
+  }
 
-    return (
+  return (
         <div style={{ minWidth: '200px' }}>
             <div className='author-header'>
                 <Avatar alt='头像' size='large' src={authorInfo.avatar} />
@@ -33,5 +33,9 @@ export default function AuthorInfoHeader(props) {
                 </Button>
             </div>
         </div>
-    )
+  )
+}
+
+AuthorInfoHeader.propTypes = {
+  authorInfo: PropTypes.object
 }

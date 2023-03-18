@@ -1,36 +1,33 @@
 import React from 'react'
-import { Dropdown } from 'antd';
-import { DownOutlined,EditOutlined } from '@ant-design/icons';
-import { useNavigate } from "react-router-dom";
+import { Dropdown } from 'antd'
+import { DownOutlined, EditOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 import './CreatorDropDown.css'
 
-
 const items = [
-    {
-        label: (<div className='dropdown-item-div'><EditOutlined style={{fontSize: '15px',margin: '4px 9px 0 0'}}/>写文章</div>),
-        key: '/mdeditor/new',
-    }
-];
+  {
+    label: (<div className='dropdown-item-div'><EditOutlined style={{ fontSize: '15px', margin: '4px 9px 0 0' }}/>写文章</div>),
+    key: '/mdeditor/new'
+  }
+]
 
+export default function CreatorDropDown () {
+  const navigate = useNavigate()
 
-export default function CreatorDropDown() {
+  const handleMenuClick = (e) => {
+    navigate(e.key)
+  }
 
-    const navigate = useNavigate();
+  const clickCreator = (e) => {
+    navigate('/creator/home')
+  }
 
-    const handleMenuClick = (e) => {
-        navigate(e.key)
-    };
+  const menuProps = {
+    items,
+    onClick: handleMenuClick
+  }
 
-    const clickCreator = (e) => {
-        navigate('/creator/home')
-    }
-
-    const menuProps = {
-        items,
-        onClick: handleMenuClick
-    };
-
-    return (
+  return (
         <Dropdown.Button
             menu={menuProps}
             trigger={['click']}
@@ -41,5 +38,5 @@ export default function CreatorDropDown() {
         >
             创作者中心
         </Dropdown.Button>
-    )
+  )
 }

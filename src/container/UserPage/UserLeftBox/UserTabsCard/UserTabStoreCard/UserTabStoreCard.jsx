@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { axiosReq } from '@src/util/request/axios';
-import { List, Space, Divider, Skeleton, ConfigProvider, Tag } from 'antd';
-import { LockTwoTone, UnlockTwoTone, EditOutlined, CloseOutlined } from '@ant-design/icons';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { axiosReq } from '@src/util/request/axios'
+import { Divider, Skeleton, Tag } from 'antd'
+import { LockTwoTone, UnlockTwoTone, EditOutlined, CloseOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import './UserTabStoreCard.css'
-import UserTabStoreEditModal from '@src/component/Modal/UserTabStoreEditModal/UserTabStoreEditModal';
-import DeleteConfirmModal from '@src/component/Modal/DeleteConfirmModal/DeleteConfirmModal';
+import UserTabStoreEditModal from '@src/component/Modal/UserTabStoreEditModal/UserTabStoreEditModal'
+import DeleteConfirmModal from '@src/component/Modal/DeleteConfirmModal/DeleteConfirmModal'
+import PropTypes from 'prop-types'
 
-function UserTabStoreCard(props) {
+function UserTabStoreCard (props) {
   const { userRedux } = props
   const { userId } = useParams()
 
@@ -21,7 +22,7 @@ function UserTabStoreCard(props) {
       isDefault: '1',
       state: '1',
       updateTime: '2022-06-27',
-      articleNum: 99,
+      articleNum: 99
     },
     {
       uuid: '9919999',
@@ -30,24 +31,24 @@ function UserTabStoreCard(props) {
       isDefault: '0',
       state: '2',
       updateTime: '2022-06-27',
-      articleNum: 99,
+      articleNum: 99
     }
   ]
 
-  const [datas, setDatas] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [datas, setDatas] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const size = 20
 
   const [editOpen, setEditOpen] = useState(false)
-  const [editStoreid, setEditStoreid] = useState('');
+  const [editStoreid, setEditStoreid] = useState('')
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
-  const [deleteId,setDeleteId] = useState('')
+  const [deleteId, setDeleteId] = useState('')
 
   const loadMoreData = (resetData, resetPage) => {
-    let page = resetPage ? resetPage : currentPage;
-    let data = resetData ? resetData : datas;
-    let params = { current: page, size }
+    const page = resetPage || currentPage
+    const data = resetData || datas
+    const params = { current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
@@ -62,28 +63,28 @@ function UserTabStoreCard(props) {
         setHasMore(false)
       }
     )
-  };
+  }
 
-  function editStoreItem(storeId) {
+  function editStoreItem (storeId) {
     return () => {
       setEditOpen(true)
       setEditStoreid(storeId)
     }
   }
 
-  function deleteStoreItem(storeId) {
+  function deleteStoreItem (storeId) {
     return () => {
       setIsConfirmOpen(true)
       setDeleteId(storeId)
     }
   }
 
-  function onDelete() {
+  function onDelete () {
     console.log(deleteId)
     setIsConfirmOpen(false)
   }
 
-  function singleItem(item) {
+  function singleItem (item) {
     return (
       <div
         className='user-tab-store-card-div'
@@ -97,15 +98,15 @@ function UserTabStoreCard(props) {
           <span style={{
             color: '#252933',
             fontWeight: '500',
-            fontSize: '16px',
+            fontSize: '16px'
           }}>{item.name}</span>
-          {userRedux.uuid === userId && item.state === '1' ?
-            <UnlockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }} /> :
-            <LockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }} />
+          {userRedux.uuid === userId && item.state === '1'
+            ? <UnlockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }} />
+            : <LockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }} />
           }
-          {userRedux.uuid === userId && item.isDefault === '1' ?
-            <Tag color="processing" style={{ fontSize: '16px', marginLeft: '5px' }}>默认</Tag> :
-            ''
+          {userRedux.uuid === userId && item.isDefault === '1'
+            ? <Tag color="processing" style={{ fontSize: '16px', marginLeft: '5px' }}>默认</Tag>
+            : ''
           }
         </div>
         <div
@@ -130,7 +131,7 @@ function UserTabStoreCard(props) {
           <div
             className='user-tab-store-card-tools'
             style={{
-              marginLeft: 'auto',
+              marginLeft: 'auto'
             }}
           >
             <div
@@ -145,7 +146,7 @@ function UserTabStoreCard(props) {
               style={{
                 marginLeft: '5px',
                 cursor: 'pointer',
-                display: item.isDefault === '1' ? 'none' : 'block',
+                display: item.isDefault === '1' ? 'none' : 'block'
               }}
               onClick={deleteStoreItem(item.uuid)}
             >
@@ -167,7 +168,7 @@ function UserTabStoreCard(props) {
           <Skeleton
             style={{ padding: '0 11px', margin: '10px 0 0 0' }}
             paragraph={{
-              rows: 3,
+              rows: 3
             }}
             active
             round
@@ -200,3 +201,7 @@ export default connect(
   }),
   {}
 )(UserTabStoreCard)
+
+UserTabStoreCard.propTypes = {
+  userRedux: PropTypes.any
+}

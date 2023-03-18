@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from 'antd';
+import { Button } from 'antd'
 
-export default function EditUserProfileButton() {
+export default function EditUserProfileButton () {
   return (
     <div>
       <Button type="primary" ghost>

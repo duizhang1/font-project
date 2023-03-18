@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { Avatar } from 'antd'
+import { Avatar, Divider, Skeleton } from 'antd'
 import UserNameHref from '@src/component/AHref/UserNameHref/UserNameHref'
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { axiosReq } from '@src/util/request/axios';
-import { List, Space, Divider, Skeleton, ConfigProvider } from 'antd';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { axiosReq } from '@src/util/request/axios'
 
-export default function UserTabsMsgCard() {
-
+export default function UserTabsMsgCard () {
   const avatarAndNameSpace = '10px'
 
   const data = [
@@ -33,7 +31,7 @@ export default function UserTabsMsgCard() {
         createTime: '2022-06-06 23:58',
         title: 'list怎么使用啊啊sadsadddddddddddddddddasdwqrtgsvcfgsdfgfdggrte我红红火火恍恍惚惚水水水水水',
         summary: '前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高，也越来越疯狂。对于我们前端来说，我们需要具备什么技术呢？ 首先先介绍一下 web3.0 是如何衍生的 互联网 我们先聊一下啥...',
-        img: 'http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4',
+        img: 'http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4'
       }
     },
     {
@@ -48,25 +46,25 @@ export default function UserTabsMsgCard() {
         createTime: '2022-06-06 23:58',
         title: 'list怎么使用啊啊sadsadddddddddddddddddasdwqrtgsvcfgsdfgfdggrte我红红火火恍恍惚惚水水水水水',
         summary: '前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高前沿 最近 web3.0 的呼1111111111111111声真的是越来越高，也越来越疯狂。对于我们前端来说，我们需要具备什么技术呢？ 首先先介绍一下 web3.0 是如何衍生的 互联网 我们先聊一下啥...',
-        img: 'http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4',
+        img: 'http://resource.duizhangz.cn//FqhrHawMGXoRRBWx-NKMp4wqfOT4'
       }
     }
   ]
 
   const itemCss = {
     padding: '10px 0 10px 0',
-    borderBottom: '1px solid #e5e6eb',
+    borderBottom: '1px solid #e5e6eb'
   }
 
-  const [datas, setDatas] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [datas, setDatas] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const size = 20
 
   const loadMoreData = (resetData, resetPage) => {
-    let page = resetPage ? resetPage : currentPage;
-    let data = resetData ? resetData : datas;
-    let params = { current: page, size }
+    const page = resetPage || currentPage
+    const data = resetData || datas
+    const params = { current: page, size }
     axiosReq.get('/article/getArticleList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
@@ -81,9 +79,9 @@ export default function UserTabsMsgCard() {
         setHasMore(false)
       }
     )
-  };
+  }
 
-  function focusItem(item) {
+  function focusItem (item) {
     return (
       <div style={itemCss} key={item.recordId}>
         <Avatar size={'large'} src={item.avatar} />
@@ -102,7 +100,7 @@ export default function UserTabsMsgCard() {
     )
   }
 
-  function likeArticleItem(item, type) {
+  function likeArticleItem (item, type) {
     return (
       <div style={itemCss} key={item.recordId}>
         <div style={{
@@ -148,7 +146,7 @@ export default function UserTabsMsgCard() {
             fontWeight: 'bold',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
+            whiteSpace: 'nowrap'
           }}>
             {item.title}
           </h3>
@@ -161,7 +159,7 @@ export default function UserTabsMsgCard() {
               style={{
                 fontSize: '15px',
                 color: '#5c6066',
-                wordBreak: 'break-all',
+                wordBreak: 'break-all'
               }}
             >
               {item.summary}
@@ -191,7 +189,7 @@ export default function UserTabsMsgCard() {
         <Skeleton
           style={{ padding: '0 11px', margin: '10px 0 0 0' }}
           paragraph={{
-            rows: 3,
+            rows: 3
           }}
           active
           round
@@ -207,6 +205,7 @@ export default function UserTabsMsgCard() {
         } else if (item.type === 'likeArticle' || item.type === 'createArticle') {
           return likeArticleItem(item.itemData, item.type)
         }
+        return ''
       })}
     </InfiniteScroll>
   )

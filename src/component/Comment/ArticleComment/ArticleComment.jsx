@@ -1,15 +1,14 @@
 import AvatarOrDefault from '@src/component/Avatar/AvatarOrDefalut/AvatarOrDefault'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import ArticleCommentEditor from '../ArticleCommentEditor/ArticleCommentEditor'
 import ArticleCommentSquare from '../ArticleCommentSquare/ArticleCommentSquare'
 import './ArticleComment.css'
 import { nanoid } from 'nanoid'
 
-export default function ArticleComment() {
+export default function ArticleComment () {
+  const [updateArticleComment, setUpdateArticleComment] = useState(nanoid())
 
-    const [updateArticleComment, setUpdateArticleComment] = useState(nanoid());
-
-    return (
+  return (
         <div>
             <div>
                 <h2>评论</h2>
@@ -23,5 +22,5 @@ export default function ArticleComment() {
                 <ArticleCommentSquare updateArticleComment={updateArticleComment} setUpdateArticleComment={ setUpdateArticleComment }/>
             </div>
         </div>
-    )
+  )
 }

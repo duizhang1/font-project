@@ -7,8 +7,8 @@ import { Outlet } from 'react-router-dom'
 
 const { Content } = Layout
 
-export default function CreatorPage() {
-    return (
+export default function CreatorPage () {
+  return (
         <Layout>
             <div className='creator-page-header'>
                 <CreatorHeader />
@@ -22,5 +22,5 @@ export default function CreatorPage() {
                 </div>
             </Content>
         </Layout>
-    )
+  )
 }

@@ -31,6 +31,7 @@ const UserTabStoreCard = lazy(() => import('./container/UserPage/UserLeftBox/Use
 const UserTabFocusCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabFocusCard/UserTabFocusCard'))
 const UserSettingPage = lazy(() => import('./container/UserSettingPage/UserSettingPage'))
 const UserSettingProfile = lazy(() => import('./container/UserSettingPage/UserSettingProfile/UserSettingProfile'))
+const UserSettingAccount = lazy(() => import('@src/container/UserSettingPage/UserSettingAccount/UserSettingAccount'))
 
 function App (props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -82,6 +83,7 @@ function App (props) {
         </Route>
         <Route path={'/usersetting'} element={<Suspense fallback={(<LazyLoading />)}><UserSettingPage /></Suspense>}>
           <Route path={'/usersetting/profile'} element={<Suspense fallback={(<LazyLoading />)} ><UserSettingProfile /></Suspense>} />
+          <Route path={'/usersetting/account'} element={<Suspense fallback={(<LazyLoading />)} ><UserSettingAccount /></Suspense>} />
           <Route path='/usersetting/*' element={<Navigate to='/usersetting/profile' />} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />

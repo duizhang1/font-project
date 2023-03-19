@@ -39,7 +39,9 @@ function UserSettingPage (props) {
             </a>
           </div>
           <div style={{
-            display: 'flex'
+            display: 'flex',
+            minHeight: '500px',
+            minWidth: '950px'
           }}>
             <UserSettingNav />
             <Outlet />

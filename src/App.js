@@ -29,6 +29,8 @@ const UserTabsRedirect = lazy(() => import('./container/UserPage/UserLeftBox/Use
 const UserTabArticleCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabArticleCard/UserTabArticleCard'))
 const UserTabStoreCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabStoreCard/UserTabStoreCard'))
 const UserTabFocusCard = lazy(() => import('./container/UserPage/UserLeftBox/UserTabsCard/UserTabFocusCard/UserTabFocusCard'))
+const UserSettingPage = lazy(() => import('./container/UserSettingPage/UserSettingPage'))
+const UserSettingProfile = lazy(() => import('./container/UserSettingPage/UserSettingProfile/UserSettingProfile'))
 
 function App (props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -77,6 +79,10 @@ function App (props) {
           <Route path='/user/:userId/store' element={<Suspense fallback={(<LazyLoading />)}><UserTabStoreCard /></Suspense>} />
           <Route path='/user/:userId/focus' element={<Suspense fallback={(<LazyLoading />)}><UserTabFocusCard /></Suspense>} />
           <Route path='/user/:userId/*' element={<Suspense fallback={(<LazyLoading />)}><UserTabsRedirect /></Suspense>} />
+        </Route>
+        <Route path={'/usersetting'} element={<Suspense fallback={(<LazyLoading />)}><UserSettingPage /></Suspense>}>
+          <Route path={'/usersetting/profile'} element={<Suspense fallback={(<LazyLoading />)} ><UserSettingProfile /></Suspense>} />
+          <Route path='/usersetting/*' element={<Navigate to='/usersetting/profile' />} />
         </Route>
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

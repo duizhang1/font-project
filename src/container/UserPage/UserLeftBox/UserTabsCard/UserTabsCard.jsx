@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 const tabItem = [
   {
@@ -24,10 +24,23 @@ const tabItem = [
 export default function UserTabsCard () {
   const navigate = useNavigate()
   const { userId } = useParams()
+  const [activeKey, setActiveKey] = useState('msg')
+  const location = useLocation()
 
   function onTabUrl (key) {
     navigate(`/user/${userId}/${key}`)
   }
+
+  useEffect(() => {
+    const arr = location.pathname.split('/')
+    const locate = arr[arr.length - 1]
+    const keys = tabItem.filter((item) => {
+      return locate === item.key
+    })
+    if (keys && keys.length > 0) {
+      setActiveKey(keys[0].key)
+    }
+  }, [location])
 
   return (
     <div style={{
@@ -36,7 +49,7 @@ export default function UserTabsCard () {
       width: '700px'
     }}>
       <Tabs
-        defaultActiveKey="1"
+        activeKey={activeKey}
         onChange={onTabUrl}
         items={tabItem}
       />

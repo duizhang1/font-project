@@ -3,6 +3,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { Divider, Skeleton } from 'antd'
 import { axiosReq } from '@src/util/request/axios'
 import AvatarAndHref from '@src/component/Avatar/AvatarAndHref/AvatarAndHref'
+import UserNameHref from '@src/component/AHref/UserNameHref/UserNameHref'
+import SubscribeButton from '@src/component/Button/SubscribeButton/SubscribeButton'
 
 const focusType = [
   {
@@ -63,9 +65,41 @@ export default function UserTabFocusCard () {
 
   function userFocusItem (item) {
     return (
-      <div key={item.uuid}>
-        <AvatarAndHref srcHref={item.avatar} uuid={item.uuid}/>
-
+      <div
+        key={item.uuid}
+        style={{
+          display: 'flex',
+          height: '70px',
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e6eb'
+        }}
+      >
+        <div style={{
+          display: 'flex'
+        }}>
+          <AvatarAndHref srcHref={item.avatar} uuid={item.uuid} center/>
+          <div
+            style={{
+              marginLeft: '5px'
+            }}
+          >
+            <UserNameHref name={item.username} uuid={item.uuid} />
+            <div style={{
+              fontSize: '13px',
+              fontWeight: '500',
+              color: '#b9c0c8'
+            }}>
+              {item.position}
+              @
+              {item.companyName}
+            </div>
+          </div>
+        </div>
+        <div style={{
+          margin: '0 0 0 auto'
+        }}>
+          <SubscribeButton userId={item.uuid} />
+        </div>
       </div>
     )
   }
@@ -138,7 +172,7 @@ export default function UserTabFocusCard () {
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
       >
         {data.map((item) => {
-          if (chooseType === 1 || chooseType === 2) {
+          if (chooseType === '1' || chooseType === '2') {
             return userFocusItem(item)
           }
           return ''

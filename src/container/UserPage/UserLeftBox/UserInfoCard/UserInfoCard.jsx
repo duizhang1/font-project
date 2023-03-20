@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SubscribeButton from '@src/component/Button/SubscribeButton/SubscribeButton'
-import { Image } from 'antd'
+import { Image, message } from 'antd'
 import {
   HomeFilled,
   MedicineBoxFilled,
@@ -13,17 +13,24 @@ import TopSpace15 from '@src/component/Space/TopSpace15/TopSpace15'
 import EditUserProfileButton from '@src/component/Button/EditUserProfileButton/EditUserProfileButton'
 import './UserInfoCard.css'
 import PropTypes from 'prop-types'
+import { axiosReq } from '@src/util/request/axios'
 
 function UserInfoCard (props) {
   const { userRedux } = props
   const { userId } = useParams()
-  const data = {
-    username: '大队长',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    companyName: 'fingard',
-    position: 'software enginee',
-    personProfile: '你好水水水水水水水水水水水水水水水水水水水'
-  }
+
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    axiosReq.get('/user/getUserById', { uuid: userId }).then(
+      value => {
+        setData(value.data)
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
+  }, [])
 
   return (
     <div className='user-info-card-div'>
@@ -45,7 +52,7 @@ function UserInfoCard (props) {
           </div>
           <div style={{
             display: 'flex',
-            justifyContent: 'space-between'
+            width: '500px'
           }}>
             <div>
               {data.companyName
@@ -68,7 +75,7 @@ function UserInfoCard (props) {
                 : ''}
             </div>
             <div style={{
-              margin: 'auto',
+              margin: '0 0 0 auto',
               padding: '0 15px'
             }}>
               {userRedux.uuid === userId

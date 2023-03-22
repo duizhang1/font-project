@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import './UserTabArticleCard.css'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -15,6 +16,7 @@ const IconText = ({ icon, text }) => (
 )
 
 export default function UserTabArticleCard () {
+  const { userId } = useParams()
   const [datas, setDatas] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
@@ -23,8 +25,8 @@ export default function UserTabArticleCard () {
   const loadMoreData = (resetData, resetPage) => {
     const page = resetPage || currentPage
     const data = resetData || datas
-    const params = { current: page, size }
-    axiosReq.get('/article/getArticleList', params).then(
+    const params = { current: page, size, userId }
+    axiosReq.get('/article/getUserArticle', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
           setHasMore(false)
@@ -85,7 +87,7 @@ export default function UserTabArticleCard () {
                 <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />
               ]}
               extra={
-                item.img != null
+                item.img != null && item.img.length > 0
                   ? <img
                   style={{
                     maxWidth: '250px',

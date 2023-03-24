@@ -89,7 +89,7 @@ function ArticleList (props) {
                 <IconText icon={StarOutlined} text={item.storeCount} key="list-vertical-star-o" />
               ]}
               extra={
-                item.img != null
+                item.img != null && item.img.length > 0
                   ? <img
                   style={{
                     maxWidth: '250px',

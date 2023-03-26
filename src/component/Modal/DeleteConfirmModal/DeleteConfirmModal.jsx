@@ -30,6 +30,6 @@ export default function DeleteConfirmModal (props) {
 
 DeleteConfirmModal.propTypes = {
   isConfirmOpen: PropTypes.bool,
-  onDelete: PropTypes.any,
-  setIsConfirmOpen: PropTypes.any
+  onDelete: PropTypes.func,
+  setIsConfirmOpen: PropTypes.func
 }

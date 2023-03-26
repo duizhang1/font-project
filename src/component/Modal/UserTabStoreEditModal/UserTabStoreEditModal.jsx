@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Modal, Button, Form, Input, Radio } from 'antd'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { Modal, Button, Form, Input, Radio, message } from 'antd'
 
 import { axiosReq } from '@src/util/request/axios'
 
@@ -21,22 +22,44 @@ const tailLayout = {
 }
 
 export default function UserTabStoreEditModal (props) {
-  const { editOpen, setEditOpen, editStoreid } = props
-
-  const [data, setData] = useState({})
+  const { editOpen, setEditOpen, editStoreid, onUpdateFinish } = props
   const [form] = Form.useForm()
+  const [inpDisable, setInpDisable] = useState(false)
+
+  useEffect(() => {
+    if (!editStoreid) {
+      return
+    }
+    axiosReq.get('/storeList/getStoreInfo', { storeListId: editStoreid }).then(
+      value => {
+        const data = value.data
+        form.setFieldValue('name', data.name)
+        form.setFieldValue('summary', data.summary)
+        form.setFieldValue('state', data.state)
+        setInpDisable(data.isDefault === 1)
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
+  }, [editOpen])
 
   const onClose = () => {
     setEditOpen(false)
   }
 
   const onFinish = (values) => {
-    console.log(values)
+    axiosReq.post('/storeList/updateStoreList', { ...values, uuid: editStoreid }).then(
+      value => {
+        message.info(value.message)
+        setEditOpen(false)
+        onUpdateFinish()
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
   }
-
-  useEffect(() => {
-
-  })
 
   return (
     <Modal
@@ -52,7 +75,7 @@ export default function UserTabStoreEditModal (props) {
         form={form}
         name="control-ref"
         onFinish={onFinish}
-        initialValues={data}
+        preserve={false}
       >
         <Form.Item
           name="name"
@@ -64,16 +87,12 @@ export default function UserTabStoreEditModal (props) {
             }
           ]}
         >
-          <Input />
+          <Input disabled={inpDisable}/>
         </Form.Item>
         <Form.Item
           name="summary"
           label="描述"
           rules={[
-            {
-              required: true,
-              message: '请输入描述内容'
-            },
             {
               max: 100,
               message: '最长不超过100个字'
@@ -115,4 +134,11 @@ export default function UserTabStoreEditModal (props) {
       </Form>
     </Modal>
   )
+}
+
+UserTabStoreEditModal.propTypes = {
+  editOpen: PropTypes.bool.isRequired,
+  editStoreid: PropTypes.string.isRequired,
+  onUpdateFinish: PropTypes.func.isRequired,
+  setEditOpen: PropTypes.func
 }

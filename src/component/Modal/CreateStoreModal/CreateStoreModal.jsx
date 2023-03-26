@@ -6,11 +6,11 @@ import PropTypes from 'prop-types'
 const { TextArea } = Input
 
 export default function CreateStoreModal (props) {
-  const { setCreateStoreOpen, createStoreOpen, setStoreOpen } = props
+  const { setCreateStoreOpen, createStoreOpen, onCreateFinish } = props
 
   function closeThisAndOpenStore () {
     setCreateStoreOpen(false)
-    setStoreOpen(true)
+    onCreateFinish()
   }
 
   const onFinish = (values) => {
@@ -95,6 +95,6 @@ export default function CreateStoreModal (props) {
 
 CreateStoreModal.propTypes = {
   createStoreOpen: PropTypes.bool,
-  setCreateStoreOpen: PropTypes.any,
-  setStoreOpen: PropTypes.any
+  onCreateFinish: PropTypes.func,
+  setCreateStoreOpen: PropTypes.func
 }

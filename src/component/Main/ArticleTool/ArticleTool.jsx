@@ -56,6 +56,10 @@ function ArticleTool (props) {
     )
   }, [])
 
+  function onCreateFinish () {
+    setStoreOpen(true)
+  }
+
   return (
         <Affix offsetTop={0}>
             <div className='article-tool-div'>
@@ -85,7 +89,7 @@ function ArticleTool (props) {
                 <CreateStoreModal
                     createStoreOpen={createStoreOpen}
                     setCreateStoreOpen={setCreateStoreOpen}
-                    setStoreOpen={setStoreOpen}
+                    onCreateFinish={onCreateFinish}
                 />
             </div>
         </Affix>

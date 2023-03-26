@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { axiosReq } from '@src/util/request/axios'
-import { Divider, Skeleton, Tag } from 'antd'
+import { Divider, message, Skeleton, Tag } from 'antd'
 import { LockTwoTone, UnlockTwoTone, EditOutlined, CloseOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -9,34 +9,18 @@ import './UserTabStoreCard.css'
 import UserTabStoreEditModal from '@src/component/Modal/UserTabStoreEditModal/UserTabStoreEditModal'
 import DeleteConfirmModal from '@src/component/Modal/DeleteConfirmModal/DeleteConfirmModal'
 import PropTypes from 'prop-types'
+import CreateStoreModal from '@src/component/Modal/CreateStoreModal/CreateStoreModal'
 
 function UserTabStoreCard (props) {
   const { userRedux } = props
   const { userId } = useParams()
 
-  const data = [
-    {
-      uuid: '999999',
-      name: '前端',
-      summary: '这里有丰富的内容',
-      isDefault: '1',
-      state: '1',
-      updateTime: '2022-06-27',
-      articleNum: 99
-    },
-    {
-      uuid: '9919999',
-      name: '后端',
-      summary: '这里有丰富的内容',
-      isDefault: '0',
-      state: '2',
-      updateTime: '2022-06-27',
-      articleNum: 99
-    }
-  ]
+  useEffect(() => {
+    loadMoreData([], 1)
+  }, [])
 
   const [datas, setDatas] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [nextPage, setNextPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const size = 20
 
@@ -44,12 +28,13 @@ function UserTabStoreCard (props) {
   const [editStoreid, setEditStoreid] = useState('')
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [deleteId, setDeleteId] = useState('')
+  const [addOpen, setAddOpen] = useState(false)
 
   const loadMoreData = (resetData, resetPage) => {
-    const page = resetPage || currentPage
+    const page = resetPage || nextPage
     const data = resetData || datas
-    const params = { current: page, size }
-    axiosReq.get('/article/getArticleList', params).then(
+    const params = { current: page, size, userId }
+    axiosReq.get('/storeList/getUserStoreList', params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
           setHasMore(false)
@@ -57,7 +42,7 @@ function UserTabStoreCard (props) {
           setHasMore(true)
         }
         setDatas(data.concat(value.data ? value.data : []))
-        setCurrentPage(page + 1)
+        setNextPage(page + 1)
       },
       (reason) => {
         setHasMore(false)
@@ -65,11 +50,10 @@ function UserTabStoreCard (props) {
     )
   }
 
-  function editStoreItem (storeId) {
-    return () => {
-      setEditOpen(true)
-      setEditStoreid(storeId)
-    }
+  function editStoreItem (e, storeId) {
+    setEditOpen(true)
+    setEditStoreid(storeId)
+    e.stopPropagation()
   }
 
   function deleteStoreItem (storeId) {
@@ -80,8 +64,28 @@ function UserTabStoreCard (props) {
   }
 
   function onDelete () {
-    console.log(deleteId)
     setIsConfirmOpen(false)
+    axiosReq._delete('/storeList/deleteStoreList', { storeListId: deleteId }).then(
+      value => {
+        message.info(value.message)
+        onUpdateOrDeleteFinish()
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
+  }
+
+  function showAddStoreListModal () {
+    setAddOpen(true)
+  }
+
+  function onUpdateOrDeleteFinish () {
+    loadMoreData([], 1)
+  }
+
+  function onCreateFinish () {
+    onUpdateOrDeleteFinish()
   }
 
   function singleItem (item) {
@@ -101,10 +105,10 @@ function UserTabStoreCard (props) {
             fontSize: '16px'
           }}>{item.name}</span>
           {userRedux.uuid === userId && item.state === '1'
-            ? <UnlockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }} />
-            : <LockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }} />
+            ? <UnlockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }}/>
+            : <LockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }}/>
           }
-          {userRedux.uuid === userId && item.isDefault === '1'
+          {userRedux.uuid === userId && item.isDefault === 1
             ? <Tag color="processing" style={{ fontSize: '16px', marginLeft: '5px' }}>默认</Tag>
             : ''
           }
@@ -135,22 +139,22 @@ function UserTabStoreCard (props) {
             }}
           >
             <div
-              onClick={editStoreItem(item.uuid)}
+              onClick={(event => editStoreItem(event, item.uuid))}
               style={{
                 cursor: 'pointer'
               }}
             >
-              <EditOutlined />编辑
+              <EditOutlined/>编辑
             </div>
             <div
               style={{
                 marginLeft: '5px',
                 cursor: 'pointer',
-                display: item.isDefault === '1' ? 'none' : 'block'
+                display: item.isDefault === 1 ? 'none' : 'block'
               }}
               onClick={deleteStoreItem(item.uuid)}
             >
-              <CloseOutlined />删除
+              <CloseOutlined/>删除
             </div>
           </div>
         </div>
@@ -160,8 +164,24 @@ function UserTabStoreCard (props) {
 
   return (
     <div>
+      {userRedux.uuid === userId
+        ? (<div style={{ display: 'flex', height: '25px', lineHeight: '25px' }}>
+          <div
+            style={{
+              margin: '0 0 0 auto',
+              cursor: 'pointer',
+              color: '#1e80ff',
+              fontSize: '14px'
+            }}
+            onClick={showAddStoreListModal}
+          >
+            +添加收藏夹
+          </div>
+        </div>)
+        : ''
+      }
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={datas.length}
         next={loadMoreData}
         hasMore={hasMore}
         loader={
@@ -178,7 +198,7 @@ function UserTabStoreCard (props) {
         pullDownToRefreshThreshold={0}
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
       >
-        {data.map((item) => {
+        {datas.map((item) => {
           return singleItem(item)
         })}
       </InfiniteScroll>
@@ -186,15 +206,22 @@ function UserTabStoreCard (props) {
         editOpen={editOpen}
         setEditOpen={setEditOpen}
         editStoreid={editStoreid}
+        onUpdateFinish={onUpdateOrDeleteFinish}
       />
       <DeleteConfirmModal
         onDelete={onDelete}
         isConfirmOpen={isConfirmOpen}
         setIsConfirmOpen={setIsConfirmOpen}
       />
+      <CreateStoreModal
+        setCreateStoreOpen={setAddOpen}
+        createStoreOpen={addOpen}
+        onCreateFinish={onCreateFinish}
+      />
     </div>
   )
 }
+
 export default connect(
   state => ({
     userRedux: state.user

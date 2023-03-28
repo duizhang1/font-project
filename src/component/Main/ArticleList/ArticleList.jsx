@@ -122,7 +122,7 @@ function ArticleList (props) {
                 description={
                   <div>
                     <a
-                      href={'/user/' + item.creatorId}
+                      href={'/user/' + item.creatorId + '/msg'}
                       style={{
                         textDecoration: 'none',
                         color: 'rgba(0,0,0,.45)'

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { Form, Input, Button } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Form, Input, Button, message } from 'antd'
 import AvatarUpload from '@src/component/Upload/AvatarUpload/AvatarUpload'
+import { axiosReq } from '@src/util/request/axios'
 
 const formItemLayout = {
   labelCol: {
@@ -37,13 +38,42 @@ function UserSettingProfile () {
   const [form] = Form.useForm()
   const [imageUrl, setImageUrl] = useState('')
 
-  const onFinish = (values) => {
-    console.log(values)
+  function setImageUrlAndForm (url) {
+    setImageUrl(url)
+    form.setFieldValue('avatar', url)
   }
 
-  function fileHref () {
-    return imageUrl
+  const onFinish = (values) => {
+    axiosReq.post('/user/updateUserInfo', { ...values }).then(
+      value => {
+        message.info(value.message)
+        getUserInfo()
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
   }
+
+  function getUserInfo () {
+    axiosReq.get('/user/getCurrentUser').then(
+      value => {
+        const data = value.data
+        form.setFieldValue('username', data.username)
+        form.setFieldValue('position', data.position)
+        form.setFieldValue('companyName', data.companyName)
+        form.setFieldValue('personProfile', data.personProfile)
+        setImageUrlAndForm(data.avatar)
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
+  }
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
   return (
     <div style={{
@@ -67,9 +97,6 @@ function UserSettingProfile () {
         form={form}
         name="register"
         onFinish={onFinish}
-        initialValues={{
-
-        }}
         scrollToFirstError
       >
         <Form.Item
@@ -85,7 +112,7 @@ function UserSettingProfile () {
           <Input showCount maxLength={20}/>
         </Form.Item>
         <Form.Item
-          name="postion"
+          name="position"
           label="职位"
         >
           <Input showCount maxLength={50}/>
@@ -104,9 +131,7 @@ function UserSettingProfile () {
         </Form.Item>
         <Form.Item
           label="头像"
-          name="uploadImg"
-          getValueProps={fileHref}
-          valuePropName="fileList"
+          name="avatar"
           rules={[
             {
               required: true,
@@ -114,7 +139,7 @@ function UserSettingProfile () {
             }
           ]}
         >
-          <AvatarUpload imageUrl={imageUrl} setImageUrl={setImageUrl}/>
+          <AvatarUpload imageUrl={imageUrl} setImageUrl={setImageUrlAndForm}/>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">

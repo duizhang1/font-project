@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Divider, Skeleton } from 'antd'
 import { axiosReq } from '@src/util/request/axios'
 import AvatarAndHref from '@src/component/Avatar/AvatarAndHref/AvatarAndHref'
 import UserNameHref from '@src/component/AHref/UserNameHref/UserNameHref'
 import SubscribeButton from '@src/component/Button/SubscribeButton/SubscribeButton'
+import { useParams } from 'react-router-dom'
 
 const focusType = [
   {
@@ -18,17 +19,7 @@ const focusType = [
 ]
 
 export default function UserTabFocusCard () {
-  const data = [
-    {
-      uuid: '9813216486',
-      companyName: 'fingard',
-      position: 'softengineer',
-      username: '大队长',
-      avatar: 'https://p3-passport.byteimg.com/img/mosaic-legacy/3795/3033762272~180x180.awebp',
-      isFocus: true
-    }
-  ]
-
+  const { userId } = useParams()
   const [chooseType, setChooseType] = useState('1')
 
   const [datas, setDatas] = useState([])
@@ -36,11 +27,12 @@ export default function UserTabFocusCard () {
   const [hasMore, setHasMore] = useState(true)
   const size = 20
 
-  const loadMoreData = (resetData, resetPage) => {
+  const loadMoreData = (resetData, resetPage, type) => {
     const page = resetPage || currentPage
     const data = resetData || datas
-    const params = { current: page, size }
-    axiosReq.get('/article/getArticleList', params).then(
+    const url = type === '1' ? '/userSubscribe/getUserFocusByUserId' : '/userSubscribe/getUserFollowerByUserId'
+    const params = { current: page, size, userId }
+    axiosReq.get(url, params).then(
       (value) => {
         if (!value.data || value.data.length < size) {
           setHasMore(false)
@@ -56,6 +48,10 @@ export default function UserTabFocusCard () {
     )
   }
 
+  useEffect(() => {
+    loadMoreData([], 1, chooseType)
+  }, [chooseType])
+
   const clickType = (id) => {
     return () => {
       setChooseType(id)
@@ -66,7 +62,7 @@ export default function UserTabFocusCard () {
   function userFocusItem (item) {
     return (
       <div
-        key={item.uuid}
+        key={item.userSubscribe.uuid}
         style={{
           display: 'flex',
           height: '70px',
@@ -77,28 +73,26 @@ export default function UserTabFocusCard () {
         <div style={{
           display: 'flex'
         }}>
-          <AvatarAndHref srcHref={item.avatar} uuid={item.uuid} center/>
+          <AvatarAndHref srcHref={item.avatar} uuid={item.userId} center/>
           <div
             style={{
               marginLeft: '5px'
             }}
           >
-            <UserNameHref name={item.username} uuid={item.uuid} />
+            <UserNameHref name={item.username} uuid={item.userId} />
             <div style={{
               fontSize: '13px',
               fontWeight: '500',
               color: '#b9c0c8'
             }}>
-              {item.position}
-              @
-              {item.companyName}
+              {item.companyAndPosition}
             </div>
           </div>
         </div>
         <div style={{
           margin: '0 0 0 auto'
         }}>
-          <SubscribeButton userId={item.uuid} />
+          <SubscribeButton userId={item.userId} />
         </div>
       </div>
     )
@@ -154,7 +148,7 @@ export default function UserTabFocusCard () {
         </div>
       </div>
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={datas.length}
         next={loadMoreData}
         hasMore={hasMore}
         loader={
@@ -171,7 +165,7 @@ export default function UserTabFocusCard () {
         pullDownToRefreshThreshold={0}
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
       >
-        {data.map((item) => {
+        {datas.map((item) => {
           if (chooseType === '1' || chooseType === '2') {
             return userFocusItem(item)
           }

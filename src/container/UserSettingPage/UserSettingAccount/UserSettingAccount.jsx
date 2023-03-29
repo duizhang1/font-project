@@ -1,13 +1,13 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { BottomBorder } from '@src/enum/css/CommonCSS'
 import ChangeEmailModal from '@src/container/UserSettingPage/UserSettingAccount/ChangeEmailModal/ChangeEmailModal'
 import ChangePasswordModal
   from '@src/container/UserSettingPage/UserSettingAccount/ChangePasswordModal/ChangePasswordModal'
+import { connect } from 'react-redux'
 
-export default function UserSettingAccount () {
-  const data = {
-    email: '8888888@qq.com'
-  }
+function UserSettingAccount (props) {
+  const { userRedux } = props
 
   const itemDivCss = {
     display: 'flex',
@@ -65,7 +65,7 @@ export default function UserSettingAccount () {
         <div
           style={itemValueCss}
         >
-          {data.email}
+          {userRedux.emailAddress}
         </div>
         <div
           style={itemActionCss}
@@ -90,4 +90,14 @@ export default function UserSettingAccount () {
       <ChangePasswordModal open={openPasswordModal} setOpen={setOpenPasswordModal} />
     </div>
   )
+}
+export default connect(
+  state => ({
+    userRedux: state.user
+  }),
+  {}
+)(UserSettingAccount)
+
+UserSettingAccount.propTypes = {
+  userRedux: PropTypes.any
 }

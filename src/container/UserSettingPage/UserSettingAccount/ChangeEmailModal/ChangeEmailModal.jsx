@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Col, Form, Input, Modal, Row } from 'antd'
+import { Button, Col, Form, Input, message, Modal, Row } from 'antd'
 import SendModifyEmailButton from '@src/component/Button/SendEmailButton/SendModifyEmailButton'
 import { connect } from 'react-redux'
+import { axiosReq } from '@src/util/request/axios'
 
 const formItemLayout = {
   labelCol: {
@@ -43,7 +44,15 @@ function ChangeEmailModal (props) {
   }
 
   const onFinish = (values) => {
-    console.log(values)
+    axiosReq.post('/user/updateUserEmail', { ...values }).then(
+      value => {
+        message.info(value.message)
+        setOpen(false)
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
   }
   return (
     <Modal
@@ -98,7 +107,11 @@ function ChangeEmailModal (props) {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <SendModifyEmailButton getEmailAddress={() => { return form.getFieldValue('email') }} getErrorMessage={() => { return form.getFieldError('email') }} />
+              <SendModifyEmailButton
+                getEmailAddress={() => { return form.getFieldValue('email') }}
+                getErrorMessage={() => { return form.getFieldError('email') }}
+                url={'/mail/getOldUpdateVerifyCode'}
+              />
             </Col>
           </Row>
         </Form.Item>
@@ -140,7 +153,11 @@ function ChangeEmailModal (props) {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <SendModifyEmailButton getEmailAddress={() => { return form.getFieldValue('newEmail') }} getErrorMessage={() => { return form.getFieldError('newEmail') }} />
+              <SendModifyEmailButton
+                getEmailAddress={() => { return form.getFieldValue('newEmail') }}
+                getErrorMessage={() => { return form.getFieldError('newEmail') }}
+                url={'/mail/getNewUpdateVerifyCode'}
+              />
             </Col>
           </Row>
         </Form.Item>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { Button, message } from 'antd'
 import { axiosReq } from '@src/util/request/axios'
 
-let timer
 /**
  * 发送邮箱修改的按钮，后期如果需要可以在抽参数，将请求路径进行props设置
  * @param props
@@ -11,9 +10,10 @@ let timer
  * @constructor
  */
 export default function SendModifyEmailButton (props) {
-  const { getEmailAddress, getErrorMessage } = props
+  const { getEmailAddress, getErrorMessage, url } = props
   const [btnDisable, setBtnDisable] = useState(false)
   const [leftTime, setLeftTime] = useState(59)
+  let timer
 
   const getCaptchaTime = () => {
     const errorMessage = getErrorMessage()
@@ -22,7 +22,7 @@ export default function SendModifyEmailButton (props) {
       return
     }
     const emailAddress = getEmailAddress()
-    axiosReq.get('/mail/getVerifyCode', { emailAddress }).then(
+    axiosReq.get(url, { emailAddress }).then(
       (value) => {
         message.info(value.message)
         timer = setInterval(() => setLeftTime(pre => pre - 1), 1000)
@@ -33,6 +33,14 @@ export default function SendModifyEmailButton (props) {
       }
     )
   }
+
+  useEffect(() => {
+    if (leftTime <= 0 || leftTime >= 60) {
+      setBtnDisable(false)
+      clearInterval(timer)
+      setLeftTime(59)
+    }
+  }, [leftTime])
 
   useEffect(() => {
     clearInterval(timer)
@@ -50,5 +58,6 @@ export default function SendModifyEmailButton (props) {
 
 SendModifyEmailButton.propTypes = {
   getEmailAddress: PropTypes.func,
-  getErrorMessage: PropTypes.func
+  getErrorMessage: PropTypes.func,
+  url: PropTypes.string.isRequired
 }

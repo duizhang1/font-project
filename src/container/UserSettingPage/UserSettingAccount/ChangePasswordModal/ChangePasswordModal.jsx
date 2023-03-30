@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, message, Modal } from 'antd'
 import { connect } from 'react-redux'
+import { axiosReq } from '@src/util/request/axios'
 
 const formItemLayout = {
   labelCol: {
@@ -43,7 +44,15 @@ function ChangePasswordModal (props) {
   }
 
   const onFinish = (values) => {
-    console.log(values)
+    axiosReq.post('/user/updatePassword', { ...values }).then(
+      values => {
+        message.info(values.message)
+        setOpen(false)
+      },
+      reason => {
+        message.error(reason.message)
+      }
+    )
   }
 
   return (
@@ -91,7 +100,7 @@ function ChangePasswordModal (props) {
               message: '请输入新密码!'
             },
             {
-              min: 8,
+              min: 6,
               message: '密码最小长度6位'
             }
           ]}

@@ -21,7 +21,7 @@ function AvatarAndLogin (props) {
       icon: <HistoryOutlined style={{ fontSize: '15px' }} />
     },
     {
-      key: '/user/setting',
+      key: '/usersetting/profile',
       label: (<span className='dropdown-item-span'>设置</span>),
       icon: <SettingOutlined style={{ fontSize: '15px' }} />
     },

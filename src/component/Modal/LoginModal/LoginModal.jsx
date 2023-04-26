@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal, Button, Form, Input, message } from 'antd'
 import { connect } from 'react-redux'
 import { loginHiddenAction, loginShowAction } from '@src/redux/action/Login'
@@ -6,10 +6,13 @@ import { registerShowAction } from '@src/redux/action/Register'
 import { setUserInfoAction } from '@src/redux/action/User'
 import './LoginModal.css'
 import PropTypes from 'prop-types'
+import ForgetPasswordModal from '@src/component/Modal/ForgetPasswordModal'
 const { axiosReq } = require('@src/util/request/axios')
 
 function LoginModal (props) {
   const { loginRedux, loginHiddenAction, registerShowAction, setUserInfoAction } = props
+
+  const [forgetPasswordOpen, setForgetPasswordOpen] = useState(false)
 
   const onFinish = (values) => {
     axiosReq.post('/user/login', values).then(
@@ -42,6 +45,11 @@ function LoginModal (props) {
   const showRegister = () => {
     loginHiddenAction()
     registerShowAction()
+  }
+
+  const clickOnForgetPassword = () => {
+    setForgetPasswordOpen(true)
+    loginHiddenAction()
   }
 
   return (
@@ -105,7 +113,7 @@ function LoginModal (props) {
             }}
             style={{ margin: '-24px 0 20px' }}
           >
-            <span className='span-forget-password'>忘记密码</span>
+            <span className='span-forget-password' onClick={clickOnForgetPassword}>忘记密码</span>
           </Form.Item>
 
           <Form.Item
@@ -129,6 +137,7 @@ function LoginModal (props) {
           </Form.Item>
         </Form>
       </Modal>
+      <ForgetPasswordModal open={forgetPasswordOpen} setOpen={setForgetPasswordOpen}/>
     </div>
   )
 }

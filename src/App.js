@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { setUserInfoAction, clearUserInfoAction } from './redux/action/User'
 import LazyLoading from '@src/component/Loading/LazyLoading/LazyLoading'
 import PropTypes from 'prop-types'
+import Logout from '@src/component/Logout'
 
 const { axiosReq } = require('@src/util/request/axios')
 const MdEditorPage = lazy(() => import('./container/MdEditorPage/MdEditorPage'))
@@ -86,6 +87,7 @@ function App (props) {
           <Route path={'/usersetting/account'} element={<Suspense fallback={(<LazyLoading />)} ><UserSettingAccount /></Suspense>} />
           <Route path='/usersetting/*' element={<Navigate to='/usersetting/profile' />} />
         </Route>
+        <Route path={'logout'} element={<Logout />} />
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>
       <LoginModal />

@@ -33,6 +33,7 @@ const UserTabFocusCard = lazy(() => import('./container/UserPage/UserLeftBox/Use
 const UserSettingPage = lazy(() => import('./container/UserSettingPage/UserSettingPage'))
 const UserSettingProfile = lazy(() => import('./container/UserSettingPage/UserSettingProfile/UserSettingProfile'))
 const UserSettingAccount = lazy(() => import('@src/container/UserSettingPage/UserSettingAccount/UserSettingAccount'))
+const StoreListArticle = lazy(() => import('@src/container/StoreListArticle'))
 
 function App (props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -87,6 +88,7 @@ function App (props) {
           <Route path={'/usersetting/account'} element={<Suspense fallback={(<LazyLoading />)} ><UserSettingAccount /></Suspense>} />
           <Route path='/usersetting/*' element={<Navigate to='/usersetting/profile' />} />
         </Route>
+        <Route path={'/collection/:id'} element={<Suspense fallback={(<LazyLoading />)}><StoreListArticle /></Suspense>}/>
         <Route path={'logout'} element={<Logout />} />
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

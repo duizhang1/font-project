@@ -56,11 +56,10 @@ function UserTabStoreCard (props) {
     e.stopPropagation()
   }
 
-  function deleteStoreItem (storeId) {
-    return () => {
-      setIsConfirmOpen(true)
-      setDeleteId(storeId)
-    }
+  function deleteStoreItem (e, storeId) {
+    setIsConfirmOpen(true)
+    setDeleteId(storeId)
+    e.stopPropagation()
   }
 
   function onDelete () {
@@ -88,6 +87,13 @@ function UserTabStoreCard (props) {
     onUpdateOrDeleteFinish()
   }
 
+  function clickOnStoreList (e) {
+    return () => {
+      const w = window.open('about:blank')
+      w.location.href = '/collection/' + e
+    }
+  }
+
   function singleItem (item) {
     return (
       <div
@@ -95,8 +101,10 @@ function UserTabStoreCard (props) {
         key={item.uuid}
         style={{
           padding: '5px 0 15px 0',
-          borderBottom: '1px solid #f0f0f0'
+          borderBottom: '1px solid #f0f0f0',
+          cursor: 'pointer'
         }}
+        onClick={clickOnStoreList(item.uuid)}
       >
         <div>
           <span style={{
@@ -132,7 +140,8 @@ function UserTabStoreCard (props) {
           color: '#8a919f'
         }}>
           <div>{item.articleNum}篇文章 · {item.updateTime}</div>
-          <div
+          {userRedux.uuid === item.userId
+            ? (<div
             className='user-tab-store-card-tools'
             style={{
               marginLeft: 'auto'
@@ -152,11 +161,12 @@ function UserTabStoreCard (props) {
                 cursor: 'pointer',
                 display: item.isDefault === 1 ? 'none' : 'block'
               }}
-              onClick={deleteStoreItem(item.uuid)}
+              onClick={(e) => { deleteStoreItem(e, item.uuid) }}
             >
               <CloseOutlined/>删除
             </div>
-          </div>
+          </div>)
+            : ''}
         </div>
       </div>
     )

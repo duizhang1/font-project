@@ -132,7 +132,7 @@ function Index (props) {
             {storeList.summary}
           </div>
           <div style={{ margin: '10px 0 0 0' }}>
-            收藏夹一共{storeList.articleNum}篇文章
+            {storeList.articleNum}篇文章
           </div>
         </div>
       </div>

@@ -112,11 +112,11 @@ function UserTabStoreCard (props) {
             fontWeight: '500',
             fontSize: '16px'
           }}>{item.name}</span>
-          {userRedux.uuid === userId && item.state === '1'
+          {item.state === '1'
             ? <UnlockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }}/>
             : <LockTwoTone style={{ fontSize: '16px', marginLeft: '5px' }}/>
           }
-          {userRedux.uuid === userId && item.isDefault === 1
+          {item.isDefault === 1
             ? <Tag color="processing" style={{ fontSize: '16px', marginLeft: '5px' }}>默认</Tag>
             : ''
           }

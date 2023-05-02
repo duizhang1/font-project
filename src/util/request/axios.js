@@ -72,7 +72,7 @@ axios.interceptors.response.use(
  */
 export function get (url, params) {
   return new Promise((resolve, reject) => {
-    axios.get(BASE_URL + url + '?' + qs.stringify(params)).then(res => {
+    axios.get(BASE_URL + url + '?' + qs.stringify(params, { indices: false })).then(res => {
       resolve(res)
     })
       .catch(error => {
@@ -120,7 +120,7 @@ export function put (url, params) {
  */
 export function _delete (url, params) {
   return new Promise((resolve, reject) => {
-    axios.delete(BASE_URL + url + '?' + qs.stringify(params)).then(res => {
+    axios.delete(BASE_URL + url + '?' + qs.stringify(params), { indices: false }).then(res => {
       resolve(res)
     })
       .catch(error => {

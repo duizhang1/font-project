@@ -51,15 +51,13 @@ function NotificationIm (props) {
       data.imRecord.createTime = timestampToTime(new Date(data.imRecord.createTime))
       data.imRecord.updateTime = timestampToTime(new Date(data.imRecord.updateTime))
       // 如果是当前选中的用户添加消息
-      if (data.imRecord.toUserId === selectItemRef.current.userId || data.imRecord.userId === selectItemRef.current.userId) {
+      if (data.toUserId === selectItemRef.current.userId) {
         // 更改左边栏的数据
         setSliderData((prev) => {
           const newlist = prev.map((item) => {
-            if (item.toUserId === selectItemRef.current.userId ||
-              item.imRecord.userId === selectItemRef.current.userId ||
-              item.imRecord.toUserId === selectItemRef.current.userId) {
-              item.imRecord.createTime = data.imRecord.createTime
-              item.imRecord.content = data.imRecord.content
+            if (item.toUserId === selectItemRef.current.userId) {
+              data.count = item.count
+              return data
             }
             return item
           })
@@ -69,19 +67,24 @@ function NotificationIm (props) {
         setRecordData((prev) => {
           return [...prev, data]
         })
+        axiosReq.get('/imRecord/readAll', { toUserId: selectItemRef.current.userId }).then(
+          value => {
+
+          },
+          reason => {
+            message.error(reason.message)
+          }
+        )
       } else {
         // 更改左边栏的数据
         setSliderData((prev) => {
           let flag = false
           let newlist = prev.map((item) => {
-            if (data.imRecord.toUserId === item.toUserId ||
-              (data.imRecord.userId === item.imRecord.userId &&
-                data.imRecord.toUserId === item.imRecord.toUserId)) {
-              item.imRecord.createTime = data.imRecord.createTime
-              item.imRecord.content = data.imRecord.content
-              item.count += 1
+            if (data.toUserId === item.toUserId) {
+              data.count = item.count + 1
               incrNotificationUnreadImAction(1)
               flag = true
+              return data
             }
             return item
           })
@@ -94,9 +97,10 @@ function NotificationIm (props) {
     }
   }
 
+  // 用来首次进行跳转到聊天记录尾部，以及消息接收时滑动到尾部
   useEffect(() => {
     if (!firstInit && recordBottomRef?.current) {
-      recordBottomRef.current.scrollIntoView({ behavior: 'smooth' })
+      recordBottomRef.current.scrollIntoView()
       setFirstInit(true)
       return
     }
@@ -107,6 +111,11 @@ function NotificationIm (props) {
       }
     }
   }, [recordData])
+
+  // 选择新聊天对象时重置滑动
+  useEffect(() => {
+    setFirstInit(false)
+  }, [selectItem])
 
   useEffect(() => {
     const stateArr = [
@@ -125,7 +134,7 @@ function NotificationIm (props) {
         setReadyState(stateArr[ws.current?.readyState ?? 0])
       ws.current.onmessage = OnMessage
     }
-
+    console.log(readyState)
     return () => {
       ws.current?.close()
     }
@@ -145,6 +154,10 @@ function NotificationIm (props) {
   }, [selectItem])
 
   function clickSend () {
+    if (inpData === null || inpData.length <= 0) {
+      message.info('请输入内容后发送')
+      return
+    }
     const id = nanoid()
     const msg = {
       content: inpData,

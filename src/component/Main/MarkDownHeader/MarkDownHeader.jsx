@@ -1,4 +1,4 @@
-import { Avatar } from 'antd'
+import { Avatar, Image } from 'antd'
 import React from 'react'
 import './MarkDownHeader.css'
 import PropTypes from 'prop-types'
@@ -21,7 +21,9 @@ export default function MarkDownHeader (props) {
                 </span>
             </div>
             <div>
-                <img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2e8ea737d484ff1a056151b0ce9b663~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?" alt="" className='markdown-header-article-img'/>
+              {article.img !== null && article.img.length > 0
+                ? (<Image src={article.img} alt="" className='markdown-header-article-img' style={{ height: '200px' }}/>)
+                : ''}
             </div>
         </div>
   )

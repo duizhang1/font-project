@@ -36,41 +36,29 @@ export default function CreatorFocusCharts () {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['23-04-27', '23-04-28', '23-04-29', '23-04-30', '23-05-01', '23-05-02', '23-05-03']
     },
     yAxis: {
       type: 'value'
     },
     series: [
       {
-        name: 'Email',
+        name: '总关注者数',
         type: 'line',
         smooth: true,
-        data: [600, 132, 101, 134, 90, 230, 210]
+        data: [0, 0, 1, 1, 1, 1, 1]
       },
       {
-        name: 'Union Ads',
+        name: '取消关注数',
         type: 'line',
         smooth: true,
-        data: [0, 182, 191, 234, 290, 330, 310]
+        data: [0, 0, 0, 0, 0, 0, 0]
       },
       {
-        name: 'Video Ads',
+        name: '新增关注数',
         type: 'line',
         smooth: true,
-        data: [150, 232, 201, 154, 190, 330, 410]
-      },
-      {
-        name: 'Direct',
-        type: 'line',
-        smooth: true,
-        data: [320, 332, 301, 334, 390, 330, 320]
-      },
-      {
-        name: 'Directssss',
-        type: 'line',
-        smooth: true,
-        data: [320, 332, 301, 334, 390, 330, 320]
+        data: [0, 0, 1, 0, 0, 0, 0]
       }
 
     ]

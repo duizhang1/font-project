@@ -1,12 +1,9 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import './CreatorDataItem.css'
 
-export default function CreatorDataItem () {
-  const data = {
-    label: '总关注者数',
-    count: 55,
-    beforeChange: -1
-  }
+export default function CreatorDataItem (props) {
+  const { data } = props
 
   return (
         <div className='creator-data-item-div'>
@@ -15,4 +12,8 @@ export default function CreatorDataItem () {
             <div className='creator-data-item-before-change'>较前日 { data.beforeChange }</div>
         </div>
   )
+}
+
+CreatorDataItem.propTypes = {
+  data: PropTypes.any
 }

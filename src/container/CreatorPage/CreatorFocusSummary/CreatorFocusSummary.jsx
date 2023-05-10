@@ -4,6 +4,24 @@ import { Card } from 'antd'
 import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem'
 
 export default function CreatorFocusSummary () {
+  const dataList = [
+    {
+      label: '总关注者',
+      count: 1,
+      beforeChange: '0'
+    },
+    {
+      label: '新增关注者',
+      count: 0,
+      beforeChange: '0'
+    },
+    {
+      label: '取消关注',
+      count: 0,
+      beforeChange: '0'
+    }
+  ]
+
   return (
         <div>
             <Card
@@ -17,12 +35,9 @@ export default function CreatorFocusSummary () {
                   display: 'flex',
                   flexFlow: 'row wrap'
                 }}>
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
+                  {dataList.map(item => {
+                    return <CreatorDataItem data={item} key={item.label}/>
+                  })}
                 </div>
                 <div style={{
                   fontSize: '17px',

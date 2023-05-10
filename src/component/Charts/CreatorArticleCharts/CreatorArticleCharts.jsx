@@ -36,41 +36,35 @@ export default function CreatorArticleCharts () {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['23-04-27', '23-04-28', '23-04-29', '23-04-30', '23-05-01', '23-05-02', '23-05-03']
     },
     yAxis: {
       type: 'value'
     },
     series: [
       {
-        name: 'Email',
+        name: '阅读量',
         type: 'line',
         smooth: true,
-        data: [600, 132, 101, 134, 90, 230, 210]
+        data: [0, 32, 10, 13, 90, 23, 21]
       },
       {
-        name: 'Union Ads',
+        name: '点赞数',
         type: 'line',
         smooth: true,
-        data: [0, 182, 191, 234, 290, 330, 310]
+        data: [0, 18, 19, 23, 29, 33, 30]
       },
       {
-        name: 'Video Ads',
+        name: '评论数',
         type: 'line',
         smooth: true,
-        data: [150, 232, 201, 154, 190, 330, 410]
+        data: [15, 23, 20, 15, 19, 33, 41]
       },
       {
-        name: 'Direct',
+        name: '收藏数',
         type: 'line',
         smooth: true,
-        data: [320, 332, 301, 334, 390, 330, 320]
-      },
-      {
-        name: 'Directssss',
-        type: 'line',
-        smooth: true,
-        data: [320, 332, 301, 334, 390, 330, 320]
+        data: [30, 32, 31, 34, 30, 30, 30]
       }
 
     ]

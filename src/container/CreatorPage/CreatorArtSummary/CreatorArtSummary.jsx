@@ -6,6 +6,34 @@ import CreatorArticleCharts from '@src/component/Charts/CreatorArticleCharts/Cre
 import CreatorArticleDataTable from '@src/component/Table/CreatorArticleDataTable/CreatorArticleDataTable'
 
 export default function CreatorArtSummary () {
+  const dataList = [
+    {
+      label: '总文章数',
+      count: 2,
+      beforeChange: '0'
+    },
+    {
+      label: '文章阅读数',
+      count: 230,
+      beforeChange: '+5'
+    },
+    {
+      label: '文章点赞数',
+      count: 3,
+      beforeChange: '0'
+    },
+    {
+      label: '文章评论数',
+      count: 3,
+      beforeChange: '0'
+    },
+    {
+      label: '文章收藏数',
+      count: 15,
+      beforeChange: '0'
+    }
+  ]
+
   return (
         <div>
             <Card
@@ -19,12 +47,9 @@ export default function CreatorArtSummary () {
                   display: 'flex',
                   flexFlow: 'row wrap'
                 }}>
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
-                    <CreatorDataItem />
+                  {dataList.map(item => {
+                    return <CreatorDataItem data={item} key={item.label} />
+                  })}
                 </div>
                 <div className='creator-article-summary-anaylize-title'>数据趋势分析</div>
                 <div>

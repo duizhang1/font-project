@@ -1,35 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'antd'
 import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem'
+import { axiosReq } from '@src/util/request/axios'
 
 export default function CreatorHome () {
-  const dataList = [
-    {
-      label: '总粉丝数',
-      count: 1,
-      beforeChange: '0'
-    },
-    {
-      label: '文章阅读数',
-      count: 230,
-      beforeChange: '+5'
-    },
-    {
-      label: '文章点赞数',
-      count: 3,
-      beforeChange: '0'
-    },
-    {
-      label: '文章评论数',
-      count: 3,
-      beforeChange: '0'
-    },
-    {
-      label: '文章收藏数',
-      count: 15,
-      beforeChange: '0'
-    }
-  ]
+  const [dataList, setDataList] = useState([])
+
+  useEffect(() => {
+    axiosReq.get('/creatorData/getHomeCardData').then(
+      value => {
+        setDataList(value.data)
+      }
+    )
+  }, [])
 
   return (
         <div>

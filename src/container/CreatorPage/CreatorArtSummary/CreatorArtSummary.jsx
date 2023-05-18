@@ -1,38 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Tabs } from 'antd'
 import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem'
 import './CreatorArtSummary.css'
 import CreatorArticleCharts from '@src/component/Charts/CreatorArticleCharts/CreatorArticleCharts'
 import CreatorArticleDataTable from '@src/component/Table/CreatorArticleDataTable/CreatorArticleDataTable'
+import { axiosReq } from '@src/util/request/axios'
 
 export default function CreatorArtSummary () {
-  const dataList = [
-    {
-      label: '总文章数',
-      count: 2,
-      beforeChange: '0'
-    },
-    {
-      label: '文章阅读数',
-      count: 230,
-      beforeChange: '+5'
-    },
-    {
-      label: '文章点赞数',
-      count: 3,
-      beforeChange: '0'
-    },
-    {
-      label: '文章评论数',
-      count: 3,
-      beforeChange: '0'
-    },
-    {
-      label: '文章收藏数',
-      count: 15,
-      beforeChange: '0'
-    }
-  ]
+  const [dataList, setDataList] = useState([])
+
+  useEffect(() => {
+    axiosReq.get('/creatorData/getArticleCardData').then(
+      value => {
+        setDataList(value.data)
+      }
+    )
+  }, [])
 
   return (
         <div>

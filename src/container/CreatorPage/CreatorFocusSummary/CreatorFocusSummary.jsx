@@ -1,27 +1,19 @@
 import CreatorFocusCharts from '@src/component/Charts/CreatorFocusCharts/CreatorFocusCharts'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'antd'
 import CreatorDataItem from '@src/component/Card/CreatorDataItem/CreatorDataItem'
+import { axiosReq } from '@src/util/request/axios'
 
 export default function CreatorFocusSummary () {
-  const dataList = [
-    {
-      label: '总关注者',
-      count: 1,
-      beforeChange: '0'
-    },
-    {
-      label: '新增关注者',
-      count: 0,
-      beforeChange: '0'
-    },
-    {
-      label: '取消关注',
-      count: 0,
-      beforeChange: '0'
-    }
-  ]
+  const [dataList, setDataList] = useState([])
 
+  useEffect(() => {
+    axiosReq.get('/creatorData/getFocusCardData').then(
+      value => {
+        setDataList(value.data)
+      }
+    )
+  }, [])
   return (
         <div>
             <Card

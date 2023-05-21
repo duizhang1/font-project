@@ -20,7 +20,7 @@ export default function CreatorArtSummary () {
   return (
         <div>
             <Card
-                title={<span style={{}}>文章数据</span>}
+                title={<span>文章数据</span>}
                 bordered={false}
                 style={{
                   width: '100%'
@@ -31,7 +31,7 @@ export default function CreatorArtSummary () {
                   flexFlow: 'row wrap'
                 }}>
                   {dataList.map(item => {
-                    return <CreatorDataItem data={item} key={item.label} />
+                    return <CreatorDataItem key={item.label} data={item} />
                   })}
                 </div>
                 <div className='creator-article-summary-anaylize-title'>数据趋势分析</div>
@@ -47,7 +47,7 @@ export default function CreatorArtSummary () {
                           {
                             label: '单篇分析',
                             key: 'single',
-                            children: (<CreatorArticleDataTable />)
+                            children: (<CreatorArticleDataTable/>)
                           }
                         ]}
                     />

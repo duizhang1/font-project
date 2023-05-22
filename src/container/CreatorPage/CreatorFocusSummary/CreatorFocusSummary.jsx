@@ -17,7 +17,7 @@ export default function CreatorFocusSummary () {
   return (
         <div>
             <Card
-                title={<span style={{}}>关注数据</span>}
+                title={<span>关注数据</span>}
                 bordered={false}
                 style={{
                   width: '100%'

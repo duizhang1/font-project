@@ -21,7 +21,7 @@ export default function MarkDownHeader (props) {
                 </span>
             </div>
             <div>
-              {article.img !== null && article.img.length > 0
+              {article.img !== null && article.img !== ''
                 ? (<Image src={article.img} alt="" className='markdown-header-article-img' style={{ height: '200px' }}/>)
                 : ''}
             </div>

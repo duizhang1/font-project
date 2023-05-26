@@ -34,6 +34,7 @@ const UserSettingPage = lazy(() => import('./container/UserSettingPage/UserSetti
 const UserSettingProfile = lazy(() => import('./container/UserSettingPage/UserSettingProfile/UserSettingProfile'))
 const UserSettingAccount = lazy(() => import('@src/container/UserSettingPage/UserSettingAccount/UserSettingAccount'))
 const StoreListArticle = lazy(() => import('@src/container/StoreListArticle'))
+const SearchPage = lazy(() => import('@src/container/SearchPage'))
 
 function App (props) {
   const { setUserInfoAction, clearUserInfoAction } = props
@@ -89,6 +90,7 @@ function App (props) {
           <Route path='/usersetting/*' element={<Navigate to='/usersetting/profile' />} />
         </Route>
         <Route path={'/collection/:id'} element={<Suspense fallback={(<LazyLoading />)}><StoreListArticle /></Suspense>}/>
+        <Route path={'/search/:word'} element={<Suspense fallback={(<LazyLoading />)}><SearchPage /></Suspense>}/>
         <Route path={'logout'} element={<Logout />} />
         <Route path='/*' element={<Navigate to='/home/sort/all' />} />
       </Routes>

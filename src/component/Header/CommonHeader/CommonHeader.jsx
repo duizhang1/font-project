@@ -30,7 +30,7 @@ export default function HeaderPage () {
   }
   // 搜索框搜索事件
   const onSearch = (value) => {
-    console.log(value)
+    navigate(`/search/${value}`)
   }
 
   useEffect(() => {

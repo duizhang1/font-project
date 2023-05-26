@@ -9,6 +9,9 @@ export default function UserRightBox () {
   const [data, setData] = useState({})
 
   useEffect(() => {
+    if (!userId || userId === '') {
+      return
+    }
     axiosReq.get('/user/getUserDetail', { uuid: userId }).then(
       value => {
         setData(value.data)
@@ -17,7 +20,7 @@ export default function UserRightBox () {
         message.error(reason.message)
       }
     )
-  }, [])
+  }, [userId])
 
   return (
     <div style={{

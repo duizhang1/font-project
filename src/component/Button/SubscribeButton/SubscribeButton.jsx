@@ -9,6 +9,9 @@ export default function SubscribeButton (props) {
   const [isSubscribed, setIsSubscribed] = useState(false)
 
   useEffect(() => {
+    if (!userId || userId === '') {
+      return
+    }
     axiosReq.get('/user/getNowUserSubscribe', { userId }).then(
       (value) => {
         if (value.data) {
@@ -19,7 +22,7 @@ export default function SubscribeButton (props) {
         message.error(reason.message)
       }
     )
-  })
+  }, [userId])
 
   function unsubscribe () {
     setSubscribeLoading(true)
@@ -30,6 +33,7 @@ export default function SubscribeButton (props) {
       },
       (reason) => {
         setSubscribeLoading(false)
+        message.error(reason.message)
       }
     )
   }
@@ -43,6 +47,7 @@ export default function SubscribeButton (props) {
       },
       (reason) => {
         setSubscribeLoading(false)
+        message.error(reason.message)
       }
     )
   }

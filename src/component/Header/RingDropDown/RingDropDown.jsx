@@ -54,17 +54,17 @@ function RingDropDown (props) {
           </Badge>
         </div>
       )
-    },
-    {
-      key: '/notification/system',
-      label: (
-        <div style={{ width: '100px' }}>
-          <Badge count={999} offset={[30, 12]}>
-            <span className='ring-dropdown-span'>系统消息</span>
-          </Badge>
-        </div>
-      )
     }
+    // {
+    //   key: '/notification/system',
+    //   label: (
+    //     <div style={{ width: '100px' }}>
+    //       <Badge count={999} offset={[30, 12]}>
+    //         <span className='ring-dropdown-span'>系统消息</span>
+    //       </Badge>
+    //     </div>
+    //   )
+    // }
   ]
 
   // 获得未读消息

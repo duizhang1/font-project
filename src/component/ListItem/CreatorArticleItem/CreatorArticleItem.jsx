@@ -11,25 +11,25 @@ const approveIcon = [
   {
     key: 0,
     value: (
-      <Tag color="processing">审核中</Tag>
+      <Tag key={'1'} color="processing">审核中</Tag>
     )
   },
   {
     key: 1,
     value: (
-      <Tag color="processing">审核中</Tag>
+      <Tag key={'2'} color="processing">审核中</Tag>
     )
   },
   {
     key: 2,
     value: (
-      <Tag color="success">审核通过</Tag>
+      <Tag key={'3'} color="success">审核通过</Tag>
     )
   },
   {
     key: 3,
     value: (
-      <Tag color="error">未通过</Tag>
+      <Tag key={'4'} color="error">未通过</Tag>
     )
   }
 ]
